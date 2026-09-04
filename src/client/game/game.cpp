@@ -25,7 +25,8 @@ namespace game
 
 		std::unordered_map<std::uint32_t, binary_t> hashes_crc =
 		{
-			{0x0, binaries[mode_ssd_eng]},
+			{0xD6E0560D, binaries[mode_ssd_eng]}, // default
+			{0x726F5323, binaries[mode_ssd_eng]}, // no aslr exe
 		};
 
 		std::unordered_map<std::string, game_mode> gamemodes =
@@ -121,4 +122,21 @@ namespace game
 			set_mode(iter->second.mode);
 		}
 	}
+
+	std::size_t get_base_address()
+	{
+		static const auto handle = GetModuleHandle(NULL);
+		return reinterpret_cast<std::size_t>(handle);
+	}
+
+	std::size_t rebase_address(const std::size_t rva)
+	{
+		static const auto base = game::get_base_address();
+		return rva - 0x140000000 + base;
+	}
+}
+
+std::size_t operator ""_r(const std::size_t rva)
+{
+	return game::rebase_address(rva);
 }

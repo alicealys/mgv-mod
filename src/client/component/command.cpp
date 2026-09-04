@@ -604,6 +604,11 @@ namespace command
 			{
 
 			});
+
+			command::add("quit_hard", []()
+			{
+				__fastfail(0);
+			});
 		}
 	};
 }

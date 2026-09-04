@@ -2,10 +2,6 @@
 
 #include "structs.hpp"
 
-#define SELECT_VALUE(...) game::select(__VA_ARGS__)
-#define SELECT_VALUE_NOLANG(tpp, mgo) (game::environment::is_tpp() ? (tpp) : (mgo))
-#define SELECT_VALUE_LANG(eng, jpn) (game::environment::is_eng() ? (eng) : (jpn))
-
 namespace game
 {
 	namespace environment
@@ -36,13 +32,16 @@ namespace game
 		return v[mode];
 	}
 
+	std::size_t get_base_address();
+	std::size_t rebase_address(const std::size_t);
+
 	template <typename T>
 	class symbol
 	{
 	public:
-		symbol(const size_t ssd_eng)
+		symbol(const std::size_t ssd_eng)
 		{
-			this->addresses_[environment::mode_ssd_eng] = ssd_eng;
+			this->addresses_[environment::mode_ssd_eng] = rebase_address(ssd_eng);
 		}
 
 		T* get() const
@@ -65,5 +64,7 @@ namespace game
 
 	};
 }
+
+std::size_t operator ""_r(const std::size_t);
 
 #include "symbols.hpp"

@@ -1,5 +1,3 @@
 #pragma once
 
-#define RESOURCE_KEYS_TPP 300
-#define RESOURCE_KEYS_MGO 301
-#define RESOURCE_SERVER_CFG 302
+#define RESOURCE_KEYS_CFG 300

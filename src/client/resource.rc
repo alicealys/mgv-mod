@@ -93,6 +93,8 @@ END
 // Binary Data
 //
 
+RESOURCE_KEYS_CFG       RCDATA "resources/keys.cfg"
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

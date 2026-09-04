@@ -208,7 +208,7 @@ namespace filesystem
 
 		static std::vector<std::filesystem::path> allowed_directories =
 		{
-			{std::filesystem::weakly_canonical("tpp-mod")},
+			{std::filesystem::weakly_canonical("mgv-mod")},
 		};
 
 		auto is_allowed = false;

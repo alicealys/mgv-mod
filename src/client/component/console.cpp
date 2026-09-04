@@ -5,6 +5,7 @@
 #include "game/game.hpp"
 #include "command.hpp"
 #include "vars.hpp"
+#include "game_console.hpp"
 
 #include <utils/thread.hpp>
 #include <utils/string.hpp>
@@ -122,7 +123,7 @@ namespace console
 
 			if (type != con_type_debug)
 			{
-				//game_console::print(message);
+				game_console::print(message);
 			}
 
 			update();
@@ -253,7 +254,7 @@ namespace console
 				con.history_index = -1;
 
 				printf("]%s", con.buffer);
-				//command::execute(con.buffer);
+				command::execute(con.buffer);
 
 				con.cursor = 0;
 
@@ -286,23 +287,23 @@ namespace console
 			}
 			case VK_TAB:
 			{
-				//auto name_opt = command::find_command_name(con.buffer);
-				//if (!name_opt.has_value())
-				//{
-				//	name_opt = vars::find_name(con.buffer);
-				//	if (!name_opt.has_value())
-				//	{
-				//		break;
-				//	}
-				//}
-				//
-				//const auto& name = name_opt.value();
-				//std::memcpy(con.buffer, name.data(), name.size());
-				//con.cursor = static_cast<int>(name.size());
-				//con.buffer[con.cursor++] = ' ';
-				//con.buffer[con.cursor] = '\0';
-				//
-				//update();
+				auto name_opt = command::find_command_name(con.buffer);
+				if (!name_opt.has_value())
+				{
+					name_opt = vars::find_name(con.buffer);
+					if (!name_opt.has_value())
+					{
+						break;
+					}
+				}
+				
+				const auto& name = name_opt.value();
+				std::memcpy(con.buffer, name.data(), name.size());
+				con.cursor = static_cast<int>(name.size());
+				con.buffer[con.cursor++] = ' ';
+				con.buffer[con.cursor] = '\0';
+				
+				update();
 				break;
 			}
 			default:
@@ -376,7 +377,7 @@ namespace console
 
 		create_console();
 		ShowWindow(GetConsoleWindow(), SW_SHOW);
-		SetConsoleTitle("TPP-Mod");
+		SetConsoleTitle("MGV-Mod");
 
 		con.kill_event = CreateEvent(NULL, TRUE, FALSE, NULL);
 
