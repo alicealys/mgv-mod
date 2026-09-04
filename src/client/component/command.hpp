@@ -1,0 +1,40 @@
+#pragma once
+
+namespace command
+{
+	class params
+	{
+	public:
+		params(const std::vector<std::string>& tokens);
+
+		std::string get(const size_t index) const;
+		std::string operator[](const size_t index) const;
+
+		int get_int(const size_t index) const;
+		float get_float(const size_t index) const;
+		std::uint64_t get_uint64(const size_t index) const;
+
+		size_t size() const;
+
+		std::string join(const size_t index) const;
+
+	private:
+		std::vector<std::string> tokens_;
+
+	};
+
+	using callback = std::function<void(const params& args)>;
+	using callback_narg = std::function<void()>;
+
+	void execute(const std::string& cmd, bool sync = false);
+	void add(const std::string& name, const callback& cb);
+	void add(const std::string& name, const callback_narg& cb);
+	void remove(const std::string& name);
+
+	std::optional<std::string> find_command_name(const std::string& input);
+
+	std::vector<std::string> tokenize_string(const std::string& str, const std::size_t begin = 0ull, const std::size_t end = std::string::npos);
+
+	std::unordered_map<std::string, callback>& get_commands();
+	std::unordered_map<std::string, std::string>& get_aliases();
+}

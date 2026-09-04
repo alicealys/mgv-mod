@@ -1,0 +1,859 @@
+#include <std_include.hpp>
+#include "loader/component_loader.hpp"
+
+#include "game/game.hpp"
+
+#include "console.hpp"
+#include "vars.hpp"
+
+#include <utils/hook.hpp>
+#include <utils/io.hpp>
+#include <utils/properties.hpp>
+#include <utils/string.hpp>
+#include <utils/flags.hpp>
+
+namespace vars
+{
+	std::vector<var_ptr>& get_var_list()
+	{
+		static std::vector<var_ptr> vars;
+		return vars;
+	}
+
+	std::unordered_map<std::string, var_ptr>& get_var_map()
+	{
+		static std::unordered_map<std::string, var_ptr> vars;
+		return vars;
+	}
+
+	namespace
+	{
+		var_ptr var_cheat_enabled;
+
+		void reset_cheats()
+		{
+			if (var_cheat_enabled->current.enabled())
+			{
+				return;
+			}
+
+			for (auto& var : get_var_list())
+			{
+				if ((var->flags & var_flag_cheat) != 0)
+				{
+					set_var(var, var->reset, var_source_internal);
+				}
+			}
+		}
+
+		void initialize_vars()
+		{
+			static auto done = false;
+			if (done)
+			{
+				return;
+			}
+
+			done = true;
+			var_cheat_enabled = register_bool("cheat_enabled", false, vars::var_flag_saved, "enable cheats");
+			var_cheat_enabled->set_callback = reset_cheats;
+		}
+	}
+
+	bool var_value::enabled() const
+	{
+		return std::get<bool>(this->value_);
+	}
+
+	std::int32_t var_value::get_int() const
+	{
+		return std::get<std::int32_t>(this->value_);
+	}
+
+	float var_value::get_float() const
+	{
+		return std::get<float>(this->value_);
+	}
+
+	const std::string& var_value::get_string() const
+	{
+		return std::get<std::string>(this->value_);
+	}
+
+	const char* var_value::get_c_string() const
+	{
+		const auto& str = std::get<std::string>(this->value_);
+		return str.data();
+	}
+
+	vec2_t var_value::get_vec2() const
+	{
+		return std::get<vec2_t>(this->value_);
+	}
+
+	vec3_t var_value::get_vec3() const
+	{
+		return std::get<vec3_t>(this->value_);
+	}
+
+	vec4_t var_value::get_vec4() const
+	{
+		return std::get<vec4_t>(this->value_);
+	}
+
+	color_t var_value::get_color() const
+	{
+		return std::get<color_t>(this->value_);
+	}
+
+	var_type_t var_value::get_type() const
+	{
+		switch (this->value_.index())
+		{
+		case 1:
+			return var_type_boolean;
+		case 2:
+			return var_type_integer;
+		case 3:
+			return var_type_float;
+		case 4:
+			return var_type_string;
+		case 5:
+			return var_type_vec2;
+		case 6:
+			return var_type_vec3;
+		case 7:
+			return var_type_vec4;
+		case 8:
+			return var_type_color;
+		}
+
+		return var_type_none;
+	}
+
+	var_value_variant_t var_value::get_raw() const
+	{
+		return this->value_;
+	}
+
+	bool var_value::operator==(const var_value& other) const
+	{
+		if (this->get_type() != other.get_type())
+		{
+			return false;
+		}
+
+		switch (this->get_type())
+		{
+		case var_type_boolean:
+			return this->enabled() == other.enabled();
+		case var_type_integer:
+			return this->get_int() == other.get_int();
+		case var_type_float:
+			return this->get_float() == other.get_float();
+		case var_type_string:
+			return this->get_string() == other.get_string();
+		}
+		
+		return false;
+	}
+
+	template <typename T>
+	var_value parse_vector(const std::string& string)
+	{
+		constexpr auto indices = sizeof(T) / sizeof(float);
+		const auto values_str = utils::string::split(string, ' ');
+
+		T vector{};
+
+		for (auto i = 0u; i < std::min(indices, values_str.size()); i++)
+		{
+			reinterpret_cast<float*>(&vector)[i] = static_cast<float>(std::atof(values_str[i].data()));
+		}
+
+		return var_value(vector);
+	}
+
+	std::optional<var_value> var_value::parse(const std::string& str, const var_type_t type)
+	{
+		std::string string_value;
+
+		if (str.starts_with("\"") && str.ends_with("\""))
+		{
+			string_value = str.substr(1, str.size() - 2);
+		}
+		else
+		{
+			string_value = str;
+		}
+
+		switch (type)
+		{
+		case var_type_boolean:
+			return var_value(std::atoi(string_value.data()) != 0);
+		case var_type_integer:
+			return var_value(std::atoi(string_value.data()));
+		case var_type_float:
+			return var_value(static_cast<float>(std::atof(string_value.data())));
+		case var_type_string:
+			return var_value(string_value);
+		case var_type_vec2:
+			return parse_vector<vec2_t>(string_value);
+		case var_type_vec3:
+			return parse_vector<vec3_t>(string_value);
+		case var_type_vec4:
+			return parse_vector<vec4_t>(string_value);
+		case var_type_color:
+			return parse_vector<color_t>(string_value);
+		}
+
+		return {};
+	}
+
+	std::string var_value::to_string() const
+	{
+		switch (this->get_type())
+		{
+		case var_type_boolean:
+			return utils::string::va("%i", std::get<bool>(this->value_));
+		case var_type_integer:
+			return utils::string::va("%i", std::get<std::int32_t>(this->value_));
+		case var_type_float:
+			return utils::string::va("%g", std::get<float>(this->value_));
+		case var_type_string:
+			return std::get<std::string>(this->value_);
+		case var_type_vec2:
+			return utils::string::va("%g %g",
+				std::get<vec2_t>(this->value_).x,
+				std::get<vec2_t>(this->value_).y);
+		case var_type_vec3:
+			return utils::string::va("%g %g %g",
+				std::get<vec3_t>(this->value_).x,
+				std::get<vec3_t>(this->value_).y,
+				std::get<vec3_t>(this->value_).z);
+		case var_type_vec4:
+			return utils::string::va("%g %g %g %g",
+				std::get<vec4_t>(this->value_).x,
+				std::get<vec4_t>(this->value_).y,
+				std::get<vec4_t>(this->value_).z,
+				std::get<vec4_t>(this->value_).w);
+		case var_type_color:
+			return utils::string::va("%g %g %g %g",
+				std::get<color_t>(this->value_).r,
+				std::get<color_t>(this->value_).g,
+				std::get<color_t>(this->value_).b,
+				std::get<color_t>(this->value_).a);
+		}
+
+		return "";
+	}
+
+	const char* var_value::type_name() const
+	{
+		switch (this->get_type())
+		{
+		case var_type_boolean:
+			return "bool";
+		case var_type_integer:
+			return "int";
+		case var_type_float:
+			return "float";
+		case var_type_string:
+			return "string";
+		case var_type_vec2:
+			return "vec2";
+		case var_type_vec3:
+			return "vec3";
+		case var_type_vec4:
+			return "vec4";
+		case var_type_color:
+			return "color";
+		}
+
+		return "empty";
+	}
+
+	namespace
+	{
+		bool post_initialization = false;
+
+		std::string get_config_file_path()
+		{
+			static const auto file = "config/config.cfg";
+			return (utils::properties::get_appdata_path() / file).generic_string();
+		}
+
+		bool check_color_component(float v)
+		{
+			return v >= 0.f && v <= 1.f;
+		}
+
+		bool check_domain(const var_ptr& var, const var_value& value)
+		{
+			switch (var->type)
+			{
+			case var_type_integer:
+			{
+				const auto value_int = value.get_int();
+				return value_int >= var->limits.integer.min && value_int <= var->limits.integer.max;
+			}
+			case var_type_float:
+			{
+				const auto value_float = value.get_float();
+				return value_float >= var->limits.float_.min && value_float <= var->limits.float_.max;
+			}
+			case var_type_color:
+			{
+				const auto color = value.get_color();
+				return check_color_component(color.r) && 
+					check_color_component(color.g) && 
+					check_color_component(color.b) && 
+					check_color_component(color.a);
+			}
+			case var_type_vec2:
+			{
+				const auto vec = value.get_vec2();
+				return vec.x >= var->limits.float_.min && vec.x <= var->limits.float_.max &&
+					vec.y >= var->limits.float_.min && vec.y <= var->limits.float_.max;
+			}
+			case var_type_vec3:
+			{
+				const auto vec = value.get_vec3();
+				return vec.x >= var->limits.float_.min && vec.x <= var->limits.float_.max &&
+					vec.y >= var->limits.float_.min && vec.y <= var->limits.float_.max &&
+					vec.z >= var->limits.float_.min && vec.z <= var->limits.float_.max;
+			}
+			case var_type_vec4:
+			{
+				const auto vec = value.get_vec4();
+				return vec.x >= var->limits.float_.min && vec.x <= var->limits.float_.max &&
+					vec.y >= var->limits.float_.min && vec.y <= var->limits.float_.max &&
+					vec.z >= var->limits.float_.min && vec.z <= var->limits.float_.max &&
+					vec.w >= var->limits.float_.min && vec.w <= var->limits.float_.max;
+			}
+			}
+
+			return true;
+		}
+
+		bool check_cheats(const var_ptr& var, const var_source_t set_source)
+		{
+			return ((var->flags & var_flag_cheat) == 0) || set_source == var_source_internal || cheats_enabled();
+		}
+	}
+
+	bool cheats_enabled()
+	{
+		return var_cheat_enabled->current.enabled();
+	}
+
+	void set_var(const var_ptr& var, const var_value& value, const var_source_t set_source)
+	{
+		if (!check_cheats(var, set_source))
+		{
+			if (post_initialization)
+			{
+				console::error("\"%s\" is cheat protected", var->name.data());
+			}
+			return;
+		}
+
+		if ((var->flags & var_flag_readonly) != 0 && set_source != var_source_internal && post_initialization)
+		{
+			console::error("\"%s\" is read only", var->name.data());
+			return;
+		}
+
+		if (var->type != value.get_type())
+		{
+			return;
+		}
+
+		if (!check_domain(var, value))
+		{
+			return;
+		}
+
+		if ((var->flags & var_flag_latched) == 0 || set_source == var_source_internal || !post_initialization)
+		{
+			var->current = value;
+		}
+
+		var->latched = value;
+
+		if (set_source != var_source_internal)
+		{
+			var->changed = true;
+			if (var->set_callback.has_value())
+			{
+				var->set_callback->operator()();
+			}
+		}
+
+		if ((var->flags & var_flag_saved) != 0 && set_source != var_source_internal && post_initialization)
+		{
+			write_config();
+		}
+	}
+
+	const char* get_vec_var_domain(const var_limits_t& domain, const std::uint32_t components)
+	{
+		if (domain.float_.min == -FLT_MAX)
+		{
+			if (domain.float_.max == FLT_MAX)
+			{
+				return utils::string::va("domain is any %iD vector", components);
+			}
+			else
+			{
+				return utils::string::va("domain is any %iD vector with components %g or smaller", components,
+					domain.float_.max);
+			}
+		}
+		else if (domain.float_.max == FLT_MAX)
+		{
+			return utils::string::va("domain is any %iD vector with components %g or bigger", components,
+				domain.float_.min);
+		}
+		else
+		{
+			return utils::string::va("domain is any %iD vector with components from %g to %g", components,
+				domain.float_.min, domain.float_.max);
+		}
+	}
+
+	const char* get_var_domain(const var_ptr& var)
+	{
+		switch (var->type)
+		{
+		case var_type_boolean:
+			return "domain is 0 or 1";
+		case var_type_float:
+		{
+			if (var->limits.float_.min == std::numeric_limits<float>::min())
+			{
+				if (var->limits.float_.max == std::numeric_limits<float>::max())
+				{
+					return utils::string::va("domain is any number");
+				}
+				else
+				{
+					return utils::string::va("domain is any number %g or smaller", var->limits.float_.max);
+				}
+			}
+			else
+			{
+				if (var->limits.float_.max == std::numeric_limits<float>::max())
+				{
+					return utils::string::va("domain is any number %g or bigger", var->limits.float_.min);
+				}
+				else
+				{
+					return utils::string::va("domain is any number %g to %g", var->limits.float_.min, var->limits.float_.max);
+				}
+			}
+		}
+		case var_type_integer:
+		{
+			if (var->limits.integer.min == std::numeric_limits<std::int32_t>::min())
+			{
+				if (var->limits.integer.max == std::numeric_limits<std::int32_t>::max())
+				{
+					return utils::string::va("domain is any integer");
+				}
+				else
+				{
+					return utils::string::va("domain is any integer %i or smaller", var->limits.integer.max);
+				}
+			}
+			else
+			{
+				if (var->limits.integer.max == std::numeric_limits<std::int32_t>::max())
+				{
+					return utils::string::va("domain is any integer %i or bigger", var->limits.integer.min);
+				}
+				else
+				{
+					return utils::string::va("domain is any integer %i to %i", var->limits.integer.min, var->limits.integer.max);
+				}
+			}
+		}
+		case var_type_string:
+			return "domain is any text";
+		case var_type_color:
+			return "domain is any 4-component color, in RGBA format";
+		case var_type_vec2:
+			return get_vec_var_domain(var->limits, 2);
+		case var_type_vec3:
+			return get_vec_var_domain(var->limits, 3);
+		case var_type_vec4:
+			return get_vec_var_domain(var->limits, 4);
+		}
+
+		return "";
+	}
+
+	var_ptr register_var(
+		const std::string& name, const var_type_t& type, const var_value& value, const var_limits_t limits, const std::uint32_t flags, const std::string& description)
+	{
+		initialize_vars();
+
+		const auto lower = utils::string::to_lower(name);
+		const auto existing = find(lower);
+
+		auto var = existing != nullptr 
+			? existing 
+			: std::make_shared<var_t>();
+
+		var->name = lower;
+		var->description = description;
+
+		var->type = type;
+		var->flags = flags;
+
+		var->current = value;
+		var->latched = value;
+		var->reset = value;
+		var->limits = limits;
+
+		if (existing == nullptr)
+		{
+			get_var_list().emplace_back(var);
+			get_var_map().insert(std::make_pair(lower, var));
+		}
+
+		return var;
+	}
+
+	var_ptr register_bool(const std::string& name, bool value, const std::uint32_t flags, const std::string& description)
+	{
+		return register_var(name, var_type_boolean, value, {}, flags, description);
+	}
+
+	var_ptr register_int(const std::string& name, std::int32_t value, std::int32_t min, std::int32_t max,
+		const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.integer.min = min;
+		limits.integer.max = max;
+
+		if (min == max)
+		{
+			limits.integer.min = std::numeric_limits<std::int32_t>::min();
+			limits.integer.max = std::numeric_limits<std::int32_t>::max();
+		}
+
+		return register_var(name, var_type_integer, value, limits, flags, description);
+	}
+
+	var_ptr register_float(const std::string& name, float value, float min, float max,
+		const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.float_.min = min;
+		limits.float_.max = max;
+
+		if (min == max)
+		{
+			limits.float_.min = std::numeric_limits<float>::min();
+			limits.float_.max = std::numeric_limits<float>::max();
+		}
+
+		return register_var(name, var_type_float, value, limits, flags, description);
+	}
+
+	var_ptr register_string(const std::string& name, const std::string& value,
+		const std::uint32_t flags, const std::string& description)
+	{
+		return register_var(name, var_type_string, value, {}, flags, description);
+	}
+
+	var_ptr register_vec2(const std::string& name, const vec2_t& value,
+		float min, float max, const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.float_.min = min;
+		limits.float_.max = max;
+
+		if (min == max)
+		{
+			limits.float_.min = std::numeric_limits<float>::min();
+			limits.float_.max = std::numeric_limits<float>::max();
+		}
+
+		return register_var(name, var_type_vec2, value, limits, flags, description);
+	}
+
+	var_ptr register_vec3(const std::string& name, const vec3_t& value,
+		float min, float max, const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.float_.min = min;
+		limits.float_.max = max;
+
+		if (min == max)
+		{
+			limits.float_.min = std::numeric_limits<float>::min();
+			limits.float_.max = std::numeric_limits<float>::max();
+		}
+
+		return register_var(name, var_type_vec3, value, limits, flags, description);
+	}
+
+	var_ptr register_vec4(const std::string& name, const vec4_t& value,
+		float min, float max, const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.float_.min = min;
+		limits.float_.max = max;
+
+		if (min == max)
+		{
+			limits.float_.min = std::numeric_limits<float>::min();
+			limits.float_.max = std::numeric_limits<float>::max();
+		}
+
+		return register_var(name, var_type_vec4, value, limits, flags, description);
+	}
+
+	var_ptr register_color(const std::string& name, const color_t& value,
+		const std::uint32_t flags, const std::string& description)
+	{
+		return register_var(name, var_type_color, value, {}, flags, description);
+	}
+
+	var_ptr find(const std::string& name)
+	{
+		const auto lower = utils::string::to_lower(name);
+		const auto& map = get_var_map();
+		const auto iter = map.find(lower);
+
+		if (iter == map.end())
+		{
+			return nullptr;
+		}
+
+		return iter->second;
+	}
+
+	std::optional<std::string> find_name(const std::string& name)
+	{
+		if (name.size() < 2)
+		{
+			return {};
+		}
+
+		const auto lower = utils::string::to_lower(name);
+
+		for (const auto& var : get_var_list())
+		{
+			if (var->name.starts_with(lower))
+			{
+				return {var->name};
+			}
+		}
+
+		return {};
+	}
+
+	bool var_command(const command::params& params)
+	{
+		const auto name = params.get(0);
+		const auto var = find(name);
+
+		if (var == nullptr)
+		{
+			return false;
+		}
+
+		if (params.size() == 1)
+		{
+			const auto current_str = var->current.to_string();
+			const auto latched_str = var->latched.to_string();
+			const auto reset_str = var->reset.to_string();
+
+			if (var->latched != var->current)
+			{
+				console::info("\"%s\" is: \"%s\" latched: \"%s\" default: \"%s\" type: \"%s\" flags: %i\n",
+					var->name.data(), current_str.data(), latched_str.data(), reset_str.data(), var->current.type_name(), var->flags);
+			}
+			else
+			{
+				console::info("\"%s\" is: \"%s\" default: \"%s\" type: \"%s\" flags: %i\n",
+					var->name.data(), current_str.data(), reset_str.data(), var->current.type_name(), var->flags);
+			}
+
+			console::info("%s\n", var->description.data());
+			console::info("   %s\n", get_var_domain(var));
+			return true;
+		}
+
+		const auto value = params.join(1);
+		const auto parsed_value = var_value::parse(value, var->type);
+
+		if (parsed_value.has_value())
+		{
+			set_var(var, parsed_value.value(), var_source_external);
+		}
+
+		return true;
+	}
+
+	void set_var_from_string(const std::string& name, const std::string& value)
+	{
+		const auto var = find(name);
+		if (var == nullptr)
+		{
+			register_string(name, value, var_flag_external, "");
+		}
+		else
+		{
+			const auto parsed_value = var_value::parse(value, var->type);
+			if (!parsed_value.has_value())
+			{
+				return;
+			}
+
+			set_var(var, parsed_value.value(), var_source_external);
+		}
+	}
+
+	void write_config()
+	{
+		std::string buffer;
+
+		const auto path = get_config_file_path();
+		const auto& var_list = get_var_list();
+		const auto& aliases = command::get_aliases();
+
+		for (const auto& var : var_list)
+		{
+			if ((var->flags & var_flag_saved) == 0)
+			{
+				continue;
+			}
+
+			const auto value = var->latched.to_string();
+			buffer.append(utils::string::va("set %s \"%s\"\r\n", var->name.data(), value.data()));
+		}
+
+		for (const auto& alias : aliases)
+		{
+			buffer.append(utils::string::va("alias \"%s\" \"%s\"\r\n", alias.first.data(), alias.second.data()));
+		}
+
+		utils::io::write_file(path, buffer, false);
+	}
+
+	bool is_post_initialization()
+	{
+		return post_initialization;
+	}
+
+	class component final : public component_interface
+	{
+	public:
+		void pre_load() override
+		{
+			command::add("set", [](const command::params& params)
+			{
+				if (params.size() < 3)
+				{
+					return;
+				}
+
+				const auto name = params.get(1);
+				const auto value = params.join(2);
+				set_var_from_string(name, value);
+			});
+
+			command::add("reset", [](const command::params& params)
+			{
+				if (params.size() < 2)
+				{
+					return;
+				}
+
+				const auto name = params.get(1);
+				const auto value = params.join(2);
+
+				const auto var = find(name);
+				if (var == nullptr)
+				{
+					return;
+				}
+
+				set_var(var, var->reset, vars::var_source_external);
+			});
+
+			command::add("toggle", [](const command::params& params)
+			{
+				if (params.size() < 4)
+				{
+					return;
+				}
+
+				const auto name = params.get(1);
+
+				const auto var = find(name);
+				if (var == nullptr)
+				{
+					return;
+				}
+
+				const auto get_value = [&](const std::string value)
+				{
+					if (value == "default")
+					{
+						return var->reset;
+					}
+
+					const auto parsed_value = var_value::parse(value, var->type);
+					if (!parsed_value.has_value())
+					{
+						return var->reset;
+					}
+
+					return parsed_value.value();
+				};
+
+				const auto value_1 = get_value(params.get(2));
+				const auto value_2 = get_value(params.get(3));
+				if (var->current == value_1)
+				{
+					set_var(var, value_2, vars::var_source_external);
+				}
+				else
+				{
+					set_var(var, value_1, vars::var_source_external);
+				}
+			});
+
+			command::add("var_list", []
+			{
+				for (const auto& var : get_var_list())
+				{
+					const auto current_str = var->current.to_string();
+					console::info("%s \"%s\"\n", var->name.data(), current_str.data());
+				}
+			});
+		}
+
+		void post_load() override
+		{
+
+		}
+
+		void start() override
+		{
+			write_config();
+		}
+
+		void post_start() override
+		{
+			post_initialization = true;
+		}
+	};
+}
+
+REGISTER_COMPONENT(vars::component)

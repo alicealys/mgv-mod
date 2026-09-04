@@ -80,31 +80,15 @@
 #include <numbers>
 
 #include <gsl/gsl>
-#include <udis86.h>
 #include <MinHook.h>
 #include <tomcrypt.h>
-
-#define RAPIDJSON_NOEXCEPT
-#define RAPIDJSON_ASSERT(cond) if(cond); else throw std::runtime_error("rapidjson assert fail");
-
-#include <rapidjson/document.h>
-#include <rapidjson/prettywriter.h>
-#include <rapidjson/stringbuffer.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4459)
 #include <json.hpp>
 #pragma warning(pop)
 
-#include <asmjit/core/jitruntime.h>
-#include <asmjit/x86/x86assembler.h>
-
 #include <d3d11.h>
-#include <imgui.h>
-#include <imgui_internal.h>
-#include <backends/imgui_impl_dx11.h>
-#include <backends/imgui_impl_win32.h>
-#include <misc/cpp/imgui_stdlib.h>
 
 #pragma warning(pop)
 #pragma warning(disable: 4100)
