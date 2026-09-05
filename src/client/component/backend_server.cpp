@@ -32,7 +32,7 @@ namespace backend_server
 			static const auto folder = backend_server::is_using_custom_server() ? "server_dump/custom" : "server_dump/konami";
 
 			const auto request_folder = request ? "requests" : "responses";
-			const auto name = utils::string::va("tpp-mod/%s/%s/%s/%lli.json", folder, request_folder,
+			const auto name = utils::string::va("mgv-mod/%s/%s/%s/%lli.json", folder, request_folder,
 				cmd_name.data(), GetTickCount64());
 
 			return name;

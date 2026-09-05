@@ -167,8 +167,8 @@ namespace overlay
 			auto offset_x = 1280.f - margin;
 			auto box_width = 0.f;
 
-			constexpr const auto font_size = 14.f;
-			const auto line_height = 18.f;
+			constexpr const auto font_size = 12.f;
+			const auto line_height = 16.f;
 
 			const auto draw_fps = var_ui_draw_fps->current.enabled();
 			const auto draw_ping = var_ui_draw_ping->current.enabled();
@@ -220,7 +220,7 @@ namespace overlay
 			}
 
 			offset_x -= margin;
-			const auto text_y = margin;
+			const auto text_y = margin + 1.f;
 
 			if (draw_fps)
 			{
