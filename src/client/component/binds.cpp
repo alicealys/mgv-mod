@@ -637,7 +637,7 @@ namespace binds
 
 		void start() override
 		{
-			wnd_proc_hook.create(0x14007A940, wnd_proc_stub);
+			wnd_proc_hook.create(0x14007A940_r, wnd_proc_stub);
 
 			write_binds();
 		}

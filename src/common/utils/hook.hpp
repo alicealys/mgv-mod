@@ -229,34 +229,10 @@ namespace utils::hook
 		return static_cast<T(*)(Args ...)>(func)(args...);
 	}
 
-	template <size_t Base>
-	void* allocate_far_jump()
-	{
-		constexpr auto alloc_size = 0x1000;
-		constexpr auto far_jmp_size = 0xC;
+	void* allocate_far(const std::size_t base, const std::size_t size);
 
-		const auto alloc_jump_table = []
-		{
-			return reinterpret_cast<char*>(
-				memory::allocate_near(Base, alloc_size, PAGE_EXECUTE_READWRITE));
-		};
-
-		static auto jump_table = alloc_jump_table();
-		static auto current_pos = jump_table;
-
-		if (current_pos + far_jmp_size >= jump_table + alloc_size)
-		{
-			jump_table = alloc_jump_table();
-			current_pos = jump_table;
-		}
-
-		const auto ptr = current_pos;
-		current_pos += far_jmp_size;
-		return ptr;
-	}
-
-	template <size_t Base, typename T>
-	void* create_far_jump(const T dest)
+	template <typename T>
+	void* create_far_jump(const std::size_t base, const T dest)
 	{
 		static std::unordered_map<void*, void*> allocated_jumps;
 		if (const auto iter = allocated_jumps.find(reinterpret_cast<void*>(dest)); iter != allocated_jumps.end())
@@ -264,23 +240,31 @@ namespace utils::hook
 			return iter->second;
 		}
 
-		const auto pos = allocate_far_jump<Base>();
+		const auto pos = allocate_far(base, 0x10);
 		jump(pos, dest, true);
 		allocated_jumps.insert(std::make_pair(dest, pos));
 		return pos;
 	}
 
-	template <size_t Base, typename T>
-	void far_jump(const size_t address, const T dest)
+	template <typename T>
+	void far_jump(const std::size_t base, const std::size_t address, const T dest)
 	{
-		const auto pos = create_far_jump<Base>(dest);
+		const auto pos = create_far_jump(base, dest);
 		jump(address, pos, false);
 	}
 
-	template <size_t Base, typename T>
-	void far_call(const size_t address, const T dest)
+	template <typename T>
+	void far_call(const std::size_t base, const std::size_t address, const T dest)
 	{
-		const auto pos = create_far_jump<Base>(dest);
+		const auto pos = create_far_jump(base, dest);
 		call(address, pos);
+	}
+
+	template <typename T>
+	T* far_inject(const std::size_t base, const std::size_t address)
+	{
+		const auto data = reinterpret_cast<T*>(allocate_far(base, sizeof(T)));
+		utils::hook::inject(address, data);
+		return data;
 	}
 }

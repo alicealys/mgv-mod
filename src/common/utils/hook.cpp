@@ -494,4 +494,39 @@ namespace utils::hook
 		VirtualProtect(place, size, old_protect, &old_protect);
 		FlushInstructionCache(GetCurrentProcess(), place, size);
 	}
+
+	void* allocate_far(const std::size_t base, const std::size_t size)
+	{
+		struct jump_table_t
+		{
+			char* buffer;
+			char* pos;
+		};
+
+		constexpr auto alloc_size = 0x1000;
+
+		const auto alloc_jump_table = [&]
+		{
+			return reinterpret_cast<char*>(
+				memory::allocate_near(base, alloc_size, PAGE_EXECUTE_READWRITE));
+		};
+
+		static std::unordered_map<std::size_t, jump_table_t> jump_tables;
+		auto jump_table = &jump_tables[base];
+		if (jump_table->buffer == nullptr)
+		{
+			jump_table->buffer = alloc_jump_table();
+			jump_table->pos = jump_table->buffer;
+		}
+
+		if (jump_table->pos + size >= jump_table->buffer + alloc_size)
+		{
+			jump_table->buffer = alloc_jump_table();
+			jump_table->pos = jump_table->buffer;
+		}
+
+		const auto ptr = jump_table->pos;
+		jump_table->pos += size;
+		return ptr;
+	}
 }
