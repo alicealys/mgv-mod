@@ -50,6 +50,11 @@ namespace exception
 			return has_module;
 		}
 
+		void terminate_process()
+		{
+			TerminateProcess(GetCurrentProcess(), exception_data.code);
+		}
+
 		void display_error_dialog()
 		{
 			HMODULE module{};
@@ -101,21 +106,16 @@ namespace exception
 			show_mouse_cursor();
 
 			MessageBoxA(nullptr, error_str.data(), "MGV-Mod ERROR", MB_ICONERROR);
-			TerminateProcess(GetCurrentProcess(), exception_data.code);
+			terminate_process();
 		}
 
-		void reset_state()
+		size_t get_reset_state_stub(const void* func)
 		{
-			display_error_dialog();
-		}
-
-		size_t get_reset_state_stub()
-		{
-			static auto* stub = utils::hook::assemble([](utils::hook::assembler& a)
+			const auto stub = utils::hook::assemble([&](utils::hook::assembler& a)
 			{
 				a.sub(rsp, 0x10);
 				a.or_(rsp, 0x8);
-				a.jmp(reset_state);
+				a.jmp(func);
 			});
 
 			return reinterpret_cast<size_t>(stub);
@@ -189,22 +189,21 @@ namespace exception
 				return EXCEPTION_CONTINUE_EXECUTION;
 			}
 
-			if (!handler_disabled)
+			if (handler_disabled)
 			{
-				write_minidump(exception_info);
-
-				exception_data.code = exception_info->ExceptionRecord->ExceptionCode;
-				exception_data.address = exception_info->ExceptionRecord->ExceptionAddress;
-				std::memcpy(&exception_data.information, exception_info->ExceptionRecord->ExceptionInformation,
-					sizeof(exception_info->ExceptionRecord->ExceptionInformation));
-				exception_info->ContextRecord->Rip = get_reset_state_stub();
-
+				exception_info->ContextRecord->Rip = get_reset_state_stub(terminate_process);
 				return EXCEPTION_CONTINUE_EXECUTION;
 			}
-			else
-			{
-				return EXCEPTION_CONTINUE_SEARCH;
-			}
+
+			write_minidump(exception_info);
+
+			exception_data.code = exception_info->ExceptionRecord->ExceptionCode;
+			exception_data.address = exception_info->ExceptionRecord->ExceptionAddress;
+			std::memcpy(&exception_data.information, exception_info->ExceptionRecord->ExceptionInformation,
+				sizeof(exception_info->ExceptionRecord->ExceptionInformation));
+
+			exception_info->ContextRecord->Rip = get_reset_state_stub(display_error_dialog);
+			return EXCEPTION_CONTINUE_EXECUTION;
 		}
 
 		LPTOP_LEVEL_EXCEPTION_FILTER WINAPI set_unhandled_exception_filter_stub(LPTOP_LEVEL_EXCEPTION_FILTER)
