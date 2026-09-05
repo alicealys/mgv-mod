@@ -20,8 +20,6 @@ namespace game
 		unsigned long long bits;
 	} steam_id;
 
-	struct ISteamUser;
-
 	enum { k_iSteamUserCallbacks = 100 };
 	enum { k_iSteamGameServerCallbacks = 200 };
 	enum { k_iSteamFriendsCallbacks = 300 };
@@ -60,11 +58,140 @@ namespace game
 	enum { k_iSteamChatCallbacks = 5900 };
 	enum { k_iSteamTimelineCallbacks = 6000 };
 
-	typedef unsigned __int64 SteamAPICall_t;
 	typedef unsigned __int8 uint8;
 	typedef unsigned __int16 uint16;
 	typedef unsigned __int32 uint32;
 	typedef unsigned __int64 uint64;
+	typedef __int16 int16;
+	typedef __int32 int32;
+	typedef __int64 int64;
+	typedef int64 lint64;
+	typedef uint64 ulint64;
+	typedef __int64 intp;
+	typedef short int16;
+	typedef int int32;
+	enum ERegisterActivationCodeResult {};
+	typedef struct {} ValvePackingSentinel_t;
+	typedef int32 HSteamPipe;
+	typedef int32 HSteamUser;
+	enum ESteamControllerPad {};
+	enum EControllerSource {};
+	enum EControllerSourceMode {};
+	enum EControllerActionOrigin {};
+	typedef uint64 ControllerHandle_t;
+	typedef uint64 ControllerActionSetHandle_t;
+	typedef uint64 ControllerDigitalActionHandle_t;
+	typedef uint64 ControllerAnalogActionHandle_t;
+	typedef struct {} ControllerDigitalActionData_t;
+	typedef struct {} ControllerAnalogActionData_t;
+	enum EFriendRelationship {};
+	typedef int16 FriendsGroupID_t;
+	enum EPersonaState {};
+	enum EFriendFlags {};
+	enum EUserRestriction {};
+	enum EOverlayToStoreFlag {};
+	enum EPersonaChange {};
+	enum EGCResults {};
+	typedef uint32 HHTMLBrowser;
+	typedef uint32 HTTPRequestHandle;
+	typedef uint32 HTTPCookieContainerHandle;
+	typedef uint64 SteamItemInstanceID_t;
+	typedef int32 SteamItemDef_t;
+	enum ESteamItemFlags {};
+	typedef int32 SteamInventoryResult_t;
+	enum ELobbyType {};
+	enum ELobbyComparison {};
+	enum ELobbyDistanceFilter {};
+	typedef int HServerQuery;
+	enum EChatMemberStateChange {};
+	enum AudioPlayback_Status {};
+	enum EP2PSessionError {};
+	enum EP2PSend {};
+	typedef uint32 SNetSocket_t;
+	typedef uint32 SNetListenSocket_t;
+	enum ESNetSocketState {};
+	enum ESNetSocketConnectionType {};
+	enum EOverlayGradientDirection {};
+	typedef uint64 UGCHandle_t;
+	typedef uint64 PublishedFileUpdateHandle_t;
+	typedef uint64 PublishedFileId_t;
+	typedef uint64 UGCFileWriteStreamHandle_t;
+	enum EResolveConflict {};
+	enum ERemoteStoragePlatform {};
+	enum ERemoteStoragePublishedFileVisibility {};
+	enum EWorkshopFileType {};
+	enum EWorkshopVote {};
+	enum EWorkshopFileAction {};
+	enum EWorkshopEnumerationType {};
+	enum EWorkshopVideoProvider {};
+	enum EUGCReadAction {};
+	typedef uint32 ScreenshotHandle;
+	typedef uint64 UGCQueryHandle_t;
+	typedef uint64 UGCUpdateHandle_t;
+	enum EUGCMatchingUGCType {};
+	enum EUserUGCList {};
+	enum EUserUGCListSortOrder {};
+	enum EUGCQuery {};
+	enum EItemUpdateStatus {};
+	enum EItemState {};
+	enum EItemStatistic {};
+	enum EItemPreviewType {};
+	typedef uint64 ClientUnifiedMessageHandle;
+	typedef uint64 SteamLeaderboard_t;
+	typedef uint64 SteamLeaderboardEntries_t;
+	enum ELeaderboardDataRequest {};
+	enum ELeaderboardSortMethod {};
+	enum ELeaderboardDisplayType {};
+	enum ELeaderboardUploadScoreMethod {};
+	enum ESteamAPICallFailure {};
+	enum EGamepadTextInputMode {};
+	enum EGamepadTextInputLineMode {};
+	enum ECheckFileSignature {};
+	enum EMatchMakingServerResponse {};
+	enum EResult {};
+	enum EVoiceResult {};
+	enum EDenyReason {};
+	typedef uint32 HAuthTicket;
+	enum EBeginAuthSessionResult {};
+	enum EAuthSessionResponse {};
+	enum EUserHasLicenseForAppResult {};
+	enum EAccountType {};
+	enum EAppReleaseState {};
+	enum EAppOwnershipFlags {};
+	enum EAppType {};
+	enum ESteamUserStatType {};
+	enum EChatEntryType {};
+	enum EChatRoomEnterResponse {};
+	enum EChatSteamIDInstanceFlags {};
+	enum EMarketingMessageFlags {};
+	enum ENotificationPosition {};
+	enum EBroadcastUploadResult {};
+	enum ELaunchOptionType {};
+	enum EVRHMDType {};
+	enum EHTTPMethod {};
+	enum EHTTPStatusCode {};
+	typedef uint64 GID_t;
+	typedef uint64 JobID_t;
+	typedef GID_t TxnID_t;
+	typedef uint32 PackageId_t;
+	typedef uint32 BundleId_t;
+	typedef uint32 AppId_t;
+	typedef uint64 AssetClassId_t;
+	typedef uint32 PhysicalItemId_t;
+	typedef uint32 DepotId_t;
+	typedef uint32 RTime32;
+	typedef uint32 CellID_t;
+	typedef uint64 SteamAPICall_t;
+	typedef uint32 AccountID_t;
+	typedef uint32 PartnerId_t;
+	typedef uint64 ManifestId_t;
+	enum EUniverse {};
+	typedef uint8 Salt_t;
+	typedef char compile_time_assert_type;
+	enum EServerMode {};
+	typedef void* SteamAPIWarningMessageHook_t;
+	typedef void* SteamAPI_CheckCallbackRegistered_t;
+	typedef struct {} FriendGameInfo_t;
 
 	struct LobbyDataUpdate_t
 	{
@@ -118,246 +245,6 @@ namespace game
 		steam_id remote;
 	};
 
-	struct ISteamClient;
-	struct ISteamUser;
-	struct ISteamGameServer;
-	struct ISteamFriends;
-	struct ISteamUtils;
-	struct ISteamMatchmaking;
-	struct ISteamMatchmakingServers;
-	struct ISteamUserStats;
-	struct ISteamGameServerStats;
-	struct ISteamApps;
-	struct ISteamNetworking;
-	struct ISteamRemoteStorage;
-	struct ISteamScreenshots;
-	struct ISteamHTTP;
-	struct ISteamUnifiedMessages;
-	struct ISteamController;
-	struct ISteamUGC;
-	struct ISteamAppList;
-	struct ISteamMusic;
-	struct ISteamMusicRemote;
-
-	struct ISteamClient_vtbl
-	{
-		int(__fastcall* CreateSteamPipe)(ISteamClient*);
-		bool(__fastcall* BReleaseSteamPipe)(ISteamClient*, int hSteamPipe);
-		int(__fastcall* ConnectToGlobalUser)(ISteamClient*, int hSteamPipe);
-		int(__fastcall* CreateLocalUser)(ISteamClient*, int* phSteamPipe, int eAccountType);
-		void(__fastcall* ReleaseUser)(ISteamClient*, int hSteamPipe, int hUser);
-		ISteamUser* (__fastcall* GetISteamUser)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamGameServer* (__fastcall* GetISteamGameServer)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		void(__fastcall* SetLocalIPBinding)(ISteamClient*, unsigned int unIP, unsigned short usPort);
-		ISteamFriends* (__fastcall* GetISteamFriends)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamUtils* (__fastcall* GetISteamUtils)(ISteamClient*, int hSteamPipe, const char* pchVersion);
-		ISteamMatchmaking* (__fastcall* GetISteamMatchmaking)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamMatchmakingServers* (__fastcall* GetISteamMatchmakingServers)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		void* (__fastcall* GetISteamGenericInterface)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamUserStats* (__fastcall* GetISteamUserStats)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamGameServerStats* (__fastcall* GetISteamGameServerStats)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		ISteamApps* (__fastcall* GetISteamApps)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamNetworking* (__fastcall* GetISteamNetworking)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamRemoteStorage* (__fastcall* GetISteamRemoteStorage)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		ISteamScreenshots* (__fastcall* GetISteamScreenshots)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		void(__fastcall* RunFrame)(ISteamClient*);
-		unsigned int(__fastcall* GetIPCCallCount)(ISteamClient*);
-		void(__fastcall* SetWarningMessageHook)(ISteamClient*, void* pFunction);
-		bool(__fastcall* BShutdownIfAllPipesClosed)(ISteamClient*);
-		ISteamHTTP* (__fastcall* GetISteamHTTP)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		ISteamUnifiedMessages* (__fastcall* GetISteamUnifiedMessages)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		ISteamController* (__fastcall* GetISteamController)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamUGC* (__fastcall* GetISteamUGC)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamAppList* (__fastcall* GetISteamAppList)(ISteamClient*, int hSteamUser, int hSteamPipe, const char* pchVersion);
-		ISteamMusic* (__fastcall* GetISteamMusic)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-		ISteamMusicRemote* (__fastcall* GetISteamMusicRemote)(ISteamClient*, int hSteamuser, int hSteamPipe, const char* pchVersion);
-	};
-
-	struct ISteamClient
-	{
-		ISteamClient_vtbl* __vftable;
-	};
-
-	struct /*VFT*/ ISteamUser_vtbl
-	{
-		int(__fastcall* GetHSteamUser)(ISteamUser* this_);
-		bool(__fastcall* LoggedOn)(ISteamUser* this_);
-		__int64(__fastcall* GetSteamID)(ISteamUser* this_, steam_id* steamIDUser);
-		int(__fastcall* InitiateGameConnection)(ISteamUser* this_, void* pAuthBlob, int cbMaxAuthBlob, steam_id steamIDGameServer, unsigned int unIPServer, unsigned __int16 usPortServer, bool bSecure);
-		void(__fastcall* TerminateGameConnection)(ISteamUser* this_, unsigned int unIPServer, unsigned __int16 usPortServer);
-		void(__fastcall* TrackAppUsageEvent)(ISteamUser* this_, steam_id gameID, int eAppUsageEvent, const char* pchExtraInfo);
-		bool(__fastcall* GetUserDataFolder)(ISteamUser* this_, char* pchBuffer, int cubBuffer);
-		void(__fastcall* StartVoiceRecording)(ISteamUser* this_);
-		void(__fastcall* StopVoiceRecording)(ISteamUser* this_);
-		int(__fastcall* GetAvailableVoice)(ISteamUser* this_, unsigned int* pcbCompressed, unsigned int* pcbUncompressed, unsigned int nUncompressedVoiceDesiredSampleRate);
-		int(__fastcall* GetVoice)(ISteamUser* this_, bool bWantCompressed, void* pDestBuffer, unsigned int cbDestBufferSize, unsigned int* nBytesWritten, bool bWantUncompressed, void* pUncompressedDestBuffer, unsigned int cbUncompressedDestBufferSize, unsigned int* nUncompressBytesWritten, unsigned int nUncompressedVoiceDesiredSampleRate);
-		int(__fastcall* DecompressVoice)(ISteamUser* this_, void* pCompressed, unsigned int cbCompressed, void* pDestBuffer, unsigned int cbDestBufferSize, unsigned int* nBytesWritten);
-		unsigned int(__fastcall* GetVoiceOptimalSampleRate)(ISteamUser* this_);
-		unsigned int(__fastcall* GetAuthSessionTicket)(ISteamUser* this_, void* pTicket, int cbMaxTicket, unsigned int* pcbTicket);
-		int(__fastcall* BeginAuthSession)(ISteamUser* this_, const void* pAuthTicket, int cbAuthTicket, steam_id steamID);
-		void(__fastcall* EndAuthSession)(ISteamUser* this_, steam_id steamID);
-		void(__fastcall* CancelAuthTicket)(ISteamUser* this_, unsigned int hAuthTicket);
-		unsigned int(__fastcall* UserHasLicenseForApp)(ISteamUser* this_, steam_id steamID, unsigned int appID);
-		bool(__fastcall* BIsBehindNAT)(ISteamUser* this_);
-		void(__fastcall* AdvertiseGame)(ISteamUser* this_, steam_id steamIDGameServer, unsigned int unIPServer, unsigned __int16 usPortServer);
-		unsigned __int64(__fastcall* RequestEncryptedAppTicket)(ISteamUser* this_, void* pUserData, int cbUserData);
-		bool(__fastcall* GetEncryptedAppTicket)(ISteamUser* this_, void* pTicket, int cbMaxTicket, unsigned int* pcbTicket);
-	};
-
-	struct ISteamUser
-	{
-		ISteamUser_vtbl* __vftable /*VFT*/;
-	};
-
-	struct ISteamNetworking;
-
-	struct /*VFT*/ ISteamNetworking_vtbl
-	{
-		bool(__fastcall* SendP2PPacket)(ISteamNetworking* this_, steam_id steamIDRemote, const void* pubData, unsigned int cubData, int eP2PSendType, int nChannel);
-		bool(__fastcall* IsP2PPacketAvailable)(ISteamNetworking* this_, unsigned int* pcubMsgSize, int nChannel);
-		bool(__fastcall* ReadP2PPacket)(ISteamNetworking* this_, void* pubDest, unsigned int cubDest, unsigned int* pcubMsgSize, steam_id* psteamIDRemote, int nChannel);
-		bool(__fastcall* AcceptP2PSessionWithUser)(ISteamNetworking* this_, steam_id steamIDRemote);
-		bool(__fastcall* CloseP2PSessionWithUser)(ISteamNetworking* this_, steam_id steamIDRemote);
-		bool(__fastcall* CloseP2PChannelWithUser)(ISteamNetworking* this_, steam_id steamIDRemote, int iVirtualPort);
-		bool(__fastcall* GetP2PSessionState)(ISteamNetworking* this_, steam_id steamIDRemote, void* pConnectionState);
-		bool(__fastcall* AllowP2PPacketRelay)(ISteamNetworking* this_, bool bAllow);
-		unsigned int(__fastcall* CreateListenSocket)(ISteamNetworking* this_, int nVirtualP2PPort, unsigned int nIP, unsigned __int16 nPort, bool bAllowUseOfPacketRelay);
-		unsigned int(__fastcall* CreateP2PConnectionSocket)(ISteamNetworking* this_, steam_id steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay);
-		unsigned int(__fastcall* CreateConnectionSocket)(ISteamNetworking* this_, unsigned int nIP, unsigned __int16 nPort, int nTimeoutSec);
-		bool(__fastcall* DestroySocket)(ISteamNetworking* this_, unsigned int hSocket, bool bNotifyRemoteEnd);
-		bool(__fastcall* DestroyListenSocket)(ISteamNetworking* this_, unsigned int hSocket, bool bNotifyRemoteEnd);
-		bool(__fastcall* SendDataOnSocket)(ISteamNetworking* this_, unsigned int hSocket, void* pubData, unsigned int cubData, bool bReliable);
-		bool(__fastcall* IsDataAvailableOnSocket)(ISteamNetworking* this_, unsigned int hSocket, unsigned int* pcubMsgSize);
-		bool(__fastcall* RetrieveDataFromSocket)(ISteamNetworking* this_, unsigned int hSocket, void* pubDest, unsigned int cubDest, unsigned int* pcubMsgSize);
-		bool(__fastcall* IsDataAvailable)(ISteamNetworking* this_, unsigned int hListenSocket, unsigned int* pcubMsgSize, unsigned int* phSocket);
-		bool(__fastcall* RetrieveData)(ISteamNetworking* this_, unsigned int hListenSocket, void* pubDest, unsigned int cubDest, unsigned int* pcubMsgSize, unsigned int* phSocket);
-		bool(__fastcall* GetSocketInfo)(ISteamNetworking* this_, unsigned int hSocket, steam_id* pSteamIDRemote, int* peSocketStatus, unsigned int* punIPRemote, unsigned __int16* punPortRemote);
-		bool(__fastcall* GetListenSocketInfo)(ISteamNetworking* this_, unsigned int hListenSocket, unsigned int* pnIP, unsigned __int16* pnPort);
-		int(__fastcall* GetSocketConnectionType)(ISteamNetworking* this_, unsigned int hSocket);
-		int(__fastcall* GetMaxPacketSize)(ISteamNetworking* this_, unsigned int hSocket);
-	};
-
-	struct ISteamNetworking
-	{
-		ISteamNetworking_vtbl* __vftable /*VFT*/;
-	};
-
-	struct ISteamFriends;
-
-	typedef std::int16_t FriendsGroupID_t;
-
-	struct /*VFT*/ ISteamFriends_vtbl
-	{
-		const char* (__fastcall* GetPersonaName)(ISteamFriends* this_);
-		unsigned __int64(__fastcall* SetPersonaName)(ISteamFriends* this_, const char* pchPersonaName);
-		int(__fastcall* GetPersonaState)(ISteamFriends* this_);
-		int(__fastcall* GetFriendCount)(ISteamFriends* this_, int eFriendFlags);
-		void(__fastcall* GetFriendByIndex)(ISteamFriends* this_, steam_id* out, int iFriend, int iFriendFlags);
-		int(__fastcall* GetFriendRelationship)(ISteamFriends* this_, steam_id steamIDFriend);
-		int(__fastcall* GetFriendPersonaState)(ISteamFriends* this_, steam_id steamIDFriend);
-		const char* (__fastcall* GetFriendPersonaName)(ISteamFriends* this_, steam_id steamIDFriend);
-		bool(__fastcall* GetFriendGamePlayed)(ISteamFriends* this_, steam_id steamIDFriend, void* pFriendGameInfo);
-		const char* (__fastcall* GetFriendPersonaNameHistory)(ISteamFriends* this_, steam_id steamIDFriend, int iPersonaName);
-		int(__fastcall* GetFriendSteamLevel)(ISteamFriends* this_, steam_id steamIDFriend);
-		const char* (__fastcall* GetPlayerNickname)(ISteamFriends* this_, steam_id steamIDFriend);
-		int(__fastcall* GetFriendsGroupCount)(ISteamFriends* this_);
-		FriendsGroupID_t(__fastcall* GetFriendsGroupIDByIndex)(ISteamFriends* this_, int iFG);
-		const char* (__fastcall* GetFriendsGroupName)(ISteamFriends* this_, FriendsGroupID_t friendsGroupID);
-		int(__fastcall* GetFriendsGroupMembersCount)(ISteamFriends* this_, FriendsGroupID_t friendsGroupID);
-		void(__fastcall* GetFriendsGroupMembersList)(ISteamFriends* this_, FriendsGroupID_t friendsGroupID, steam_id* pOutSteamIDMembers, int nMembersCount);
-		bool(__fastcall* HasFriend)(ISteamFriends* this_, steam_id steamIDFriend, int eFriendFlags);
-		int(__fastcall* GetClanCount)(ISteamFriends* this_);
-		steam_id(__fastcall* GetClanByIndex)(ISteamFriends* this_, int iClan);
-		const char* (__fastcall* GetClanName)(ISteamFriends* this_, steam_id steamIDClan);
-		const char* (__fastcall* GetClanTag)(ISteamFriends* this_, steam_id steamIDClan);
-		bool(__fastcall* GetClanActivityCounts)(ISteamFriends* this_, steam_id steamID, int* pnOnline, int* pnInGame, int* pnChatting);
-		unsigned __int64(__fastcall* DownloadClanActivityCounts)(ISteamFriends* this_, steam_id groupIDs[], int nIds);
-		int(__fastcall* GetFriendCountFromSource)(ISteamFriends* this_, steam_id steamIDSource);
-		steam_id(__fastcall* GetFriendFromSourceByIndex)(ISteamFriends* this_, steam_id steamIDSource, int iFriend);
-		bool(__fastcall* IsUserInSource)(ISteamFriends* this_, steam_id steamIDUser, steam_id steamIDSource);
-		void(__fastcall* SetInGameVoiceSpeaking)(ISteamFriends* this_, steam_id steamIDUser, bool bSpeaking);
-		void(__fastcall* ActivateGameOverlay)(ISteamFriends* this_, const char* pchDialog);
-		void(__fastcall* ActivateGameOverlayToUser)(ISteamFriends* this_, const char* pchDialog, steam_id steamID);
-		void(__fastcall* ActivateGameOverlayToWebPage)(ISteamFriends* this_, const char* pchURL);
-		void(__fastcall* ActivateGameOverlayToStore)(ISteamFriends* this_, unsigned int nAppID, unsigned int eFlag);
-		void(__fastcall* SetPlayedWith)(ISteamFriends* this_, steam_id steamIDUserPlayedWith);
-		void(__fastcall* ActivateGameOverlayInviteDialog)(ISteamFriends* this_, steam_id steamIDLobby);
-		int(__fastcall* GetSmallFriendAvatar)(ISteamFriends* this_, steam_id steamIDFriend);
-		int(__fastcall* GetMediumFriendAvatar)(ISteamFriends* this_, steam_id steamIDFriend);
-		int(__fastcall* GetLargeFriendAvatar)(ISteamFriends* this_, steam_id steamIDFriend);
-		bool(__fastcall* RequestUserInformation)(ISteamFriends* this_, steam_id steamIDUser, bool bRequireNameOnly);
-		unsigned __int64(__fastcall* RequestClanOfficerList)(ISteamFriends* this_, steam_id steamIDClan);
-		steam_id(__fastcall* GetClanOwner)(ISteamFriends* this_, steam_id steamIDClan);
-		int(__fastcall* GetClanOfficerCount)(ISteamFriends* this_, steam_id steamIDClan);
-		steam_id(__fastcall* GetClanOfficerByIndex)(ISteamFriends* this_, steam_id steamIDClan, int iOfficer);
-		int(__fastcall* GetUserRestrictions)(ISteamFriends* this_);
-		bool(__fastcall* SetRichPresence)(ISteamFriends* this_, const char* pchKey, const char* pchValue);
-		void(__fastcall* ClearRichPresence)(ISteamFriends* this_);
-		const char* (__fastcall* GetFriendRichPresence)(ISteamFriends* this_, steam_id steamIDFriend, const char* pchKey);
-		int(__fastcall* GetFriendRichPresenceKeyCount)(ISteamFriends* this_, steam_id steamIDFriend);
-		const char* (__fastcall* GetFriendRichPresenceKeyByIndex)(ISteamFriends* this_, steam_id steamIDFriend, int iKey);
-		void(__fastcall* RequestFriendRichPresence)(ISteamFriends* this_, steam_id steamIDFriend);
-		bool(__fastcall* InviteUserToGame)(ISteamFriends* this_, steam_id steamIDFriend, const char* pchConnectString);
-		int(__fastcall* GetCoplayFriendCount)(ISteamFriends* this_);
-		steam_id(__fastcall* GetCoplayFriend)(ISteamFriends* this_, int iCoplayFriend);
-		int(__fastcall* GetFriendCoplayTime)(ISteamFriends* this_, steam_id steamIDFriend);
-		unsigned int(__fastcall* GetFriendCoplayGame)(ISteamFriends* this_, steam_id steamIDFriend);
-		unsigned __int64(__fastcall* JoinClanChatRoom)(ISteamFriends* this_, steam_id steamIDClan);
-		bool(__fastcall* LeaveClanChatRoom)(ISteamFriends* this_, steam_id steamIDClan);
-		int(__fastcall* GetClanChatMemberCount)(ISteamFriends* this_, steam_id steamIDClan);
-		steam_id(__fastcall* GetChatMemberByIndex)(ISteamFriends* this_, steam_id steamIDClan, int iUser);
-		bool(__fastcall* SendClanChatMessage)(ISteamFriends* this_, steam_id steamIDClanChat, const char* pchText);
-		int(__fastcall* GetClanChatMessage)(ISteamFriends* this_, steam_id steamIDClanChat, int iMessage, void* prgchText, int cchTextMax, unsigned int* peChatEntryType, steam_id* pSteamIDChatter);
-		bool(__fastcall* IsClanChatAdmin)(ISteamFriends* this_, steam_id steamIDClanChat, steam_id steamIDUser);
-		bool(__fastcall* IsClanChatWindowOpenInSteam)(ISteamFriends* this_, steam_id steamIDClanChat);
-		bool(__fastcall* OpenClanChatWindowInSteam)(ISteamFriends* this_, steam_id steamIDClanChat);
-		bool(__fastcall* CloseClanChatWindowInSteam)(ISteamFriends* this_, steam_id steamIDClanChat);
-		bool(__fastcall* SetListenForFriendsMessages)(ISteamFriends* this_, bool bInterceptEnabled);
-		bool(__fastcall* ReplyToFriendMessage)(ISteamFriends* this_, steam_id steamIDFriend, const char* pchMsgToSend);
-		int(__fastcall* GetFriendMessage)(ISteamFriends* this_, steam_id steamIDFriend, int iMessageID, void* pvData, int cubData, unsigned int* peChatEntryType);
-		unsigned __int64(__fastcall* GetFollowerCount)(ISteamFriends* this_, steam_id steamID);
-		unsigned __int64(__fastcall* IsFollowing)(ISteamFriends* this_, steam_id steamID);
-		unsigned __int64(__fastcall* EnumerateFollowingList)(ISteamFriends* this_, unsigned int unStartIndex);
-	};
-
-	struct ISteamFriends
-	{
-		ISteamFriends_vtbl* __vftable /*VFT*/;
-	};
-
-	struct ISteamApps;
-
-	struct ISteamApps_vtbl
-	{
-		bool(__fastcall* BIsSubscribed)(ISteamApps*);
-		bool(__fastcall* BIsLowViolence)(ISteamApps*);
-		bool(__fastcall* BIsCybercafe)(ISteamApps*);
-		bool(__fastcall* BIsVACBanned)(ISteamApps*);
-		const char* (__fastcall* GetCurrentGameLanguage)(ISteamApps*);
-		const char* (__fastcall* GetAvailableGameLanguages)(ISteamApps*);
-		bool(__fastcall* BIsSubscribedApp)(ISteamApps*, unsigned int appID);
-		bool(__fastcall* BIsDlcInstalled)(ISteamApps*, unsigned int appID);
-		unsigned int(__fastcall* GetEarliestPurchaseUnixTime)(ISteamApps*, unsigned int nAppID);
-		bool(__fastcall* BIsSubscribedFromFreeWeekend)(ISteamApps*);
-		int(__fastcall* GetDLCCount)(ISteamApps*);
-		bool(__fastcall* BGetDLCDataByIndex)(ISteamApps*, int iDLC, unsigned int* pAppID, bool* pbAvailable, char* pchName, int cchNameBufferSize);
-		void(__fastcall* InstallDLC)(ISteamApps*, unsigned int nAppID);
-		void(__fastcall* UninstallDLC)(ISteamApps*, unsigned int nAppID);
-		void(__fastcall* RequestAppProofOfPurchaseKey)(ISteamApps*, unsigned int nAppID);
-		bool(__fastcall* GetCurrentBetaName)(ISteamApps*, char* pchName, int cchNameBufferSize);
-		bool(__fastcall* MarkContentCorrupt)(ISteamApps*, bool bMissingFilesOnly);
-		unsigned int(__fastcall* GetInstalledDepots)(ISteamApps*, unsigned int appID, unsigned int* pvecDepots, unsigned int cMaxDepots);
-		unsigned int(__fastcall* GetAppInstallDir)(ISteamApps*, unsigned int appID, char* pchFolder, unsigned int cchFolderBufferSize);
-		bool(__fastcall* BIsAppInstalled)(ISteamApps*, unsigned int appID);
-		steam_id(__fastcall* GetAppOwner)(ISteamApps*);
-		const char* (__fastcall* GetLaunchQueryParam)(ISteamApps*, const char* pchKey);
-	};
-
-	struct ISteamApps
-	{
-		ISteamApps_vtbl* __vftable;
-	};
-
 	struct LobbyCreated_t
 	{
 		enum { k_iCallback = k_iSteamMatchmakingCallbacks + 13 };
@@ -375,53 +262,1064 @@ namespace game
 
 	static_assert(offsetof(LobbyChatMsg_t, chat_id) == 20);
 
-	struct ISteamMatchmaking;
-
-	struct /*VFT*/ ISteamMatchmaking_vtbl
+	struct CGameID
 	{
-		int(__fastcall* GetFavoriteGameCount)(ISteamMatchmaking* this_);
-		bool(__fastcall* GetFavoriteGame)(ISteamMatchmaking* this_, int iGame, unsigned int* pnAppID, unsigned int* pnIP, unsigned __int16* pnConnPort, unsigned __int16* pnQueryPort, unsigned int* punFlags, unsigned int* pRTime32LastPlayedOnServer);
-		int(__fastcall* AddFavoriteGame)(ISteamMatchmaking* this_, unsigned int nAppID, unsigned int nIP, unsigned __int16 nConnPort, unsigned __int16 nQueryPort, unsigned int unFlags, unsigned int rTime32LastPlayedOnServer);
-		bool(__fastcall* RemoveFavoriteGame)(ISteamMatchmaking* this_, unsigned int nAppID, unsigned int nIP, unsigned __int16 nConnPort, unsigned __int16 nQueryPort, unsigned int unFlags);
-		unsigned __int64(__fastcall* RequestLobbyList)(ISteamMatchmaking* this_);
-		void(__fastcall* AddRequestLobbyListStringFilter)(ISteamMatchmaking* this_, const char* pchKeyToMatch, const char* pchValueToMatch, int eComparisonType);
-		void(__fastcall* AddRequestLobbyListNumericalFilter)(ISteamMatchmaking* this_, const char* pchKeyToMatch, int nValueToMatch, int eComparisonType);
-		void(__fastcall* AddRequestLobbyListNearValueFilter)(ISteamMatchmaking* this_, const char* pchKeyToMatch, int nValueToBeCloseTo);
-		void(__fastcall* AddRequestLobbyListFilterSlotsAvailable)(ISteamMatchmaking* this_, int nSlotsAvailable);
-		void(__fastcall* AddRequestLobbyListDistanceFilter)(ISteamMatchmaking* this_, int eLobbyDistanceFilter);
-		void(__fastcall* AddRequestLobbyListResultCountFilter)(ISteamMatchmaking* this_, int cMaxResults);
-		void(__fastcall* AddRequestLobbyListCompatibleMembersFilter)(ISteamMatchmaking* this_, steam_id steamID);
-		steam_id*(__fastcall* GetLobbyByIndex)(ISteamMatchmaking* this_, steam_id* lobby_id, int iLobby);
-		unsigned __int64(__fastcall* CreateLobby)(ISteamMatchmaking* this_, int eLobbyType, int cMaxMembers);
-		unsigned __int64(__fastcall* JoinLobby)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		void(__fastcall* LeaveLobby)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		bool(__fastcall* InviteUserToLobby)(ISteamMatchmaking* this_, steam_id steamIDLobby, steam_id steamIDInvitee);
-		int(__fastcall* GetNumLobbyMembers)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		void(__fastcall* GetLobbyMemberByIndex)(ISteamMatchmaking* this_, steam_id* steamIDUser, steam_id steamIDLobby, int iMember);
-		const char* (__fastcall* GetLobbyData)(ISteamMatchmaking* this_, steam_id steamIDLobby, const char* pchKey);
-		bool(__fastcall* SetLobbyData)(ISteamMatchmaking* this_, steam_id steamIDLobby, const char* pchKey, const char* pchValue);
-		int(__fastcall* GetLobbyDataCount)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		bool(__fastcall* GetLobbyDataByIndex)(ISteamMatchmaking* this_, steam_id steamIDLobby, int iLobbyData, char* pchKey, int cchKeyBufferSize, char* pchValue, int cchValueBufferSize);
-		bool(__fastcall* DeleteLobbyData)(ISteamMatchmaking* this_, steam_id steamIDLobby, const char* pchKey);
-		const char* (__fastcall* GetLobbyMemberData)(ISteamMatchmaking* this_, steam_id steamIDLobby, steam_id steamIDUser, const char* pchKey);
-		void(__fastcall* SetLobbyMemberData)(ISteamMatchmaking* this_, steam_id steamIDLobby, const char* pchKey, const char* pchValue);
-		bool(__fastcall* SendLobbyChatMsg)(ISteamMatchmaking* this_, steam_id steamIDLobby, const void* pvMsgBody, int cubMsgBody);
-		int(__fastcall* GetLobbyChatEntry)(ISteamMatchmaking* this_, steam_id steamIDLobby, int iChatID, steam_id* pSteamIDUser, void* pvData, int cubData, int* peChatEntryType);
-		bool(__fastcall* RequestLobbyData)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		void(__fastcall* SetLobbyGameServer)(ISteamMatchmaking* this_, steam_id steamIDLobby, unsigned int unGameServerIP, unsigned __int16 unGameServerPort, steam_id steamIDGameServer);
-		bool(__fastcall* GetLobbyGameServer)(ISteamMatchmaking* this_, steam_id steamIDLobby, unsigned int* punGameServerIP, unsigned __int16* punGameServerPort, steam_id* psteamIDGameServer);
-		bool(__fastcall* SetLobbyMemberLimit)(ISteamMatchmaking* this_, steam_id steamIDLobby, int cMaxMembers);
-		int(__fastcall* GetLobbyMemberLimit)(ISteamMatchmaking* this_, steam_id steamIDLobby);
-		bool(__fastcall* SetLobbyType)(ISteamMatchmaking* this_, steam_id steamIDLobby, int eLobbyType);
-		bool(__fastcall* SetLobbyJoinable)(ISteamMatchmaking* this_, steam_id steamIDLobby, bool bLobbyJoinable);
-		steam_id*(__fastcall* GetLobbyOwner)(ISteamMatchmaking* this_, steam_id* owner, steam_id steamIDLobby);
-		bool(__fastcall* SetLobbyOwner)(ISteamMatchmaking* this_, steam_id steamIDLobby, steam_id steamIDNewOwner);
-		bool(__fastcall* SetLinkedLobby)(ISteamMatchmaking* this_, steam_id steamIDLobby, steam_id steamIDLobby2);
+
+	};
+
+	struct EHTMLMouseButton
+	{
+
+	};
+
+	struct EHTMLKeyModifiers
+	{
+
+	};
+
+	struct MatchMakingKeyValuePair_t
+	{
+
+	};
+
+	struct gameserveritem_t
+	{
+
+	};
+
+	struct HServerListRequest
+	{
+
+	};
+
+	struct P2PSessionState_t
+	{
+
+	};
+
+	struct CellPadData
+	{
+
+	};
+
+	struct SteamParamStringArray_t
+	{
+
+	};
+
+	struct SteamUGCDetails_t
+	{
+
+	};
+
+	struct LeaderboardEntry_t
+	{
+
+	};
+
+	struct ISteamAppList;
+	struct ISteamApps;
+	struct ISteamAppTicket;
+	struct ISteamClient;
+	struct ISteamController;
+	struct ISteamFriends;
+	struct ISteamGameCoordinator;
+	struct ISteamGameServer;
+	struct ISteamGameServerStats;
+	struct ISteamHTMLSurface;
+	struct ISteamHTTP;
+	struct ISteamInventory;
+	struct ISteamMatchmaking;
+	struct ISteamMatchmakingServerListResponse;
+	struct ISteamMatchmakingPingResponse;
+	struct ISteamMatchmakingPlayersResponse;
+	struct ISteamMatchmakingRulesResponse;
+	struct ISteamMatchmakingServers;
+	struct ISteamMusic;
+	struct ISteamMusicRemote;
+	struct ISteamNetworking;
+	struct ISteamPS3OverlayRenderHost;
+	struct ISteamPS3OverlayRender;
+	struct ISteamRemoteStorage;
+	struct ISteamScreenshots;
+	struct ISteamUGC;
+	struct ISteamUnifiedMessages;
+	struct ISteamUser;
+	struct ISteamUserStats;
+	struct ISteamUtils;
+	struct ISteamVideo;
+
+	struct ISteamAppList_vtbl
+	{
+		uint32(__fastcall* GetNumInstalledApps)(ISteamAppList*);
+		uint32(__fastcall* GetInstalledApps)(ISteamAppList*, AppId_t* pvecAppID, uint32 unMaxAppIDs);
+		int(__fastcall* GetAppName)(ISteamAppList*);
+		int(__fastcall* GetAppInstallDir)(ISteamAppList*, AppId_t nAppID, char* pchDirectory, int cchNameMax);
+		int(__fastcall* GetAppBuildId)(ISteamAppList*, AppId_t nAppID);
+	};
+
+	struct ISteamAppList
+	{
+		ISteamAppList_vtbl* __vftable;
+	};
+
+	struct ISteamApps_vtbl
+	{
+		bool(__fastcall* BIsSubscribed)(ISteamApps*);
+		bool(__fastcall* BIsLowViolence)(ISteamApps*);
+		bool(__fastcall* BIsCybercafe)(ISteamApps*);
+		bool(__fastcall* BIsVACBanned)(ISteamApps*);
+		const char* (__fastcall* GetCurrentGameLanguage)(ISteamApps*);
+		const char* (__fastcall* GetAvailableGameLanguages)(ISteamApps*);
+		bool(__fastcall* BIsSubscribedApp)(ISteamApps*, AppId_t appID);
+		bool(__fastcall* BIsDlcInstalled)(ISteamApps*, AppId_t appID);
+		uint32(__fastcall* GetEarliestPurchaseUnixTime)(ISteamApps*, AppId_t nAppID);
+		bool(__fastcall* BIsSubscribedFromFreeWeekend)(ISteamApps*);
+		int(__fastcall* GetDLCCount)(ISteamApps*);
+		bool(__fastcall* BGetDLCDataByIndex)(ISteamApps*, int iDLC, AppId_t* pAppID, bool* pbAvailable, char* pchName, int cchNameBufferSize);
+		void(__fastcall* InstallDLC)(ISteamApps*, AppId_t nAppID);
+		void(__fastcall* UninstallDLC)(ISteamApps*, AppId_t nAppID);
+		void(__fastcall* RequestAppProofOfPurchaseKey)(ISteamApps*, AppId_t nAppID);
+		bool(__fastcall* GetCurrentBetaName)(ISteamApps*, char* pchName, int cchNameBufferSize);
+		bool(__fastcall* MarkContentCorrupt)(ISteamApps*, bool bMissingFilesOnly);
+		uint32(__fastcall* GetInstalledDepots)(ISteamApps*, AppId_t appID, DepotId_t* pvecDepots, uint32 cMaxDepots);
+		uint32(__fastcall* GetAppInstallDir)(ISteamApps*, AppId_t appID, char* pchFolder, uint32 cchFolderBufferSize);
+		bool(__fastcall* BIsAppInstalled)(ISteamApps*, AppId_t appID);
+		steam_id*(__fastcall* GetAppOwner)(ISteamApps*, steam_id*);
+		const char* (__fastcall* GetLaunchQueryParam)(ISteamApps*, const char* pchKey);
+		bool(__fastcall* GetDlcDownloadProgress)(ISteamApps*, AppId_t nAppID, uint64* punBytesDownloaded, uint64* punBytesTotal);
+		int(__fastcall* GetAppBuildId)(ISteamApps*);
+		void(__fastcall* RequestAllProofOfPurchaseKeys)(ISteamApps*);
+	};
+
+	struct ISteamApps
+	{
+		ISteamApps_vtbl* __vftable;
+	};
+
+	struct ISteamAppTicket_vtbl
+	{
+		uint32(__fastcall* GetAppOwnershipTicketData)(ISteamAppTicket*, uint32 nAppID, void* pvBuffer, uint32 cbBufferLength, uint32* piAppId, uint32* piSteamId, uint32* piSignature, uint32* pcbSignature);
+	};
+
+	struct ISteamAppTicket
+	{
+		ISteamAppTicket_vtbl* __vftable;
+	};
+
+	struct ISteamClient_vtbl
+	{
+		HSteamPipe(__fastcall* CreateSteamPipe)(ISteamClient*);
+		bool(__fastcall* BReleaseSteamPipe)(ISteamClient*, HSteamPipe hSteamPipe);
+		HSteamUser(__fastcall* ConnectToGlobalUser)(ISteamClient*, HSteamPipe hSteamPipe);
+		HSteamUser(__fastcall* CreateLocalUser)(ISteamClient*, HSteamPipe* phSteamPipe, EAccountType eAccountType);
+		void(__fastcall* ReleaseUser)(ISteamClient*, HSteamPipe hSteamPipe, HSteamUser hUser);
+		ISteamUser* (__fastcall* GetISteamUser)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamGameServer* (__fastcall* GetISteamGameServer)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		void(__fastcall* SetLocalIPBinding)(ISteamClient*, uint32 unIP, uint16 usPort);
+		ISteamFriends* (__fastcall* GetISteamFriends)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamUtils* (__fastcall* GetISteamUtils)(ISteamClient*, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamMatchmaking* (__fastcall* GetISteamMatchmaking)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamMatchmakingServers* (__fastcall* GetISteamMatchmakingServers)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		void* (__fastcall* GetISteamGenericInterface)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamUserStats* (__fastcall* GetISteamUserStats)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamGameServerStats* (__fastcall* GetISteamGameServerStats)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamApps* (__fastcall* GetISteamApps)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamNetworking* (__fastcall* GetISteamNetworking)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamRemoteStorage* (__fastcall* GetISteamRemoteStorage)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamScreenshots* (__fastcall* GetISteamScreenshots)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		void(__fastcall* RunFrame)(ISteamClient*);
+		uint32(__fastcall* GetIPCCallCount)(ISteamClient*);
+		void(__fastcall* SetWarningMessageHook)(ISteamClient*, SteamAPIWarningMessageHook_t pFunction);
+		bool(__fastcall* BShutdownIfAllPipesClosed)(ISteamClient*);
+		ISteamHTTP* (__fastcall* GetISteamHTTP)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamUnifiedMessages* (__fastcall* GetISteamUnifiedMessages)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamController* (__fastcall* GetISteamController)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamUGC* (__fastcall* GetISteamUGC)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamAppList* (__fastcall* GetISteamAppList)(ISteamClient*, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamMusic* (__fastcall* GetISteamMusic)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamMusicRemote* (__fastcall* GetISteamMusicRemote)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamHTMLSurface* (__fastcall* GetISteamHTMLSurface)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		void(__fastcall* DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess)(ISteamClient*);
+		void(__fastcall* DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess)(ISteamClient*);
+		void(__fastcall* Set_SteamAPI_CCheckCallbackRegisteredInProcess)(ISteamClient*, SteamAPI_CheckCallbackRegistered_t func);
+		ISteamInventory* (__fastcall* GetISteamInventory)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+		ISteamVideo* (__fastcall* GetISteamVideo)(ISteamClient*, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char* pchVersion);
+	};
+
+	struct ISteamClient
+	{
+		ISteamClient_vtbl* __vftable;
+	};
+
+	struct ISteamController_vtbl
+	{
+		bool(__fastcall* Init)(ISteamController*);
+		bool(__fastcall* Shutdown)(ISteamController*);
+		void(__fastcall* RunFrame)(ISteamController*);
+		int(__fastcall* GetConnectedControllers)(ISteamController*, ControllerHandle_t* handlesOut);
+		bool(__fastcall* ShowBindingPanel)(ISteamController*, ControllerHandle_t controllerHandle);
+		ControllerActionSetHandle_t(__fastcall* GetActionSetHandle)(ISteamController*, const char* pszActionSetName);
+		void(__fastcall* ActivateActionSet)(ISteamController*, ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle);
+		ControllerActionSetHandle_t(__fastcall* GetCurrentActionSet)(ISteamController*, ControllerHandle_t controllerHandle);
+		ControllerDigitalActionHandle_t(__fastcall* GetDigitalActionHandle)(ISteamController*, const char* pszActionName);
+		ControllerDigitalActionData_t(__fastcall* GetDigitalActionData)(ISteamController*, ControllerHandle_t controllerHandle, ControllerDigitalActionHandle_t digitalActionHandle);
+		int(__fastcall* GetDigitalActionOrigins)(ISteamController*, ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerDigitalActionHandle_t digitalActionHandle, EControllerActionOrigin* originsOut);
+		ControllerAnalogActionHandle_t(__fastcall* GetAnalogActionHandle)(ISteamController*, const char* pszActionName);
+		ControllerAnalogActionData_t(__fastcall* GetAnalogActionData)(ISteamController*, ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t analogActionHandle);
+		int(__fastcall* GetAnalogActionOrigins)(ISteamController*, ControllerHandle_t controllerHandle, ControllerActionSetHandle_t actionSetHandle, ControllerAnalogActionHandle_t analogActionHandle, EControllerActionOrigin* originsOut);
+		void(__fastcall* StopAnalogActionMomentum)(ISteamController*, ControllerHandle_t controllerHandle, ControllerAnalogActionHandle_t eAction);
+		void(__fastcall* TriggerHapticPulse)(ISteamController*, ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, unsigned short usDurationMicroSec);
+		void(__fastcall* TriggerRepeatedHapticPulse)(ISteamController*, ControllerHandle_t controllerHandle, ESteamControllerPad eTargetPad, unsigned short usDurationMicroSec, unsigned short usOffMicroSec, unsigned short unRepeat, unsigned int nFlags);
+	};
+
+	struct ISteamController
+	{
+		ISteamController_vtbl* __vftable;
+	};
+
+	struct ISteamFriends_vtbl
+	{
+		const char* (__fastcall* GetPersonaName)(ISteamFriends*);
+		SteamAPICall_t(__fastcall* SetPersonaName)(ISteamFriends*, const char* pchPersonaName);
+		EPersonaState(__fastcall* GetPersonaState)(ISteamFriends*);
+		int(__fastcall* GetFriendCount)(ISteamFriends*, int iFriendFlags);
+		steam_id*(__fastcall* GetFriendByIndex)(ISteamFriends*, steam_id*, int iFriend, int iFriendFlags);
+		EFriendRelationship(__fastcall* GetFriendRelationship)(ISteamFriends*, steam_id steamIDFriend);
+		EPersonaState(__fastcall* GetFriendPersonaState)(ISteamFriends*, steam_id steamIDFriend);
+		const char* (__fastcall* GetFriendPersonaName)(ISteamFriends*, steam_id steamIDFriend);
+		bool(__fastcall* GetFriendGamePlayed)(ISteamFriends*);
+		const char* (__fastcall* GetFriendPersonaNameHistory)(ISteamFriends*, steam_id steamIDFriend, int iPersonaName);
+		int(__fastcall* GetFriendSteamLevel)(ISteamFriends*, steam_id steamIDFriend);
+		const char* (__fastcall* GetPlayerNickname)(ISteamFriends*, steam_id steamIDPlayer);
+		int(__fastcall* GetFriendsGroupCount)(ISteamFriends*);
+		FriendsGroupID_t(__fastcall* GetFriendsGroupIDByIndex)(ISteamFriends*, int iFG);
+		const char* (__fastcall* GetFriendsGroupName)(ISteamFriends*, FriendsGroupID_t friendsGroupID);
+		int(__fastcall* GetFriendsGroupMembersCount)(ISteamFriends*, FriendsGroupID_t friendsGroupID);
+		void(__fastcall* GetFriendsGroupMembersList)(ISteamFriends*, FriendsGroupID_t friendsGroupID, steam_id* pOutSteamIDMembers, int nMembersCount);
+		bool(__fastcall* HasFriend)(ISteamFriends*, steam_id steamIDFriend, int iFriendFlags);
+		int(__fastcall* GetClanCount)(ISteamFriends*);
+		steam_id*(__fastcall* GetClanByIndex)(ISteamFriends*, steam_id*, int iClan);
+		const char* (__fastcall* GetClanName)(ISteamFriends*, steam_id steamIDClan);
+		const char* (__fastcall* GetClanTag)(ISteamFriends*, steam_id steamIDClan);
+		bool(__fastcall* GetClanActivityCounts)(ISteamFriends*, steam_id steamIDClan, int* pnOnline, int* pnInGame, int* pnChatting);
+		SteamAPICall_t(__fastcall* DownloadClanActivityCounts)(ISteamFriends*, steam_id* psteamIDClans, int cClansToRequest);
+		int(__fastcall* GetFriendCountFromSource)(ISteamFriends*, steam_id steamIDSource);
+		steam_id*(__fastcall* GetFriendFromSourceByIndex)(ISteamFriends*, steam_id*, steam_id steamIDSource, int iFriend);
+		bool(__fastcall* IsUserInSource)(ISteamFriends*, steam_id steamIDUser, steam_id steamIDSource);
+		void(__fastcall* SetInGameVoiceSpeaking)(ISteamFriends*, steam_id steamIDUser, bool bSpeaking);
+		void(__fastcall* ActivateGameOverlay)(ISteamFriends*, const char* pchDialog);
+		void(__fastcall* ActivateGameOverlayToUser)(ISteamFriends*, const char* pchDialog, steam_id steamID);
+		void(__fastcall* ActivateGameOverlayToWebPage)(ISteamFriends*, const char* pchURL);
+		void(__fastcall* ActivateGameOverlayToStore)(ISteamFriends*, AppId_t nAppID, EOverlayToStoreFlag eFlag);
+		void(__fastcall* SetPlayedWith)(ISteamFriends*, steam_id steamIDUserPlayedWith);
+		void(__fastcall* ActivateGameOverlayInviteDialog)(ISteamFriends*, steam_id steamIDLobby);
+		int(__fastcall* GetSmallFriendAvatar)(ISteamFriends*, steam_id steamIDFriend);
+		int(__fastcall* GetMediumFriendAvatar)(ISteamFriends*, steam_id steamIDFriend);
+		int(__fastcall* GetLargeFriendAvatar)(ISteamFriends*, steam_id steamIDFriend);
+		bool(__fastcall* RequestUserInformation)(ISteamFriends*, steam_id steamIDUser, bool bRequireNameOnly);
+		SteamAPICall_t(__fastcall* RequestClanOfficerList)(ISteamFriends*, steam_id steamIDClan);
+		steam_id*(__fastcall* GetClanOwner)(ISteamFriends*, steam_id*, steam_id steamIDClan);
+		int(__fastcall* GetClanOfficerCount)(ISteamFriends*, steam_id steamIDClan);
+		steam_id*(__fastcall* GetClanOfficerByIndex)(ISteamFriends*, steam_id*, steam_id steamIDClan, int iOfficer);
+		uint32(__fastcall* GetUserRestrictions)(ISteamFriends*);
+		bool(__fastcall* SetRichPresence)(ISteamFriends*, const char* pchKey, const char* pchValue);
+		void(__fastcall* ClearRichPresence)(ISteamFriends*);
+		const char* (__fastcall* GetFriendRichPresence)(ISteamFriends*, steam_id steamIDFriend, const char* pchKey);
+		int(__fastcall* GetFriendRichPresenceKeyCount)(ISteamFriends*, steam_id steamIDFriend);
+		const char* (__fastcall* GetFriendRichPresenceKeyByIndex)(ISteamFriends*, steam_id steamIDFriend, int iKey);
+		void(__fastcall* RequestFriendRichPresence)(ISteamFriends*, steam_id steamIDFriend);
+		bool(__fastcall* InviteUserToGame)(ISteamFriends*, steam_id steamIDFriend, const char* pchConnectString);
+		int(__fastcall* GetCoplayFriendCount)(ISteamFriends*);
+		steam_id*(__fastcall* GetCoplayFriend)(ISteamFriends*, steam_id*, int iCoplayFriend);
+		int(__fastcall* GetFriendCoplayTime)(ISteamFriends*, steam_id steamIDFriend);
+		AppId_t(__fastcall* GetFriendCoplayGame)(ISteamFriends*, steam_id steamIDFriend);
+		SteamAPICall_t(__fastcall* JoinClanChatRoom)(ISteamFriends*, steam_id steamIDClan);
+		bool(__fastcall* LeaveClanChatRoom)(ISteamFriends*, steam_id steamIDClan);
+		int(__fastcall* GetClanChatMemberCount)(ISteamFriends*, steam_id steamIDClan);
+		steam_id*(__fastcall* GetChatMemberByIndex)(ISteamFriends*, steam_id*, steam_id steamIDClan, int iUser);
+		bool(__fastcall* SendClanChatMessage)(ISteamFriends*, steam_id steamIDClanChat, const char* pchText);
+		int(__fastcall* GetClanChatMessage)(ISteamFriends*);
+		bool(__fastcall* IsClanChatAdmin)(ISteamFriends*, steam_id steamIDClanChat, steam_id steamIDUser);
+		bool(__fastcall* IsClanChatWindowOpenInSteam)(ISteamFriends*, steam_id steamIDClanChat);
+		bool(__fastcall* OpenClanChatWindowInSteam)(ISteamFriends*, steam_id steamIDClanChat);
+		bool(__fastcall* CloseClanChatWindowInSteam)(ISteamFriends*, steam_id steamIDClanChat);
+		bool(__fastcall* SetListenForFriendsMessages)(ISteamFriends*, bool bInterceptEnabled);
+		bool(__fastcall* ReplyToFriendMessage)(ISteamFriends*, steam_id steamIDFriend, const char* pchMsgToSend);
+		int(__fastcall* GetFriendMessage)(ISteamFriends*, steam_id steamIDFriend, int iMessageID, void* pvData, int cubData, EChatEntryType* peChatEntryType);
+		SteamAPICall_t(__fastcall* GetFollowerCount)(ISteamFriends*, steam_id steamID);
+		SteamAPICall_t(__fastcall* IsFollowing)(ISteamFriends*, steam_id steamID);
+		SteamAPICall_t(__fastcall* EnumerateFollowingList)(ISteamFriends*, uint32 unStartIndex);
+	};
+
+	struct ISteamFriends
+	{
+		ISteamFriends_vtbl* __vftable;
+	};
+
+	struct ISteamGameCoordinator_vtbl
+	{
+		EGCResults(__fastcall* SendMessage1)(ISteamGameCoordinator*, uint32 unMsgType, const void* pubData, uint32 cubData);
+		bool(__fastcall* IsMessageAvailable)(ISteamGameCoordinator*, uint32* pcubMsgSize);
+		EGCResults(__fastcall* RetrieveMessage)(ISteamGameCoordinator*, uint32* punMsgType, void* pubDest, uint32 cubDest, uint32* pcubMsgSize);
+	};
+
+	struct ISteamGameCoordinator
+	{
+		ISteamGameCoordinator_vtbl* __vftable;
+	};
+
+	struct ISteamGameServer_vtbl
+	{
+		bool(__fastcall* InitGameServer)(ISteamGameServer*, uint32 unIP, uint16 usGamePort, uint16 usQueryPort, uint32 unFlags, AppId_t nGameAppId, const char* pchVersionString);
+		void(__fastcall* SetProduct)(ISteamGameServer*, const char* pszProduct);
+		void(__fastcall* SetGameDescription)(ISteamGameServer*, const char* pszGameDescription);
+		void(__fastcall* SetModDir)(ISteamGameServer*, const char* pszModDir);
+		void(__fastcall* SetDedicatedServer)(ISteamGameServer*, bool bDedicated);
+		void(__fastcall* LogOn)(ISteamGameServer*, const char* pszToken);
+		void(__fastcall* LogOnAnonymous)(ISteamGameServer*);
+		void(__fastcall* LogOff)(ISteamGameServer*);
+		bool(__fastcall* BLoggedOn)(ISteamGameServer*);
+		bool(__fastcall* BSecure)(ISteamGameServer*);
+		steam_id*(__fastcall* GetSteamID)(ISteamGameServer*, steam_id*);
+		bool(__fastcall* WasRestartRequested)(ISteamGameServer*);
+		void(__fastcall* SetMaxPlayerCount)(ISteamGameServer*, int cPlayersMax);
+		void(__fastcall* SetBotPlayerCount)(ISteamGameServer*, int cBotplayers);
+		void(__fastcall* SetServerName)(ISteamGameServer*, const char* pszServerName);
+		void(__fastcall* SetMapName)(ISteamGameServer*, const char* pszMapName);
+		void(__fastcall* SetPasswordProtected)(ISteamGameServer*, bool bPasswordProtected);
+		void(__fastcall* SetSpectatorPort)(ISteamGameServer*, uint16 unSpectatorPort);
+		void(__fastcall* SetSpectatorServerName)(ISteamGameServer*, const char* pszSpectatorServerName);
+		void(__fastcall* ClearAllKeyValues)(ISteamGameServer*);
+		void(__fastcall* SetKeyValue)(ISteamGameServer*, const char* pKey, const char* pValue);
+		void(__fastcall* SetGameTags)(ISteamGameServer*, const char* pchGameTags);
+		void(__fastcall* SetGameData)(ISteamGameServer*, const char* pchGameData);
+		void(__fastcall* SetRegion)(ISteamGameServer*, const char* pszRegion);
+		bool(__fastcall* SendUserConnectAndAuthenticate)(ISteamGameServer*, uint32 unIPClient, const void* pvAuthBlob, uint32 cubAuthBlobSize, steam_id* pSteamIDUser);
+		void(__fastcall* CreateUnauthenticatedUserConnection)(ISteamGameServer*, steam_id*);
+		void(__fastcall* SendUserDisconnect)(ISteamGameServer*, steam_id steamIDUser);
+		bool(__fastcall* BUpdateUserData)(ISteamGameServer*, steam_id steamIDUser, const char* pchPlayerName, uint32 uScore);
+		HAuthTicket(__fastcall* GetAuthSessionTicket)(ISteamGameServer*, void* pTicket, int cbMaxTicket, uint32* pcbTicket);
+		EBeginAuthSessionResult(__fastcall* BeginAuthSession)(ISteamGameServer*, const void* pAuthTicket, int cbAuthTicket, steam_id steamID);
+		void(__fastcall* EndAuthSession)(ISteamGameServer*, steam_id steamID);
+		void(__fastcall* CancelAuthTicket)(ISteamGameServer*, HAuthTicket hAuthTicket);
+		EUserHasLicenseForAppResult(__fastcall* UserHasLicenseForApp)(ISteamGameServer*, steam_id steamID, AppId_t appID);
+		bool(__fastcall* RequestUserGroupStatus)(ISteamGameServer*, steam_id steamIDUser, steam_id steamIDGroup);
+		void(__fastcall* GetGameplayStats)(ISteamGameServer*);
+		SteamAPICall_t(__fastcall* GetServerReputation)(ISteamGameServer*);
+		uint32(__fastcall* GetPublicIP)(ISteamGameServer*);
+		bool(__fastcall* HandleIncomingPacket)(ISteamGameServer*, const void* pData, int cbData, uint32 srcIP, uint16 srcPort);
+		int(__fastcall* GetNextOutgoingPacket)(ISteamGameServer*, void* pOut, int cbMaxOut, uint32* pNetAdr, uint16* pPort);
+		void(__fastcall* EnableHeartbeats)(ISteamGameServer*, bool bActive);
+		void(__fastcall* SetHeartbeatInterval)(ISteamGameServer*, int iHeartbeatInterval);
+		void(__fastcall* ForceHeartbeat)(ISteamGameServer*);
+		SteamAPICall_t(__fastcall* AssociateWithClan)(ISteamGameServer*, steam_id steamIDClan);
+		SteamAPICall_t(__fastcall* ComputeNewPlayerCompatibility)(ISteamGameServer*, steam_id steamIDNewPlayer);
+	};
+
+	struct ISteamGameServer
+	{
+		ISteamGameServer_vtbl* __vftable;
+	};
+
+	struct ISteamGameServerStats_vtbl
+	{
+		SteamAPICall_t(__fastcall* RequestUserStats)(ISteamGameServerStats*, steam_id steamIDUser);
+		bool(__fastcall* GetUserStat1)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, int32* pData);
+		bool(__fastcall* GetUserStat2)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, float* pData);
+		bool(__fastcall* GetUserAchievement)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, bool* pbAchieved);
+		bool(__fastcall* SetUserStat1)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, int32 nData);
+		bool(__fastcall* SetUserStat2)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, float fData);
+		bool(__fastcall* UpdateUserAvgRateStat)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName, float flCountThisSession, double dSessionLength);
+		bool(__fastcall* SetUserAchievement)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName);
+		bool(__fastcall* ClearUserAchievement)(ISteamGameServerStats*, steam_id steamIDUser, const char* pchName);
+		SteamAPICall_t(__fastcall* StoreUserStats)(ISteamGameServerStats*, steam_id steamIDUser);
+	};
+
+	struct ISteamGameServerStats
+	{
+		ISteamGameServerStats_vtbl* __vftable;
+	};
+
+	struct ISteamHTMLSurface_vtbl
+	{
+		bool(__fastcall* Init)(ISteamHTMLSurface*);
+		bool(__fastcall* Shutdown)(ISteamHTMLSurface*);
+		SteamAPICall_t(__fastcall* CreateBrowser)(ISteamHTMLSurface*, const char* pchUserAgent, const char* pchUserCSS);
+		void(__fastcall* RemoveBrowser)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* LoadURL)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, const char* pchURL, const char* pchPostData);
+		void(__fastcall* SetSize)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 unWidth, uint32 unHeight);
+		void(__fastcall* StopLoad)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* Reload)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* GoBack)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* GoForward)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* AddHeader)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, const char* pchKey, const char* pchValue);
+		void(__fastcall* ExecuteJavascript)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, const char* pchScript);
+		void(__fastcall* MouseUp)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton);
+		void(__fastcall* MouseDown)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton);
+		void(__fastcall* MouseDoubleClick)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, EHTMLMouseButton eMouseButton);
+		void(__fastcall* MouseMove)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, int x, int y);
+		void(__fastcall* MouseWheel)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, int32 nDelta);
+		void(__fastcall* KeyDown)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers);
+		void(__fastcall* KeyUp)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 nNativeKeyCode, EHTMLKeyModifiers eHTMLKeyModifiers);
+		void(__fastcall* KeyChar)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 cUnicodeChar, EHTMLKeyModifiers eHTMLKeyModifiers);
+		void(__fastcall* SetHorizontalScroll)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 nAbsolutePixelScroll);
+		void(__fastcall* SetVerticalScroll)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, uint32 nAbsolutePixelScroll);
+		void(__fastcall* SetKeyFocus)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, bool bHasKeyFocus);
+		void(__fastcall* ViewSource)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* CopyToClipboard)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* PasteFromClipboard)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* Find)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, const char* pchSearchStr, bool bCurrentlyInFind, bool bReverse);
+		void(__fastcall* StopFind)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle);
+		void(__fastcall* GetLinkAtPosition)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, int x, int y);
+		void(__fastcall* SetCookie)(ISteamHTMLSurface*, const char* pchHostname, const char* pchKey, const char* pchValue, const char* pchPath, RTime32 nExpires, bool bSecure, bool bHTTPOnly);
+		void(__fastcall* SetPageScaleFactor)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, float flZoom, int nPointX, int nPointY);
+		void(__fastcall* SetBackgroundMode)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, bool bBackgroundMode);
+		void(__fastcall* AllowStartRequest)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, bool bAllowed);
+		void(__fastcall* JSDialogResponse)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, bool bResult);
+		void(__fastcall* FileLoadDialogResponse)(ISteamHTMLSurface*, HHTMLBrowser unBrowserHandle, const char** pchSelectedFiles);
+	};
+
+	struct ISteamHTMLSurface
+	{
+		ISteamHTMLSurface_vtbl* __vftable;
+	};
+
+	struct ISteamHTTP_vtbl
+	{
+		HTTPRequestHandle(__fastcall* CreateHTTPRequest)(ISteamHTTP*, EHTTPMethod eHTTPRequestMethod, const char* pchAbsoluteURL);
+		bool(__fastcall* SetHTTPRequestContextValue)(ISteamHTTP*, HTTPRequestHandle hRequest, uint64 ulContextValue);
+		bool(__fastcall* SetHTTPRequestNetworkActivityTimeout)(ISteamHTTP*, HTTPRequestHandle hRequest, uint32 unTimeoutSeconds);
+		bool(__fastcall* SetHTTPRequestHeaderValue)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchHeaderName, const char* pchHeaderValue);
+		bool(__fastcall* SetHTTPRequestGetOrPostParameter)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchParamName, const char* pchParamValue);
+		bool(__fastcall* SendHTTPRequest)(ISteamHTTP*, HTTPRequestHandle hRequest, SteamAPICall_t* pCallHandle);
+		bool(__fastcall* SendHTTPRequestAndStreamResponse)(ISteamHTTP*, HTTPRequestHandle hRequest, SteamAPICall_t* pCallHandle);
+		bool(__fastcall* DeferHTTPRequest)(ISteamHTTP*, HTTPRequestHandle hRequest);
+		bool(__fastcall* PrioritizeHTTPRequest)(ISteamHTTP*, HTTPRequestHandle hRequest);
+		bool(__fastcall* GetHTTPResponseHeaderSize)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchHeaderName, uint32* unResponseHeaderSize);
+		bool(__fastcall* GetHTTPResponseHeaderValue)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchHeaderName, uint8* pHeaderValueBuffer, uint32 unBufferSize);
+		bool(__fastcall* GetHTTPResponseBodySize)(ISteamHTTP*, HTTPRequestHandle hRequest, uint32* unBodySize);
+		bool(__fastcall* GetHTTPResponseBodyData)(ISteamHTTP*, HTTPRequestHandle hRequest, uint8* pBodyDataBuffer, uint32 unBufferSize);
+		bool(__fastcall* GetHTTPStreamingResponseBodyData)(ISteamHTTP*, HTTPRequestHandle hRequest, uint32 cOffset, uint8* pBodyDataBuffer, uint32 unBufferSize);
+		bool(__fastcall* ReleaseHTTPRequest)(ISteamHTTP*, HTTPRequestHandle hRequest);
+		bool(__fastcall* GetHTTPDownloadProgressPct)(ISteamHTTP*, HTTPRequestHandle hRequest, float* pflPercentOut);
+		bool(__fastcall* SetHTTPRequestRawPostBody)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchContentType, uint8* pubBody, uint32 unBodyLen);
+		HTTPCookieContainerHandle(__fastcall* CreateCookieContainer)(ISteamHTTP*, bool bAllowResponsesToModify);
+		bool(__fastcall* ReleaseCookieContainer)(ISteamHTTP*, HTTPCookieContainerHandle hCookieContainer);
+		bool(__fastcall* SetCookie)(ISteamHTTP*, HTTPCookieContainerHandle hCookieContainer, const char* pchHost, const char* pchUrl, const char* pchCookie);
+		bool(__fastcall* SetHTTPRequestCookieContainer)(ISteamHTTP*, HTTPRequestHandle hRequest, HTTPCookieContainerHandle hCookieContainer);
+		bool(__fastcall* SetHTTPRequestUserAgentInfo)(ISteamHTTP*, HTTPRequestHandle hRequest, const char* pchUserAgentInfo);
+		bool(__fastcall* SetHTTPRequestRequiresVerifiedCertificate)(ISteamHTTP*, HTTPRequestHandle hRequest, bool bRequireVerifiedCertificate);
+		bool(__fastcall* SetHTTPRequestAbsoluteTimeoutMS)(ISteamHTTP*, HTTPRequestHandle hRequest, uint32 unMilliseconds);
+		bool(__fastcall* GetHTTPRequestWasTimedOut)(ISteamHTTP*, HTTPRequestHandle hRequest, bool* pbWasTimedOut);
+	};
+
+	struct ISteamHTTP
+	{
+		ISteamHTTP_vtbl* __vftable;
+	};
+
+	struct ISteamInventory_vtbl
+	{
+		EResult(__fastcall* GetResultStatus)(ISteamInventory*, SteamInventoryResult_t resultHandle);
+		uint32(__fastcall* GetResultTimestamp)(ISteamInventory*, SteamInventoryResult_t resultHandle);
+		bool(__fastcall* CheckResultSteamID)(ISteamInventory*, SteamInventoryResult_t resultHandle, steam_id steamIDExpected);
+		void(__fastcall* DestroyResult)(ISteamInventory*, SteamInventoryResult_t resultHandle);
+		bool(__fastcall* GetAllItems)(ISteamInventory*, SteamInventoryResult_t* pResultHandle);
+		bool(__fastcall* GetItemsByID)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, const SteamItemInstanceID_t* pInstanceIDs, uint32 unCountInstanceIDs);
+		bool(__fastcall* SerializeResult)(ISteamInventory*, SteamInventoryResult_t resultHandle, void* pOutBuffer, uint32* punOutBufferSize);
+		bool(__fastcall* DeserializeResult)(ISteamInventory*, SteamInventoryResult_t* pOutResultHandle, const void* pBuffer, uint32 unBufferSize, bool bRESERVED_MUST_BE_FALSE);
+		bool(__fastcall* GenerateItems)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, const SteamItemDef_t* pArrayItemDefs, const uint32* punArrayQuantity, uint32 unArrayLength);
+		bool(__fastcall* GrantPromoItems)(ISteamInventory*, SteamInventoryResult_t* pResultHandle);
+		bool(__fastcall* AddPromoItem)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, SteamItemDef_t itemDef);
+		bool(__fastcall* AddPromoItems)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, const SteamItemDef_t* pArrayItemDefs, uint32 unArrayLength);
+		bool(__fastcall* ConsumeItem)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, SteamItemInstanceID_t itemConsume, uint32 unQuantity);
+		bool(__fastcall* TransferItemQuantity)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, SteamItemInstanceID_t itemIdSource, uint32 unQuantity, SteamItemInstanceID_t itemIdDest);
+		void(__fastcall* SendItemDropHeartbeat)(ISteamInventory*);
+		bool(__fastcall* TriggerItemDrop)(ISteamInventory*, SteamInventoryResult_t* pResultHandle, SteamItemDef_t dropListDefinition);
+		bool(__fastcall* LoadItemDefinitions)(ISteamInventory*);
+	};
+
+	struct ISteamInventory
+	{
+		ISteamInventory_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmaking_vtbl
+	{
+		int(__fastcall* GetFavoriteGameCount)(ISteamMatchmaking*);
+		bool(__fastcall* GetFavoriteGame)(ISteamMatchmaking*, int iGame, AppId_t* pnAppID, uint32* pnIP, uint16* pnConnPort, uint16* pnQueryPort, uint32* punFlags, uint32* pRTime32LastPlayedOnServer);
+		int(__fastcall* AddFavoriteGame)(ISteamMatchmaking*, AppId_t nAppID, uint32 nIP, uint16 nConnPort, uint16 nQueryPort, uint32 unFlags, uint32 rTime32LastPlayedOnServer);
+		bool(__fastcall* RemoveFavoriteGame)(ISteamMatchmaking*, AppId_t nAppID, uint32 nIP, uint16 nConnPort, uint16 nQueryPort, uint32 unFlags);
+		SteamAPICall_t(__fastcall* RequestLobbyList)(ISteamMatchmaking*);
+		void(__fastcall* AddRequestLobbyListStringFilter)(ISteamMatchmaking*, const char* pchKeyToMatch, const char* pchValueToMatch, ELobbyComparison eComparisonType);
+		void(__fastcall* AddRequestLobbyListNumericalFilter)(ISteamMatchmaking*, const char* pchKeyToMatch, int nValueToMatch, ELobbyComparison eComparisonType);
+		void(__fastcall* AddRequestLobbyListNearValueFilter)(ISteamMatchmaking*, const char* pchKeyToMatch, int nValueToBeCloseTo);
+		void(__fastcall* AddRequestLobbyListFilterSlotsAvailable)(ISteamMatchmaking*, int nSlotsAvailable);
+		void(__fastcall* AddRequestLobbyListDistanceFilter)(ISteamMatchmaking*, ELobbyDistanceFilter eLobbyDistanceFilter);
+		void(__fastcall* AddRequestLobbyListResultCountFilter)(ISteamMatchmaking*, int cMaxResults);
+		void(__fastcall* AddRequestLobbyListCompatibleMembersFilter)(ISteamMatchmaking*, steam_id steamIDLobby);
+		steam_id(__fastcall* GetLobbyByIndex)(ISteamMatchmaking*, steam_id*, int iLobby);
+		SteamAPICall_t(__fastcall* CreateLobby)(ISteamMatchmaking*, ELobbyType eLobbyType, int cMaxMembers);
+		SteamAPICall_t(__fastcall* JoinLobby)(ISteamMatchmaking*, steam_id steamIDLobby);
+		void(__fastcall* LeaveLobby)(ISteamMatchmaking*, steam_id steamIDLobby);
+		bool(__fastcall* InviteUserToLobby)(ISteamMatchmaking*, steam_id steamIDLobby, steam_id steamIDInvitee);
+		int(__fastcall* GetNumLobbyMembers)(ISteamMatchmaking*, steam_id steamIDLobby);
+		steam_id*(__fastcall* GetLobbyMemberByIndex)(ISteamMatchmaking*, steam_id*, steam_id steamIDLobby, int iMember);
+		const char* (__fastcall* GetLobbyData)(ISteamMatchmaking*, steam_id steamIDLobby, const char* pchKey);
+		bool(__fastcall* SetLobbyData)(ISteamMatchmaking*, steam_id steamIDLobby, const char* pchKey, const char* pchValue);
+		int(__fastcall* GetLobbyDataCount)(ISteamMatchmaking*, steam_id steamIDLobby);
+		bool(__fastcall* GetLobbyDataByIndex)(ISteamMatchmaking*, steam_id steamIDLobby, int iLobbyData, char* pchKey, int cchKeyBufferSize, char* pchValue, int cchValueBufferSize);
+		bool(__fastcall* DeleteLobbyData)(ISteamMatchmaking*, steam_id steamIDLobby, const char* pchKey);
+		const char* (__fastcall* GetLobbyMemberData)(ISteamMatchmaking*, steam_id steamIDLobby, steam_id steamIDUser, const char* pchKey);
+		void(__fastcall* SetLobbyMemberData)(ISteamMatchmaking*, steam_id steamIDLobby, const char* pchKey, const char* pchValue);
+		bool(__fastcall* SendLobbyChatMsg)(ISteamMatchmaking*, steam_id steamIDLobby, const void* pvMsgBody, int cubMsgBody);
+		int(__fastcall* GetLobbyChatEntry)(ISteamMatchmaking*);
+		bool(__fastcall* RequestLobbyData)(ISteamMatchmaking*, steam_id steamIDLobby);
+		void(__fastcall* SetLobbyGameServer)(ISteamMatchmaking*, steam_id steamIDLobby, uint32 unGameServerIP, uint16 unGameServerPort, steam_id steamIDGameServer);
+		bool(__fastcall* GetLobbyGameServer)(ISteamMatchmaking*);
+		bool(__fastcall* SetLobbyMemberLimit)(ISteamMatchmaking*, steam_id steamIDLobby, int cMaxMembers);
+		int(__fastcall* GetLobbyMemberLimit)(ISteamMatchmaking*, steam_id steamIDLobby);
+		bool(__fastcall* SetLobbyType)(ISteamMatchmaking*, steam_id steamIDLobby, ELobbyType eLobbyType);
+		bool(__fastcall* SetLobbyJoinable)(ISteamMatchmaking*, steam_id steamIDLobby, bool bLobbyJoinable);
+		steam_id*(__fastcall* GetLobbyOwner)(ISteamMatchmaking*, steam_id*, steam_id steamIDLobby);
+		bool(__fastcall* SetLobbyOwner)(ISteamMatchmaking*, steam_id steamIDLobby, steam_id steamIDNewOwner);
+		bool(__fastcall* SetLinkedLobby)(ISteamMatchmaking*, steam_id steamIDLobby, steam_id steamIDLobbyDependent);
+		void(__fastcall* CheckForPSNGameBootInvite)(ISteamMatchmaking*, unsigned int iGameBootAttributes);
 	};
 
 	struct ISteamMatchmaking
 	{
-		ISteamMatchmaking_vtbl* __vftable /*VFT*/;
+		ISteamMatchmaking_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmakingServerListResponse_vtbl
+	{
+		void(__fastcall* ServerResponded)(ISteamMatchmakingServerListResponse*, HServerListRequest hRequest, int iServer);
+		void(__fastcall* ServerFailedToRespond)(ISteamMatchmakingServerListResponse*, HServerListRequest hRequest, int iServer);
+		void(__fastcall* RefreshComplete)(ISteamMatchmakingServerListResponse*, HServerListRequest hRequest, EMatchMakingServerResponse response);
+	};
+
+	struct ISteamMatchmakingServerListResponse
+	{
+		ISteamMatchmakingServerListResponse_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmakingPingResponse_vtbl
+	{
+		void(__fastcall* ServerResponded)(ISteamMatchmakingPingResponse*, gameserveritem_t& server);
+		void(__fastcall* ServerFailedToRespond)(ISteamMatchmakingPingResponse*);
+	};
+
+	struct ISteamMatchmakingPingResponse
+	{
+		ISteamMatchmakingPingResponse_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmakingPlayersResponse_vtbl
+	{
+		void(__fastcall* AddPlayerToList)(ISteamMatchmakingPlayersResponse*, const char* pchName, int nScore, float flTimePlayed);
+		void(__fastcall* PlayersFailedToRespond)(ISteamMatchmakingPlayersResponse*);
+		void(__fastcall* PlayersRefreshComplete)(ISteamMatchmakingPlayersResponse*);
+	};
+
+	struct ISteamMatchmakingPlayersResponse
+	{
+		ISteamMatchmakingPlayersResponse_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmakingRulesResponse_vtbl
+	{
+		void(__fastcall* RulesResponded)(ISteamMatchmakingRulesResponse*, const char* pchRule, const char* pchValue);
+		void(__fastcall* RulesFailedToRespond)(ISteamMatchmakingRulesResponse*);
+		void(__fastcall* RulesRefreshComplete)(ISteamMatchmakingRulesResponse*);
+	};
+
+	struct ISteamMatchmakingRulesResponse
+	{
+		ISteamMatchmakingRulesResponse_vtbl* __vftable;
+	};
+
+	struct ISteamMatchmakingServers_vtbl
+	{
+		HServerListRequest(__fastcall* RequestInternetServerList)(ISteamMatchmakingServers*, AppId_t iApp, MatchMakingKeyValuePair_t** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		HServerListRequest(__fastcall* RequestLANServerList)(ISteamMatchmakingServers*, AppId_t iApp, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		HServerListRequest(__fastcall* RequestFriendsServerList)(ISteamMatchmakingServers*, AppId_t iApp, MatchMakingKeyValuePair_t** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		HServerListRequest(__fastcall* RequestFavoritesServerList)(ISteamMatchmakingServers*, AppId_t iApp, MatchMakingKeyValuePair_t** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		HServerListRequest(__fastcall* RequestHistoryServerList)(ISteamMatchmakingServers*, AppId_t iApp, MatchMakingKeyValuePair_t** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		HServerListRequest(__fastcall* RequestSpectatorServerList)(ISteamMatchmakingServers*, AppId_t iApp, MatchMakingKeyValuePair_t** ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse* pRequestServersResponse);
+		void(__fastcall* ReleaseRequest)(ISteamMatchmakingServers*, HServerListRequest hServerListRequest);
+		gameserveritem_t* (__fastcall* GetServerDetails)(ISteamMatchmakingServers*, HServerListRequest hRequest, int iServer);
+		void(__fastcall* CancelQuery)(ISteamMatchmakingServers*, HServerListRequest hRequest);
+		void(__fastcall* RefreshQuery)(ISteamMatchmakingServers*, HServerListRequest hRequest);
+		bool(__fastcall* IsRefreshing)(ISteamMatchmakingServers*, HServerListRequest hRequest);
+		int(__fastcall* GetServerCount)(ISteamMatchmakingServers*, HServerListRequest hRequest);
+		void(__fastcall* RefreshServer)(ISteamMatchmakingServers*, HServerListRequest hRequest, int iServer);
+		HServerQuery(__fastcall* PingServer)(ISteamMatchmakingServers*, uint32 unIP, uint16 usPort, ISteamMatchmakingPingResponse* pRequestServersResponse);
+		HServerQuery(__fastcall* PlayerDetails)(ISteamMatchmakingServers*, uint32 unIP, uint16 usPort, ISteamMatchmakingPlayersResponse* pRequestServersResponse);
+		HServerQuery(__fastcall* ServerRules)(ISteamMatchmakingServers*, uint32 unIP, uint16 usPort, ISteamMatchmakingRulesResponse* pRequestServersResponse);
+		void(__fastcall* CancelServerQuery)(ISteamMatchmakingServers*, HServerQuery hServerQuery);
+	};
+
+	struct ISteamMatchmakingServers
+	{
+		ISteamMatchmakingServers_vtbl* __vftable;
+	};
+
+	struct ISteamMusic_vtbl
+	{
+		bool(__fastcall* BIsEnabled)(ISteamMusic*);
+		bool(__fastcall* BIsPlaying)(ISteamMusic*);
+		AudioPlayback_Status(__fastcall* GetPlaybackStatus)(ISteamMusic*);
+		void(__fastcall* Play)(ISteamMusic*);
+		void(__fastcall* Pause)(ISteamMusic*);
+		void(__fastcall* PlayPrevious)(ISteamMusic*);
+		void(__fastcall* PlayNext)(ISteamMusic*);
+		void(__fastcall* SetVolume)(ISteamMusic*, float flVolume);
+		float(__fastcall* GetVolume)(ISteamMusic*);
+	};
+
+	struct ISteamMusic
+	{
+		ISteamMusic_vtbl* __vftable;
+	};
+
+	struct ISteamMusicRemote_vtbl
+	{
+		bool(__fastcall* RegisterSteamMusicRemote)(ISteamMusicRemote*, const char* pchName);
+		bool(__fastcall* DeregisterSteamMusicRemote)(ISteamMusicRemote*);
+		bool(__fastcall* BIsCurrentMusicRemote)(ISteamMusicRemote*);
+		bool(__fastcall* BActivationSuccess)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* SetDisplayName)(ISteamMusicRemote*, const char* pchDisplayName);
+		bool(__fastcall* SetPNGIcon_64x64)(ISteamMusicRemote*, void* pvBuffer, uint32 cbBufferLength);
+		bool(__fastcall* EnablePlayPrevious)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* EnablePlayNext)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* EnableShuffled)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* EnableLooped)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* EnableQueue)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* EnablePlaylists)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* UpdatePlaybackStatus)(ISteamMusicRemote*, AudioPlayback_Status nStatus);
+		bool(__fastcall* UpdateShuffled)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* UpdateLooped)(ISteamMusicRemote*, bool bValue);
+		bool(__fastcall* UpdateVolume)(ISteamMusicRemote*, float flValue);
+		bool(__fastcall* CurrentEntryWillChange)(ISteamMusicRemote*);
+		bool(__fastcall* CurrentEntryIsAvailable)(ISteamMusicRemote*, bool bAvailable);
+		bool(__fastcall* UpdateCurrentEntryText)(ISteamMusicRemote*, const char* pchText);
+		bool(__fastcall* UpdateCurrentEntryElapsedSeconds)(ISteamMusicRemote*, int nValue);
+		bool(__fastcall* UpdateCurrentEntryCoverArt)(ISteamMusicRemote*, void* pvBuffer, uint32 cbBufferLength);
+		bool(__fastcall* CurrentEntryDidChange)(ISteamMusicRemote*);
+		bool(__fastcall* QueueWillChange)(ISteamMusicRemote*);
+		bool(__fastcall* ResetQueueEntries)(ISteamMusicRemote*);
+		bool(__fastcall* SetQueueEntry)(ISteamMusicRemote*, int nID, int nPosition, const char* pchEntryText);
+		bool(__fastcall* SetCurrentQueueEntry)(ISteamMusicRemote*, int nID);
+		bool(__fastcall* QueueDidChange)(ISteamMusicRemote*);
+		bool(__fastcall* PlaylistWillChange)(ISteamMusicRemote*);
+		bool(__fastcall* ResetPlaylistEntries)(ISteamMusicRemote*);
+		bool(__fastcall* SetPlaylistEntry)(ISteamMusicRemote*, int nID, int nPosition, const char* pchEntryText);
+		bool(__fastcall* SetCurrentPlaylistEntry)(ISteamMusicRemote*, int nID);
+		bool(__fastcall* PlaylistDidChange)(ISteamMusicRemote*);
+	};
+
+	struct ISteamMusicRemote
+	{
+		ISteamMusicRemote_vtbl* __vftable;
+	};
+
+	struct ISteamNetworking_vtbl
+	{
+		bool(__fastcall* SendP2PPacket)(ISteamNetworking*, steam_id steamIDRemote, const void* pubData, uint32 cubData, EP2PSend eP2PSendType, int nChannel);
+		bool(__fastcall* IsP2PPacketAvailable)(ISteamNetworking*, uint32* pcubMsgSize, int nChannel);
+		bool(__fastcall* ReadP2PPacket)(ISteamNetworking*, void* pubDest, uint32 cubDest, uint32* pcubMsgSize, steam_id* psteamIDRemote, int nChannel);
+		bool(__fastcall* AcceptP2PSessionWithUser)(ISteamNetworking*, steam_id steamIDRemote);
+		bool(__fastcall* CloseP2PSessionWithUser)(ISteamNetworking*, steam_id steamIDRemote);
+		bool(__fastcall* CloseP2PChannelWithUser)(ISteamNetworking*, steam_id steamIDRemote, int nChannel);
+		bool(__fastcall* GetP2PSessionState)(ISteamNetworking*, steam_id steamIDRemote, P2PSessionState_t* pConnectionState);
+		bool(__fastcall* AllowP2PPacketRelay)(ISteamNetworking*, bool bAllow);
+		SNetListenSocket_t(__fastcall* CreateListenSocket)(ISteamNetworking*, int nVirtualP2PPort, uint32 nIP, uint16 nPort, bool bAllowUseOfPacketRelay);
+		SNetSocket_t(__fastcall* CreateP2PConnectionSocket)(ISteamNetworking*, steam_id steamIDTarget, int nVirtualPort, int nTimeoutSec, bool bAllowUseOfPacketRelay);
+		SNetSocket_t(__fastcall* CreateConnectionSocket)(ISteamNetworking*, uint32 nIP, uint16 nPort, int nTimeoutSec);
+		bool(__fastcall* DestroySocket)(ISteamNetworking*, SNetSocket_t hSocket, bool bNotifyRemoteEnd);
+		bool(__fastcall* DestroyListenSocket)(ISteamNetworking*, SNetListenSocket_t hSocket, bool bNotifyRemoteEnd);
+		bool(__fastcall* SendDataOnSocket)(ISteamNetworking*, SNetSocket_t hSocket, void* pubData, uint32 cubData, bool bReliable);
+		bool(__fastcall* IsDataAvailableOnSocket)(ISteamNetworking*, SNetSocket_t hSocket, uint32* pcubMsgSize);
+		bool(__fastcall* RetrieveDataFromSocket)(ISteamNetworking*, SNetSocket_t hSocket, void* pubDest, uint32 cubDest, uint32* pcubMsgSize);
+		bool(__fastcall* IsDataAvailable)(ISteamNetworking*, SNetListenSocket_t hListenSocket, uint32* pcubMsgSize, SNetSocket_t* phSocket);
+		bool(__fastcall* RetrieveData)(ISteamNetworking*, SNetListenSocket_t hListenSocket, void* pubDest, uint32 cubDest, uint32* pcubMsgSize, SNetSocket_t* phSocket);
+		bool(__fastcall* GetSocketInfo)(ISteamNetworking*, SNetSocket_t hSocket, steam_id* pSteamIDRemote, int* peSocketStatus, uint32* punIPRemote, uint16* punPortRemote);
+		bool(__fastcall* GetListenSocketInfo)(ISteamNetworking*, SNetListenSocket_t hListenSocket, uint32* pnIP, uint16* pnPort);
+		ESNetSocketConnectionType(__fastcall* GetSocketConnectionType)(ISteamNetworking*, SNetSocket_t hSocket);
+		int(__fastcall* GetMaxPacketSize)(ISteamNetworking*, SNetSocket_t hSocket);
+	};
+
+	struct ISteamNetworking
+	{
+		ISteamNetworking_vtbl* __vftable;
+	};
+
+	struct ISteamPS3OverlayRenderHost_vtbl
+	{
+		void(__fastcall* DrawTexturedRect)(ISteamPS3OverlayRenderHost*, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1, int32 iTextureID, DWORD colorStart, DWORD colorEnd, EOverlayGradientDirection eDirection);
+		void(__fastcall* LoadOrUpdateTexture)(ISteamPS3OverlayRenderHost*, int32 iTextureID, bool bIsFullTexture, int x0, int y0, uint32 uWidth, uint32 uHeight, int32 iBytes, char* pData);
+		void(__fastcall* DeleteTexture)(ISteamPS3OverlayRenderHost*, int32 iTextureID);
+		void(__fastcall* DeleteAllTextures)(ISteamPS3OverlayRenderHost*);
+	};
+
+	struct ISteamPS3OverlayRenderHost
+	{
+		ISteamPS3OverlayRenderHost_vtbl* __vftable;
+	};
+
+	struct ISteamPS3OverlayRender_vtbl
+	{
+		bool(__fastcall* BHostInitialize)(ISteamPS3OverlayRender*, uint32 unScreenWidth, uint32 unScreenHeight, uint32 unRefreshRate, ISteamPS3OverlayRenderHost* pRenderHost, void* CellFontLib);
+		void(__fastcall* Render)(ISteamPS3OverlayRender*);
+		bool(__fastcall* BHandleCellPadData)(ISteamPS3OverlayRender*, const CellPadData& padData);
+		bool(__fastcall* BResetInputState)(ISteamPS3OverlayRender*);
+	};
+
+	struct ISteamPS3OverlayRender
+	{
+		ISteamPS3OverlayRender_vtbl* __vftable;
+	};
+
+	struct ISteamRemoteStorage_vtbl
+	{
+		bool(__fastcall* FileWrite)(ISteamRemoteStorage*, const char* pchFile, const void* pvData, int32 cubData);
+		int32(__fastcall* FileRead)(ISteamRemoteStorage*, const char* pchFile, void* pvData, int32 cubDataToRead);
+		SteamAPICall_t(__fastcall* FileWriteAsync)(ISteamRemoteStorage*, const char* pchFile, const void* pvData, uint32 cubData);
+		SteamAPICall_t(__fastcall* FileReadAsync)(ISteamRemoteStorage*, const char* pchFile, uint32 nOffset, uint32 cubToRead);
+		bool(__fastcall* FileReadAsyncComplete)(ISteamRemoteStorage*, SteamAPICall_t hReadCall, void* pvBuffer, uint32 cubToRead);
+		bool(__fastcall* FileForget)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* FileDelete)(ISteamRemoteStorage*, const char* pchFile);
+		SteamAPICall_t(__fastcall* FileShare)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* SetSyncPlatforms)(ISteamRemoteStorage*, const char* pchFile, ERemoteStoragePlatform eRemoteStoragePlatform);
+		UGCFileWriteStreamHandle_t(__fastcall* FileWriteStreamOpen)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* FileWriteStreamWriteChunk)(ISteamRemoteStorage*, UGCFileWriteStreamHandle_t writeHandle, const void* pvData, int32 cubData);
+		bool(__fastcall* FileWriteStreamClose)(ISteamRemoteStorage*, UGCFileWriteStreamHandle_t writeHandle);
+		bool(__fastcall* FileWriteStreamCancel)(ISteamRemoteStorage*, UGCFileWriteStreamHandle_t writeHandle);
+		bool(__fastcall* FileExists)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* FilePersisted)(ISteamRemoteStorage*, const char* pchFile);
+		int32(__fastcall* GetFileSize)(ISteamRemoteStorage*, const char* pchFile);
+		int64(__fastcall* GetFileTimestamp)(ISteamRemoteStorage*, const char* pchFile);
+		ERemoteStoragePlatform(__fastcall* GetSyncPlatforms)(ISteamRemoteStorage*, const char* pchFile);
+		int32(__fastcall* GetFileCount)(ISteamRemoteStorage*);
+		const char* (__fastcall* GetFileNameAndSize)(ISteamRemoteStorage*, int iFile, int32* pnFileSizeInBytes);
+		bool(__fastcall* GetQuota)(ISteamRemoteStorage*, int32* pnTotalBytes, int32* puAvailableBytes);
+		bool(__fastcall* IsCloudEnabledForAccount)(ISteamRemoteStorage*);
+		bool(__fastcall* IsCloudEnabledForApp)(ISteamRemoteStorage*);
+		void(__fastcall* SetCloudEnabledForApp)(ISteamRemoteStorage*, bool bEnabled);
+		SteamAPICall_t(__fastcall* UGCDownload)(ISteamRemoteStorage*, UGCHandle_t hContent, uint32 unPriority);
+		bool(__fastcall* GetUGCDownloadProgress)(ISteamRemoteStorage*, UGCHandle_t hContent, int32* pnBytesDownloaded, int32* pnBytesExpected);
+		bool(__fastcall* GetUGCDetails)(ISteamRemoteStorage*);
+		int32(__fastcall* UGCRead)(ISteamRemoteStorage*, UGCHandle_t hContent, void* pvData, int32 cubDataToRead, uint32 cOffset, EUGCReadAction eAction);
+		int32(__fastcall* GetCachedUGCCount)(ISteamRemoteStorage*);
+		UGCHandle_t(__fastcall* GetCachedUGCHandle)(ISteamRemoteStorage*, int32 iCachedContent);
+		void(__fastcall* GetFileListFromServer)(ISteamRemoteStorage*);
+		bool(__fastcall* FileFetch)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* FilePersist)(ISteamRemoteStorage*, const char* pchFile);
+		bool(__fastcall* SynchronizeToClient)(ISteamRemoteStorage*);
+		bool(__fastcall* SynchronizeToServer)(ISteamRemoteStorage*);
+		bool(__fastcall* ResetFileRequestState)(ISteamRemoteStorage*);
+		SteamAPICall_t(__fastcall* PublishWorkshopFile)(ISteamRemoteStorage*, const char* pchFile, const char* pchPreviewFile, AppId_t nConsumerAppId, const char* pchTitle, const char* pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, SteamParamStringArray_t* pTags, EWorkshopFileType eWorkshopFileType);
+		PublishedFileUpdateHandle_t(__fastcall* CreatePublishedFileUpdateRequest)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		bool(__fastcall* UpdatePublishedFileFile)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, const char* pchFile);
+		bool(__fastcall* UpdatePublishedFilePreviewFile)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, const char* pchPreviewFile);
+		bool(__fastcall* UpdatePublishedFileTitle)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, const char* pchTitle);
+		bool(__fastcall* UpdatePublishedFileDescription)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, const char* pchDescription);
+		bool(__fastcall* UpdatePublishedFileVisibility)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, ERemoteStoragePublishedFileVisibility eVisibility);
+		bool(__fastcall* UpdatePublishedFileTags)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, SteamParamStringArray_t* pTags);
+		SteamAPICall_t(__fastcall* CommitPublishedFileUpdate)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle);
+		SteamAPICall_t(__fastcall* GetPublishedFileDetails)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId, uint32 unMaxSecondsOld);
+		SteamAPICall_t(__fastcall* DeletePublishedFile)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		SteamAPICall_t(__fastcall* EnumerateUserPublishedFiles)(ISteamRemoteStorage*, uint32 unStartIndex);
+		SteamAPICall_t(__fastcall* SubscribePublishedFile)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		SteamAPICall_t(__fastcall* EnumerateUserSubscribedFiles)(ISteamRemoteStorage*, uint32 unStartIndex);
+		SteamAPICall_t(__fastcall* UnsubscribePublishedFile)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		bool(__fastcall* UpdatePublishedFileSetChangeDescription)(ISteamRemoteStorage*, PublishedFileUpdateHandle_t updateHandle, const char* pchChangeDescription);
+		SteamAPICall_t(__fastcall* GetPublishedItemVoteDetails)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		SteamAPICall_t(__fastcall* UpdateUserPublishedItemVote)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId, bool bVoteUp);
+		SteamAPICall_t(__fastcall* GetUserPublishedItemVoteDetails)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId);
+		SteamAPICall_t(__fastcall* EnumerateUserSharedWorkshopFiles)(ISteamRemoteStorage*, steam_id steamId, uint32 unStartIndex, SteamParamStringArray_t* pRequiredTags, SteamParamStringArray_t* pExcludedTags);
+		SteamAPICall_t(__fastcall* PublishVideo)(ISteamRemoteStorage*, EWorkshopVideoProvider eVideoProvider, const char* pchVideoAccount, const char* pchVideoIdentifier, const char* pchPreviewFile, AppId_t nConsumerAppId, const char* pchTitle, const char* pchDescription, ERemoteStoragePublishedFileVisibility eVisibility, SteamParamStringArray_t* pTags);
+		SteamAPICall_t(__fastcall* SetUserPublishedFileAction)(ISteamRemoteStorage*, PublishedFileId_t unPublishedFileId, EWorkshopFileAction eAction);
+		SteamAPICall_t(__fastcall* EnumeratePublishedFilesByUserAction)(ISteamRemoteStorage*, EWorkshopFileAction eAction, uint32 unStartIndex);
+		SteamAPICall_t(__fastcall* EnumeratePublishedWorkshopFiles)(ISteamRemoteStorage*, EWorkshopEnumerationType eEnumerationType, uint32 unStartIndex, uint32 unCount, uint32 unDays, SteamParamStringArray_t* pTags, SteamParamStringArray_t* pUserTags);
+		SteamAPICall_t(__fastcall* UGCDownloadToLocation)(ISteamRemoteStorage*, UGCHandle_t hContent, const char* pchLocation, uint32 unPriority);
+	};
+
+	struct ISteamRemoteStorage
+	{
+		ISteamRemoteStorage_vtbl* __vftable;
+	};
+
+	struct ISteamScreenshots_vtbl
+	{
+		ScreenshotHandle(__fastcall* WriteScreenshot)(ISteamScreenshots*, void* pubRGB, uint32 cubRGB, int nWidth, int nHeight);
+		ScreenshotHandle(__fastcall* AddScreenshotToLibrary)(ISteamScreenshots*, const char* pchFilename, const char* pchThumbnailFilename, int nWidth, int nHeight);
+		void(__fastcall* TriggerScreenshot)(ISteamScreenshots*);
+		void(__fastcall* HookScreenshots)(ISteamScreenshots*, bool bHook);
+		bool(__fastcall* SetLocation)(ISteamScreenshots*, ScreenshotHandle hScreenshot, const char* pchLocation);
+		bool(__fastcall* TagUser)(ISteamScreenshots*, ScreenshotHandle hScreenshot, steam_id steamID);
+		bool(__fastcall* TagPublishedFile)(ISteamScreenshots*, ScreenshotHandle hScreenshot, PublishedFileId_t unPublishedFileID);
+	};
+
+	struct ISteamScreenshots
+	{
+		ISteamScreenshots_vtbl* __vftable;
+	};
+
+	struct ISteamUGC_vtbl
+	{
+		UGCQueryHandle_t(__fastcall* CreateQueryUserUGCRequest)(ISteamUGC*, AccountID_t unAccountID, EUserUGCList eListType, EUGCMatchingUGCType eMatchingUGCType, EUserUGCListSortOrder eSortOrder, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage);
+		UGCQueryHandle_t(__fastcall* CreateQueryAllUGCRequest)(ISteamUGC*, EUGCQuery eQueryType, EUGCMatchingUGCType eMatchingeMatchingUGCTypeFileType, AppId_t nCreatorAppID, AppId_t nConsumerAppID, uint32 unPage);
+		UGCQueryHandle_t(__fastcall* CreateQueryUGCDetailsRequest)(ISteamUGC*, PublishedFileId_t* pvecPublishedFileID, uint32 unNumPublishedFileIDs);
+		SteamAPICall_t(__fastcall* SendQueryUGCRequest)(ISteamUGC*, UGCQueryHandle_t handle);
+		bool(__fastcall* GetQueryUGCResult)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, SteamUGCDetails_t* pDetails);
+		bool(__fastcall* GetQueryUGCPreviewURL)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, char* pchURL, uint32 cchURLSize);
+		bool(__fastcall* GetQueryUGCMetadata)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, char* pchMetadata, uint32 cchMetadatasize);
+		bool(__fastcall* GetQueryUGCChildren)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, PublishedFileId_t* pvecPublishedFileID, uint32 cMaxEntries);
+		bool(__fastcall* GetQueryUGCStatistic)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, EItemStatistic eStatType, uint32* pStatValue);
+		uint32(__fastcall* GetQueryUGCNumAdditionalPreviews)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index);
+		bool(__fastcall* GetQueryUGCAdditionalPreview)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, uint32 previewIndex, char* pchURLOrVideoID, uint32 cchURLSize, char* pchOriginalFileName, uint32 cchOriginalFileNameSize, EItemPreviewType* pPreviewType);
+		uint32(__fastcall* GetQueryUGCNumKeyValueTags)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index);
+		bool(__fastcall* GetQueryUGCKeyValueTag)(ISteamUGC*, UGCQueryHandle_t handle, uint32 index, uint32 keyValueTagIndex, char* pchKey, uint32 cchKeySize, char* pchValue, uint32 cchValueSize);
+		bool(__fastcall* ReleaseQueryUGCRequest)(ISteamUGC*, UGCQueryHandle_t handle);
+		bool(__fastcall* AddRequiredTag)(ISteamUGC*, UGCQueryHandle_t handle, const char* pTagName);
+		bool(__fastcall* AddExcludedTag)(ISteamUGC*, UGCQueryHandle_t handle, const char* pTagName);
+		bool(__fastcall* SetReturnKeyValueTags)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnKeyValueTags);
+		bool(__fastcall* SetReturnLongDescription)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnLongDescription);
+		bool(__fastcall* SetReturnMetadata)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnMetadata);
+		bool(__fastcall* SetReturnChildren)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnChildren);
+		bool(__fastcall* SetReturnAdditionalPreviews)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnAdditionalPreviews);
+		bool(__fastcall* SetReturnTotalOnly)(ISteamUGC*, UGCQueryHandle_t handle, bool bReturnTotalOnly);
+		bool(__fastcall* SetLanguage)(ISteamUGC*, UGCQueryHandle_t handle, const char* pchLanguage);
+		bool(__fastcall* SetAllowCachedResponse)(ISteamUGC*, UGCQueryHandle_t handle, uint32 unMaxAgeSeconds);
+		bool(__fastcall* SetCloudFileNameFilter)(ISteamUGC*, UGCQueryHandle_t handle, const char* pMatchCloudFileName);
+		bool(__fastcall* SetMatchAnyTag)(ISteamUGC*, UGCQueryHandle_t handle, bool bMatchAnyTag);
+		bool(__fastcall* SetSearchText)(ISteamUGC*, UGCQueryHandle_t handle, const char* pSearchText);
+		bool(__fastcall* SetRankedByTrendDays)(ISteamUGC*, UGCQueryHandle_t handle, uint32 unDays);
+		bool(__fastcall* AddRequiredKeyValueTag)(ISteamUGC*, UGCQueryHandle_t handle, const char* pKey, const char* pValue);
+		SteamAPICall_t(__fastcall* RequestUGCDetails)(ISteamUGC*, PublishedFileId_t nPublishedFileID, uint32 unMaxAgeSeconds);
+		SteamAPICall_t(__fastcall* CreateItem)(ISteamUGC*, AppId_t nConsumerAppId, EWorkshopFileType eFileType);
+		UGCUpdateHandle_t(__fastcall* StartItemUpdate)(ISteamUGC*, AppId_t nConsumerAppId, PublishedFileId_t nPublishedFileID);
+		bool(__fastcall* SetItemTitle)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchTitle);
+		bool(__fastcall* SetItemDescription)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchDescription);
+		bool(__fastcall* SetItemUpdateLanguage)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchLanguage);
+		bool(__fastcall* SetItemMetadata)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchMetaData);
+		bool(__fastcall* SetItemVisibility)(ISteamUGC*, UGCUpdateHandle_t handle, ERemoteStoragePublishedFileVisibility eVisibility);
+		bool(__fastcall* SetItemTags)(ISteamUGC*, UGCUpdateHandle_t updateHandle, const SteamParamStringArray_t* pTags);
+		bool(__fastcall* SetItemContent)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pszContentFolder);
+		bool(__fastcall* SetItemPreview)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pszPreviewFile);
+		bool(__fastcall* RemoveItemKeyValueTags)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchKey);
+		bool(__fastcall* AddItemKeyValueTag)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchKey, const char* pchValue);
+		bool(__fastcall* AddItemPreviewFile)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pszPreviewFile, EItemPreviewType type);
+		bool(__fastcall* AddItemPreviewVideo)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pszVideoID);
+		bool(__fastcall* UpdateItemPreviewFile)(ISteamUGC*, UGCUpdateHandle_t handle, uint32 index, const char* pszPreviewFile);
+		bool(__fastcall* UpdateItemPreviewVideo)(ISteamUGC*, UGCUpdateHandle_t handle, uint32 index, const char* pszVideoID);
+		bool(__fastcall* RemoveItemPreview)(ISteamUGC*, UGCUpdateHandle_t handle, uint32 index);
+		SteamAPICall_t(__fastcall* SubmitItemUpdate)(ISteamUGC*, UGCUpdateHandle_t handle, const char* pchChangeNote);
+		EItemUpdateStatus(__fastcall* GetItemUpdateProgress)(ISteamUGC*, UGCUpdateHandle_t handle, uint64* punBytesProcessed, uint64* punBytesTotal);
+		SteamAPICall_t(__fastcall* SetUserItemVote)(ISteamUGC*, PublishedFileId_t nPublishedFileID, bool bVoteUp);
+		SteamAPICall_t(__fastcall* GetUserItemVote)(ISteamUGC*, PublishedFileId_t nPublishedFileID);
+		SteamAPICall_t(__fastcall* AddItemToFavorites)(ISteamUGC*, AppId_t nAppId, PublishedFileId_t nPublishedFileID);
+		SteamAPICall_t(__fastcall* RemoveItemFromFavorites)(ISteamUGC*, AppId_t nAppId, PublishedFileId_t nPublishedFileID);
+		SteamAPICall_t(__fastcall* SubscribeItem)(ISteamUGC*, PublishedFileId_t nPublishedFileID);
+		SteamAPICall_t(__fastcall* UnsubscribeItem)(ISteamUGC*, PublishedFileId_t nPublishedFileID);
+		uint32(__fastcall* GetNumSubscribedItems)(ISteamUGC*);
+		uint32(__fastcall* GetSubscribedItems)(ISteamUGC*, PublishedFileId_t* pvecPublishedFileID, uint32 cMaxEntries);
+		uint32(__fastcall* GetItemState)(ISteamUGC*, PublishedFileId_t nPublishedFileID);
+		bool(__fastcall* GetItemInstallInfo)(ISteamUGC*, PublishedFileId_t nPublishedFileID, uint64* punSizeOnDisk, char* pchFolder, uint32 cchFolderSize, uint32* punTimeStamp);
+		bool(__fastcall* GetItemDownloadInfo)(ISteamUGC*, PublishedFileId_t nPublishedFileID, uint64* punBytesDownloaded, uint64* punBytesTotal);
+		bool(__fastcall* DownloadItem)(ISteamUGC*, PublishedFileId_t nPublishedFileID, bool bHighPriority);
+		bool(__fastcall* BInitWorkshopForGameServer)(ISteamUGC*, DepotId_t unWorkshopDepotID, const char* pszFolder);
+		void(__fastcall* SuspendDownloads)(ISteamUGC*, bool bSuspend);
+	};
+
+	struct ISteamUGC
+	{
+		ISteamUGC_vtbl* __vftable;
+	};
+
+	struct ISteamUnifiedMessages_vtbl
+	{
+		ClientUnifiedMessageHandle(__fastcall* SendMethod)(ISteamUnifiedMessages*, const char* pchServiceMethod, const void* pRequestBuffer, uint32 unRequestBufferSize, uint64 unContext);
+		bool(__fastcall* GetMethodResponseInfo)(ISteamUnifiedMessages*, ClientUnifiedMessageHandle hHandle, uint32* punResponseSize, EResult* peResult);
+		bool(__fastcall* GetMethodResponseData)(ISteamUnifiedMessages*, ClientUnifiedMessageHandle hHandle, void* pResponseBuffer, uint32 unResponseBufferSize, bool bAutoRelease);
+		bool(__fastcall* ReleaseMethod)(ISteamUnifiedMessages*, ClientUnifiedMessageHandle hHandle);
+		bool(__fastcall* SendNotification)(ISteamUnifiedMessages*, const char* pchServiceNotification, const void* pNotificationBuffer, uint32 unNotificationBufferSize);
+	};
+
+	struct ISteamUnifiedMessages
+	{
+		ISteamUnifiedMessages_vtbl* __vftable;
+	};
+
+	struct ISteamUser_vtbl
+	{
+		HSteamUser(__fastcall* GetHSteamUser)(ISteamUser*);
+		bool(__fastcall* BLoggedOn)(ISteamUser*);
+		steam_id*(__fastcall* GetSteamID)(ISteamUser*, steam_id*);
+		int(__fastcall* InitiateGameConnection)(ISteamUser*, void* pAuthBlob, int cbMaxAuthBlob, steam_id steamIDGameServer, uint32 unIPServer, uint16 usPortServer, bool bSecure);
+		void(__fastcall* TerminateGameConnection)(ISteamUser*, uint32 unIPServer, uint16 usPortServer);
+		void(__fastcall* TrackAppUsageEvent)(ISteamUser*, CGameID gameID, int eAppUsageEvent, const char* pchExtraInfo);
+		bool(__fastcall* GetUserDataFolder)(ISteamUser*, char* pchBuffer, int cubBuffer);
+		void(__fastcall* StartVoiceRecording)(ISteamUser*);
+		void(__fastcall* StopVoiceRecording)(ISteamUser*);
+		EVoiceResult(__fastcall* GetAvailableVoice)(ISteamUser*, uint32* pcbCompressed, uint32* pcbUncompressed, uint32 nUncompressedVoiceDesiredSampleRate);
+		EVoiceResult(__fastcall* GetVoice)(ISteamUser*, bool bWantCompressed, void* pDestBuffer, uint32 cbDestBufferSize, uint32* nBytesWritten, bool bWantUncompressed, void* pUncompressedDestBuffer, uint32 cbUncompressedDestBufferSize, uint32* nUncompressBytesWritten, uint32 nUncompressedVoiceDesiredSampleRate);
+		EVoiceResult(__fastcall* DecompressVoice)(ISteamUser*, const void* pCompressed, uint32 cbCompressed, void* pDestBuffer, uint32 cbDestBufferSize, uint32* nBytesWritten, uint32 nDesiredSampleRate);
+		uint32(__fastcall* GetVoiceOptimalSampleRate)(ISteamUser*);
+		HAuthTicket(__fastcall* GetAuthSessionTicket)(ISteamUser*, void* pTicket, int cbMaxTicket, uint32* pcbTicket);
+		EBeginAuthSessionResult(__fastcall* BeginAuthSession)(ISteamUser*, const void* pAuthTicket, int cbAuthTicket, steam_id steamID);
+		void(__fastcall* EndAuthSession)(ISteamUser*, steam_id steamID);
+		void(__fastcall* CancelAuthTicket)(ISteamUser*, HAuthTicket hAuthTicket);
+		EUserHasLicenseForAppResult(__fastcall* UserHasLicenseForApp)(ISteamUser*, steam_id steamID, AppId_t appID);
+		bool(__fastcall* BIsBehindNAT)(ISteamUser*);
+		void(__fastcall* AdvertiseGame)(ISteamUser*, steam_id steamIDGameServer, uint32 unIPServer, uint16 usPortServer);
+		SteamAPICall_t(__fastcall* RequestEncryptedAppTicket)(ISteamUser*, void* pDataToInclude, int cbDataToInclude);
+		bool(__fastcall* GetEncryptedAppTicket)(ISteamUser*, void* pTicket, int cbMaxTicket, uint32* pcbTicket);
+		int(__fastcall* GetGameBadgeLevel)(ISteamUser*, int nSeries, bool bFoil);
+		int(__fastcall* GetPlayerSteamLevel)(ISteamUser*);
+		SteamAPICall_t(__fastcall* RequestStoreAuthURL)(ISteamUser*, const char* pchRedirectURL);
+		bool(__fastcall* BIsPhoneVerified)(ISteamUser*);
+		bool(__fastcall* BIsTwoFactorEnabled)(ISteamUser*);
+	};
+
+	struct ISteamUser
+	{
+		ISteamUser_vtbl* __vftable;
+	};
+
+	struct ISteamUserStats_vtbl
+	{
+		bool(__fastcall* RequestCurrentStats)(ISteamUserStats*);
+		bool(__fastcall* GetStat1)(ISteamUserStats*, const char* pchName, int32* pData);
+		bool(__fastcall* GetStat2)(ISteamUserStats*, const char* pchName, float* pData);
+		bool(__fastcall* SetStat1)(ISteamUserStats*, const char* pchName, int32 nData);
+		bool(__fastcall* SetStat2)(ISteamUserStats*, const char* pchName, float fData);
+		bool(__fastcall* UpdateAvgRateStat)(ISteamUserStats*, const char* pchName, float flCountThisSession, double dSessionLength);
+		bool(__fastcall* GetAchievement)(ISteamUserStats*, const char* pchName, bool* pbAchieved);
+		bool(__fastcall* SetAchievement)(ISteamUserStats*, const char* pchName);
+		bool(__fastcall* ClearAchievement)(ISteamUserStats*, const char* pchName);
+		bool(__fastcall* GetAchievementAndUnlockTime)(ISteamUserStats*, const char* pchName, bool* pbAchieved, uint32* punUnlockTime);
+		bool(__fastcall* StoreStats)(ISteamUserStats*);
+		int(__fastcall* GetAchievementIcon)(ISteamUserStats*, const char* pchName);
+		const char* (__fastcall* GetAchievementDisplayAttribute)(ISteamUserStats*, const char* pchName, const char* pchKey);
+		bool(__fastcall* IndicateAchievementProgress)(ISteamUserStats*, const char* pchName, uint32 nCurProgress, uint32 nMaxProgress);
+		uint32(__fastcall* GetNumAchievements)(ISteamUserStats*);
+		const char* (__fastcall* GetAchievementName)(ISteamUserStats*, uint32 iAchievement);
+		SteamAPICall_t(__fastcall* RequestUserStats)(ISteamUserStats*, steam_id steamIDUser);
+		bool(__fastcall* GetUserStat1)(ISteamUserStats*, steam_id steamIDUser, const char* pchName, int32* pData);
+		bool(__fastcall* GetUserStat2)(ISteamUserStats*, steam_id steamIDUser, const char* pchName, float* pData);
+		bool(__fastcall* GetUserAchievement)(ISteamUserStats*, steam_id steamIDUser, const char* pchName, bool* pbAchieved);
+		bool(__fastcall* GetUserAchievementAndUnlockTime)(ISteamUserStats*, steam_id steamIDUser, const char* pchName, bool* pbAchieved, uint32* punUnlockTime);
+		bool(__fastcall* ResetAllStats)(ISteamUserStats*, bool bAchievementsToo);
+		SteamAPICall_t(__fastcall* FindOrCreateLeaderboard)(ISteamUserStats*, const char* pchLeaderboardName, ELeaderboardSortMethod eLeaderboardSortMethod, ELeaderboardDisplayType eLeaderboardDisplayType);
+		SteamAPICall_t(__fastcall* FindLeaderboard)(ISteamUserStats*, const char* pchLeaderboardName);
+		const char* (__fastcall* GetLeaderboardName)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard);
+		int(__fastcall* GetLeaderboardEntryCount)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard);
+		ELeaderboardSortMethod(__fastcall* GetLeaderboardSortMethod)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard);
+		ELeaderboardDisplayType(__fastcall* GetLeaderboardDisplayType)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard);
+		SteamAPICall_t(__fastcall* DownloadLeaderboardEntries)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard, ELeaderboardDataRequest eLeaderboardDataRequest, int nRangeStart, int nRangeEnd);
+		bool(__fastcall* GetDownloadedLeaderboardEntry)(ISteamUserStats*, SteamLeaderboardEntries_t hSteamLeaderboardEntries, int index, LeaderboardEntry_t* pLeaderboardEntry, int32* pDetails, int cDetailsMax);
+		SteamAPICall_t(__fastcall* UploadLeaderboardScore)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int32 nScore, const int32* pScoreDetails, int cScoreDetailsCount);
+		SteamAPICall_t(__fastcall* AttachLeaderboardUGC)(ISteamUserStats*, SteamLeaderboard_t hSteamLeaderboard, UGCHandle_t hUGC);
+		SteamAPICall_t(__fastcall* GetNumberOfCurrentPlayers)(ISteamUserStats*);
+		SteamAPICall_t(__fastcall* RequestGlobalAchievementPercentages)(ISteamUserStats*);
+		int(__fastcall* GetMostAchievedAchievementInfo)(ISteamUserStats*, char* pchName, uint32 unNameBufLen, float* pflPercent, bool* pbAchieved);
+		int(__fastcall* GetNextMostAchievedAchievementInfo)(ISteamUserStats*, int iIteratorPrevious, char* pchName, uint32 unNameBufLen, float* pflPercent, bool* pbAchieved);
+		bool(__fastcall* GetAchievementAchievedPercent)(ISteamUserStats*, const char* pchName, float* pflPercent);
+		SteamAPICall_t(__fastcall* RequestGlobalStats)(ISteamUserStats*, int nHistoryDays);
+		bool(__fastcall* GetGlobalStat1)(ISteamUserStats*, const char* pchStatName, int64* pData);
+		bool(__fastcall* GetGlobalStat2)(ISteamUserStats*, const char* pchStatName, double* pData);
+		int32(__fastcall* GetGlobalStatHistory1)(ISteamUserStats*, const char* pchStatName, int64* pData, uint32 cubData);
+		int32(__fastcall* GetGlobalStatHistory2)(ISteamUserStats*, const char* pchStatName, double* pData, uint32 cubData);
+		bool(__fastcall* InstallPS3Trophies)(ISteamUserStats*);
+		uint64(__fastcall* GetTrophySpaceRequiredBeforeInstall)(ISteamUserStats*);
+		bool(__fastcall* SetUserStatsData)(ISteamUserStats*, const void* pvData, uint32 cubData);
+		bool(__fastcall* GetUserStatsData)(ISteamUserStats*, void* pvData, uint32 cubData, uint32* pcubWritten);
+	};
+
+	struct ISteamUserStats
+	{
+		ISteamUserStats_vtbl* __vftable;
+	};
+
+	struct ISteamUtils_vtbl
+	{
+		uint32(__fastcall* GetSecondsSinceAppActive)(ISteamUtils*);
+		uint32(__fastcall* GetSecondsSinceComputerActive)(ISteamUtils*);
+		EUniverse(__fastcall* GetConnectedUniverse)(ISteamUtils*);
+		uint32(__fastcall* GetServerRealTime)(ISteamUtils*);
+		const char* (__fastcall* GetIPCountry)(ISteamUtils*);
+		bool(__fastcall* GetImageSize)(ISteamUtils*, int iImage, uint32* pnWidth, uint32* pnHeight);
+		bool(__fastcall* GetImageRGBA)(ISteamUtils*, int iImage, uint8* pubDest, int nDestBufferSize);
+		bool(__fastcall* GetCSERIPPort)(ISteamUtils*, uint32* unIP, uint16* usPort);
+		uint8(__fastcall* GetCurrentBatteryPower)(ISteamUtils*);
+		uint32(__fastcall* GetAppID)(ISteamUtils*);
+		void(__fastcall* SetOverlayNotificationPosition)(ISteamUtils*, ENotificationPosition eNotificationPosition);
+		bool(__fastcall* IsAPICallCompleted)(ISteamUtils*, SteamAPICall_t hSteamAPICall, bool* pbFailed);
+		ESteamAPICallFailure(__fastcall* GetAPICallFailureReason)(ISteamUtils*, SteamAPICall_t hSteamAPICall);
+		bool(__fastcall* GetAPICallResult)(ISteamUtils*, SteamAPICall_t hSteamAPICall, void* pCallback, int cubCallback, int iCallbackExpected, bool* pbFailed);
+		void(__fastcall* RunFrame)(ISteamUtils*);
+		uint32(__fastcall* GetIPCCallCount)(ISteamUtils*);
+		void(__fastcall* SetWarningMessageHook)(ISteamUtils*, SteamAPIWarningMessageHook_t pFunction);
+		bool(__fastcall* IsOverlayEnabled)(ISteamUtils*);
+		bool(__fastcall* BOverlayNeedsPresent)(ISteamUtils*);
+		SteamAPICall_t(__fastcall* CheckFileSignature)(ISteamUtils*, const char* szFileName);
+		bool(__fastcall* ShowGamepadTextInput)(ISteamUtils*, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char* pchDescription, uint32 unCharMax, const char* pchExistingText);
+		uint32(__fastcall* GetEnteredGamepadTextLength)(ISteamUtils*);
+		bool(__fastcall* GetEnteredGamepadTextInput)(ISteamUtils*, char* pchText, uint32 cchText);
+		const char* (__fastcall* GetSteamUILanguage)(ISteamUtils*);
+		bool(__fastcall* IsSteamRunningInVR)(ISteamUtils*);
+		void(__fastcall* SetOverlayNotificationInset)(ISteamUtils*, int nHorizontalInset, int nVerticalInset);
+		bool(__fastcall* IsSteamInBigPictureMode)(ISteamUtils*);
+		void(__fastcall* StartVRDashboard)(ISteamUtils*);
+	};
+
+	struct ISteamUtils
+	{
+		ISteamUtils_vtbl* __vftable;
+	};
+
+	struct ISteamVideo_vtbl
+	{
+		void(__fastcall* GetVideoURL)(ISteamVideo*, AppId_t unVideoAppID);
+		bool(__fastcall* IsBroadcasting)(ISteamVideo*, int* pnNumViewers);
+		void(__fastcall* Run1)(ISteamVideo*, void* pvParam);
+		void(__fastcall* Run2)(ISteamVideo*, void* pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall);
+		int(__fastcall* GetCallbackSizeBytes)(ISteamVideo*);
+		void(__fastcall* Run3)(ISteamVideo*, void* pvParam);
+	};
+
+	struct ISteamVideo
+	{
+		ISteamVideo_vtbl* __vftable;
+	};
+
+	struct steam_interfaces_t
+	{
+		ISteamClient* SteamClient017;
+		ISteamUser* SteamUser019;
+		ISteamFriends* SteamFriends015;
+		ISteamUtils* SteamUtils008;
+		ISteamMatchmaking* SteamMatchMaking009;
+		ISteamMatchmakingServers* SteamMatchMakingServers002;
+		ISteamUserStats* SteamUserState011;
+		ISteamApps* SteamApps008;
+		ISteamNetworking* SteamNetworking005;
+		ISteamRemoteStorage* SteamRemoteStorage013;
+		ISteamScreenshots* SteamScreenshots002;
+		ISteamHTTP* SteamHTTP002;
+		ISteamUnifiedMessages* SteamUnifiedMessages001;
+		ISteamController* SteamController003;
+		ISteamUGC* SteamUGC008;
+		ISteamAppList* SteamAppList001;
+		ISteamMusic* SteamMusic001;
+		ISteamMusicRemote* SteamMusicRemote001;
+		ISteamHTMLSurface* SteamHTMLSurface003;
+		ISteamInventory* SteamInventory001;
+		ISteamVideo* SteamVideo001;
 	};
 
 	namespace Json

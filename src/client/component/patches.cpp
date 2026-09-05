@@ -56,14 +56,14 @@ namespace patches
 		{
 			utils::hook::jump(0x14008CA2A_r, 0x14008CBF8_r); // nowait frame mode
 			utils::hook::nop(0x1400339AC_r, 5); // job executor thread sleep
-			utils::hook::far_jump(game::get_base_address(), 0x140035000_r, get_processor_count_stub);
+			utils::hook::far_jump(0x140035000_r, get_processor_count_stub);
 			leave_frame_hook.create(0x14008B6D0_r, leave_frame_stub);
 		}
 
 		void patch_sensitivity()
 		{
 			constexpr const auto base_value = 0.016683333f;
-			auto value_ptr = utils::hook::far_inject<float>(game::get_base_address(), 0x1416950E1_r + 4);
+			auto value_ptr = utils::hook::far_inject<float>(0x1416950E1_r + 4);
 			*value_ptr = base_value;
 
 			var_sensitivity->set_callback = [value_ptr]()
@@ -72,6 +72,13 @@ namespace patches
 			};
 
 			var_sensitivity->set_callback->operator()();
+		}
+
+		void set_appid()
+		{
+			constexpr const auto app_id = 543900;
+			SetEnvironmentVariableA("SteamAppId", utils::string::va("%lu", app_id));
+			SetEnvironmentVariableA("SteamGameId", utils::string::va("%llu", app_id & 0xFFFFFF));
 		}
 	}
 
@@ -95,6 +102,7 @@ namespace patches
 
 		void start() override
 		{
+			set_appid();
 			set_timer_resolution();
 
 			if (var_com_unlock_fps->current.enabled())

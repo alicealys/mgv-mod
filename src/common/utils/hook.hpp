@@ -254,10 +254,24 @@ namespace utils::hook
 	}
 
 	template <typename T>
+	void far_jump(const std::size_t address, const T dest)
+	{
+		const auto base = reinterpret_cast<std::size_t>(GetModuleHandle(NULL));
+		far_jump<T>(base, address, dest);
+	}
+
+	template <typename T>
 	void far_call(const std::size_t base, const std::size_t address, const T dest)
 	{
 		const auto pos = create_far_jump(base, dest);
 		call(address, pos);
+	}
+
+	template <typename T>
+	void far_call(const std::size_t address, const T dest)
+	{
+		const auto base = reinterpret_cast<std::size_t>(GetModuleHandle(NULL));
+		far_call<T>(base, address, dest);
 	}
 
 	template <typename T>
@@ -266,5 +280,12 @@ namespace utils::hook
 		const auto data = reinterpret_cast<T*>(allocate_far(base, sizeof(T)));
 		utils::hook::inject(address, data);
 		return data;
+	}
+
+	template <typename T>
+	T* far_inject(const std::size_t address)
+	{
+		const auto base = reinterpret_cast<std::size_t>(GetModuleHandle(NULL));
+		return far_inject<T>(base, address);
 	}
 }

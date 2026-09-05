@@ -211,6 +211,8 @@ namespace game
 
 	WEAK symbol<fox::RawKeyboardData> g_rawMouseData{0x1430B9C98};
 
+	WEAK symbol<steam_interfaces_t> g_steamInterfaces{0x142AD71F0};
+
 	namespace fox
 	{
 		WEAK symbol<int> g_vkKeyTable{0x1430B9890};
