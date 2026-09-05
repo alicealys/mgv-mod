@@ -18,6 +18,7 @@ namespace patches
 		vars::var_ptr var_com_worker_count;
 		vars::var_ptr var_com_max_fps;
 		vars::var_ptr var_sensitivity;
+		vars::var_ptr var_sensitivity_patch;
 
 		void set_timer_resolution()
 		{
@@ -52,12 +53,39 @@ namespace patches
 			}
 		}
 
+		void player_mouse_event_update_stub(__int64 a1)
+		{
+			const auto time_system = game::fox::GetTimeSystem();
+			const auto frame_time_scale = static_cast<float>(time_system.frameTime) * 100.f;
+
+			const auto v_x = *reinterpret_cast<LONG*>(a1 + 40);
+			const auto v_y = *reinterpret_cast<LONG*>(a1 + 44);
+
+			InterlockedExchangeAdd(reinterpret_cast<LONG*>(a1 + 40), -v_x);
+			InterlockedExchangeAdd(reinterpret_cast<LONG*>(a1 + 44), -v_y);
+
+			*reinterpret_cast<void**>(a1 + 48) = *reinterpret_cast<void**>(a1 + 32);
+
+			if (var_sensitivity_patch->current.enabled())
+			{
+				*reinterpret_cast<float*>(a1 + 56) = static_cast<float>(v_x) * 0.001f * frame_time_scale;
+				*reinterpret_cast<float*>(a1 + 60) = static_cast<float>(v_y) * 0.001f * frame_time_scale;
+			}
+			else
+			{
+				*reinterpret_cast<float*>(a1 + 56) = static_cast<float>(v_x) * 0.001f;
+				*reinterpret_cast<float*>(a1 + 60) = static_cast<float>(v_y) * 0.001f;
+			}
+		}
+
+
 		void unlock_fps()
 		{
 			utils::hook::jump(0x14008CA2A_r, 0x14008CBF8_r); // nowait frame mode
 			utils::hook::nop(0x1400339AC_r, 5); // job executor thread sleep
 			utils::hook::far_jump(0x140035000_r, get_processor_count_stub);
 			leave_frame_hook.create(0x14008B6D0_r, leave_frame_stub);
+			utils::hook::far_jump(0x140A9B900_r, player_mouse_event_update_stub);
 		}
 
 		void patch_sensitivity()
@@ -98,6 +126,9 @@ namespace patches
 
 			var_sensitivity = vars::register_float("sensitivity", 1.f, 0.f, 10.f,
 				vars::var_flag_saved, "mouse sensitivity scale");
+
+			var_sensitivity_patch = vars::register_bool("sensitivity_fps_patch", false,
+				vars::var_flag_saved, "enable sensitivity scaling patch");
 		}
 
 		void start() override
