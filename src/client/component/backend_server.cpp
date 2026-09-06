@@ -21,12 +21,14 @@ namespace backend_server
 {
 	namespace
 	{
-		char custom_url[0x100]{};
+		char ncl_url[0x100]{};
+		char stun_server_host[0x100]{};
 
 		utils::hook::detour http_codec_begin_encode_hook;
 		utils::hook::detour http_codec_end_decode_hook;
 
-		vars::var_ptr var_net_custom_server;
+		vars::var_ptr var_net_ncl_url;
+		vars::var_ptr var_net_stun_server;
 		vars::var_ptr var_net_server_logging;
 		vars::var_ptr var_net_proxy_url;
 
@@ -44,7 +46,7 @@ namespace backend_server
 
 		std::string get_url_hash()
 		{
-			const auto url_hash = utils::cryptography::sha1::compute(custom_url, true).substr(0, 8);
+			const auto url_hash = utils::cryptography::sha1::compute(ncl_url, true).substr(0, 8);
 			return url_hash;
 		}
 
@@ -208,19 +210,51 @@ namespace backend_server
 			return CreateFileW(file_name, desired_access, share_mode, security_attributes, creation_disp, flags, template_file);
 		}
 
-		void apply_custom_server()
+		bool parse_address(const std::string& address, char* dest, const std::size_t dest_size, std::uint16_t* port)
 		{
-			const auto& custom_server = var_net_custom_server->current.get_string();
-			if (custom_server.empty())
+			if (address.size() > dest_size)
 			{
-				return;
+				return false;
 			}
 
-			std::memcpy(custom_url, custom_server.data(), custom_server.size());
-			console::info("[net] using server url: \"%s\"\n", custom_url);
+			const auto sep = address.find(':');
+			if (sep != std::string::npos)
+			{
+				*port = static_cast<std::uint16_t>(std::atol(&address[sep + 1]));
+				strncpy_s(dest, dest_size, address.data(), sep);
+			}
+			else
+			{
+				strncpy_s(dest, dest_size, address.data(), address.size());
+			}
 
-			utils::hook::far_inject(0x140895ED1_r + 3, custom_url);
-			utils::hook::set(0x141FEA470_r, create_file_stub);
+			return true;
+		}
+
+		void apply_custom_server()
+		{
+			const auto& custom_server = var_net_ncl_url->current.get_string();
+			if (!custom_server.empty())
+			{
+				std::memcpy(ncl_url, custom_server.data(), custom_server.size());
+				console::info("[net] using ncl server url: \"%s\"\n", ncl_url);
+				utils::hook::far_inject(0x140895ED1_r + 3, ncl_url);
+			}
+
+			std::uint16_t stun_port = 3478;
+			const auto& stun_address = var_net_stun_server->current.get_string();
+			if (!stun_address.empty() && parse_address(stun_address, stun_server_host, sizeof(stun_server_host), &stun_port))
+			{
+				console::info("[net] using stun server: \"%s:%i\"\n", stun_server_host, stun_port);
+				utils::hook::far_inject(0x1418FCC7D_r + 3, stun_server_host);
+				utils::hook::far_inject(0x14190075A_r + 3, stun_server_host);
+				utils::hook::far_inject(0x141907B2A_r + 3, stun_server_host);
+				utils::hook::far_inject(0x141907B3E_r + 3, stun_server_host);
+				utils::hook::far_inject(0x14190F845_r + 3, stun_server_host);
+
+				utils::hook::set<std::uint16_t>(0x1430B7BC0_r, stun_port);
+				utils::hook::set<std::uint16_t>(0x140530769_r + 1, stun_port);
+			}
 		}
 
 		BOOL win_http_set_option_stub(HINTERNET handle, DWORD option, LPVOID buffer, DWORD buffer_length)
@@ -254,7 +288,7 @@ namespace backend_server
 
 	bool is_using_custom_server()
 	{
-		return custom_url[0] != 0;
+		return var_net_ncl_url->current != var_net_ncl_url->reset && !var_net_ncl_url->current.get_string().empty();
 	}
 
 	class component final : public component_interface
@@ -262,8 +296,9 @@ namespace backend_server
 	public:
 		void pre_load() override
 		{
-			var_net_custom_server = vars::register_string("net_custom_server", "", vars::var_flag_saved | vars::var_flag_latched, "custom server url (empty = disabled)");
-			var_net_proxy_url = vars::register_string("net_proxy_url", "", vars::var_flag_saved, "proxy url for backend server (example: http://1.2.3.4:1234 empty = disabled)");
+			var_net_ncl_url = vars::register_string("net_ncl_url", "https://mgssd-game.cs.konami.net/ssdstm/gate", vars::var_flag_saved | vars::var_flag_latched, "ncl server gate url");
+			var_net_stun_server = vars::register_string("net_stun_server", "mgssd-stun.cs.konami.net:3478", vars::var_flag_saved | vars::var_flag_latched, "stun server address");
+			var_net_proxy_url = vars::register_string("net_http_proxy_url", "", vars::var_flag_saved, "http proxy url (example: http://1.2.3.4:1234 empty = disabled)");
 
 			var_net_server_logging = vars::register_bool("net_server_logging", false, vars::var_flag_saved, "enable server logging");
 		}
@@ -289,6 +324,8 @@ namespace backend_server
 
 			utils::hook::set(&steam_interfaces->steamRemoteStorage->__vftable->FileRead, steam_storage_file_read_stub);
 			utils::hook::set(&steam_interfaces->steamRemoteStorage->__vftable->FileWrite, steam_storage_file_write_stub);
+
+			utils::hook::set(0x141FEA470_r, create_file_stub);
 		}
 	};
 }

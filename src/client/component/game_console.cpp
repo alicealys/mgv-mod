@@ -169,7 +169,7 @@ namespace game_console
 		}
 
 		void draw_hint_text(game::fox::gr::dg::plugins::Draw2DRenderer* instance, int line, const char* text, 
-			vars::color_t var_color, float x_offset = 0.f, float y_offset = 0.f, float max_width = 200.f)
+			vars::color_t var_color, float x_offset = 0.f, float y_offset = 0.f, float max_width = 250.f)
 		{
 			float color[4]{};
 			color[0] = var_color.r;
@@ -184,7 +184,7 @@ namespace game_console
 			std::vector<match_t> matches;
 			find_matches(con.input, matches);
 
-			constexpr const auto spacing = 200.f;
+			constexpr const auto spacing = 250.f;
 
 			if (matches.size() > 24)
 			{
@@ -226,7 +226,7 @@ namespace game_console
 					if ((match.var->flags & vars::var_flag_latched) != 0 && match.var->current != match.var->latched)
 					{
 						const auto latched = match.var->latched.to_string();
-						draw_hint_text(instance, line, "latched value", var_con_input_var_inactive_value_color->current.get_color(), offset + 25.f);
+						draw_hint_text(instance, line, "latched value", var_con_input_var_inactive_value_color->current.get_color(), offset + 25.f, 2.f);
 						draw_hint_text(instance, line, latched.data(), var_con_input_var_inactive_value_color->current.get_color(), offset + spacing, 2.f);
 						++line;
 					}
@@ -235,10 +235,10 @@ namespace game_console
 					draw_hint_text(instance, line, reset.data(), var_con_input_var_inactive_value_color->current.get_color(), offset + spacing, 2.f);
 					++line;
 
-					draw_hint_text(instance, line, description.data(), color_white, offset);
+					draw_hint_text(instance, line, description.data(), color_white, offset, 0.f, 400.f);
 
 					draw_hint_box(instance, 1, offset, line_count * line_height + 6.f, var_con_input_hint_box_color->current.get_color());
-					draw_hint_text(instance, 0, domain, var_con_input_cmd_match_color->current.get_color(), offset, line_count * line_height + 6.f);
+					draw_hint_text(instance, 0, domain, var_con_input_cmd_match_color->current.get_color(), offset, line_count * line_height + 6.f, 600.f);
 				}
 			}
 			else if (matches.size() > 1)
@@ -257,7 +257,7 @@ namespace game_console
 						const auto& description = matches[i].var->description;
 
 						draw_hint_text(instance, i, current.data(), var_con_input_var_match_color->current.get_color(), offset + spacing, 2.f);
-						draw_hint_text(instance, i, description.data(), var_con_input_var_match_color->current.get_color(), offset + spacing * 2.f, 2.f);
+						draw_hint_text(instance, i, description.data(), var_con_input_var_match_color->current.get_color(), offset + spacing * 2.f, 2.f, 400.f);
 					}
 				}
 			}

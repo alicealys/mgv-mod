@@ -45,11 +45,13 @@
 #include <Psapi.h>
 #include <urlmon.h>
 #include <atlbase.h>
-#include <iphlpapi.h>
 #include <wincrypt.h>
 #include <dwmapi.h>
 #include <windowsx.h>
 #include <winhttp.h>
+#include <ws2ipdef.h>
+#include <windns.h>
+#include <iphlpapi.h>
 
 // min and max is required by gdi, therefore NOMINMAX won't work
 #ifdef max
