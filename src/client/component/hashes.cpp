@@ -1,0 +1,145 @@
+#include <std_include.hpp>
+#include "loader/component_loader.hpp"
+
+#include "game/game.hpp"
+
+#include "hashes.hpp"
+#include "command.hpp"
+#include "console.hpp"
+
+#include <utils/hook.hpp>
+#include <utils/string.hpp>
+#include <utils/io.hpp>
+#include <utils/flags.hpp>
+
+namespace hashes
+{
+	namespace
+	{
+		utils::memory::allocator allocator;
+
+		std::mutex map_mutex;
+		std::unordered_map<std::uint64_t, std::string> string_map;
+		std::unordered_map<std::uint32_t, std::string> string_map_l;
+
+		utils::hook::detour fox_str_hash_hook;
+		utils::hook::detour shared_string_to_string_id_hook;
+
+		game::fox::StringId fox_str_hash_stub(const char* str, size_t size)
+		{
+			std::lock_guard _0(map_mutex);
+			const auto result = fox_str_hash_hook.invoke<game::fox::StringId>(str, size);
+
+			if (!string_map.contains(result.id))
+			{
+				const auto string = std::string{str, str + size};
+				string_map.insert(std::make_pair(result.id, string));
+				string_map_l.insert(std::make_pair(result.f.l, string));
+			}
+
+			return result;
+		}
+
+		game::fox::StringId* shared_string_to_string_id_stub(game::fox::SharedString* str, game::fox::StringId* id)
+		{
+			std::lock_guard _0(map_mutex);
+			const auto result = shared_string_to_string_id_hook.invoke<game::fox::StringId*>(str, id);
+
+			if (!string_map.contains(result->id))
+			{
+				const auto copy = allocator.duplicate_string(str->data->buffer);
+				string_map.insert(std::make_pair(result->id, copy));
+			}
+
+			return result;
+		}
+	}
+
+	std::string lookup(const std::uint64_t id)
+	{
+		const auto iter = string_map.find(id);
+		if (iter != string_map.end())
+		{
+			return iter->second;
+		}
+
+		return "(unknown)";
+	}
+
+	std::string lookup(const game::fox::StringId id)
+	{
+		return lookup(id.id);
+	}
+
+	std::string lookup_l(const std::uint32_t id)
+	{
+		const auto iter = string_map_l.find(id);
+		if (iter != string_map_l.end())
+		{
+			return iter->second;
+		}
+
+		return "(unknown)";
+	}
+
+	game::fox::StringId compute(const char* str)
+	{
+		return fox_str_hash_hook.invoke<game::fox::StringId>(str, std::strlen(str));
+	}
+
+	game::fox::StringId compute(const std::string& str)
+	{
+		return compute(str.data());
+	}
+
+	class component final : public component_interface
+	{
+	public:
+		void pre_load() override
+		{
+
+		}
+
+		void start() override
+		{
+			command::add("hash_string", [](const command::params& params)
+			{
+				const auto str = params.get(1);
+				const auto hash = game::fox::FoxStrHash32(str.data(), str.size());
+				console::info("hash: 0x%llX (%llu), low: 0x%X (%u)", hash.id, hash.f.l, hash.id, hash.f.l);
+			});
+
+			command::add("hash_path", [](const command::params& params)
+			{
+				const auto str = params.get(1);
+				const auto hash = game::fox::fs::PathCodeImpl_::FromString(str.data());
+				console::info("hash: 0x%llX", hash);
+			});
+
+			if (!utils::flags::has_flag("dump-hashes"))
+			{
+				return;
+			}
+
+			fox_str_hash_hook.create(game::fox::FoxStrHash32.get(), fox_str_hash_stub);
+			shared_string_to_string_id_hook.create(0x14001DFE0_r, shared_string_to_string_id_stub);
+
+			command::add("dumpstrings", []
+			{
+				std::string buffer;
+				for (const auto& [k, v] : string_map)
+				{
+					buffer.append(utils::string::va("0x%llX: %s\n", k, v.data()));
+				}
+
+				const auto path = "mgv-mod/strings.txt";
+				utils::io::write_file(path, buffer);
+				console::info("dumped to %s", path);
+			});
+		}
+	};
+}
+
+#ifdef DEBUG
+REGISTER_COMPONENT(hashes::component)
+#endif

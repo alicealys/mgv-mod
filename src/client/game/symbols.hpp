@@ -39,6 +39,14 @@ namespace game
 			WEAK symbol<void(fox::RawMouseData*)> SetRawData{0x1400327F0};
 		}
 
+		namespace fs
+		{
+			namespace PathCodeImpl_
+			{
+				WEAK symbol<__int64(const char*)> FromString{0x140042150};
+			}
+		}
+
 		namespace gr
 		{
 			WEAK symbol<void*(dg::StringFontMetricsCache*, const char*, int, int)> InitMetrics{0x1402BF370};
