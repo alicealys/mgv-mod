@@ -6,6 +6,7 @@
 #include <utils/cryptography.hpp>
 #include <utils/io.hpp>
 #include <utils/string.hpp>
+#include <utils/hook.hpp>
 
 namespace game
 {
@@ -133,6 +134,17 @@ namespace game
 	{
 		static const auto base = game::get_base_address();
 		return rva - 0x140000000 + base;
+	}
+
+	steam_interfaces_t* get_steam_interfaces()
+	{
+		if (game::g_steamInterfaces->steamClient != nullptr)
+		{
+			return game::g_steamInterfaces;
+		}
+
+		utils::hook::invoke<void>(0x140001F00_r, game::g_steamInterfaces.get());
+		return game::g_steamInterfaces;
 	}
 }
 

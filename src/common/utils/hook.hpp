@@ -288,4 +288,13 @@ namespace utils::hook
 		const auto base = reinterpret_cast<std::size_t>(GetModuleHandle(NULL));
 		return far_inject<T>(base, address);
 	}
+
+	template <typename T>
+	T* far_inject(const std::size_t address, const T& src_data)
+	{
+		const auto base = reinterpret_cast<std::size_t>(GetModuleHandle(NULL));
+		const auto data = far_inject<T>(base, address);
+		std::memcpy(data, &src_data, sizeof(T));
+		return data;
+	}
 }

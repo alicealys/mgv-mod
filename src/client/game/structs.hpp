@@ -1299,27 +1299,27 @@ namespace game
 
 	struct steam_interfaces_t
 	{
-		ISteamClient* SteamClient017;
-		ISteamUser* SteamUser019;
-		ISteamFriends* SteamFriends015;
-		ISteamUtils* SteamUtils008;
-		ISteamMatchmaking* SteamMatchMaking009;
-		ISteamMatchmakingServers* SteamMatchMakingServers002;
-		ISteamUserStats* SteamUserState011;
-		ISteamApps* SteamApps008;
-		ISteamNetworking* SteamNetworking005;
-		ISteamRemoteStorage* SteamRemoteStorage013;
-		ISteamScreenshots* SteamScreenshots002;
-		ISteamHTTP* SteamHTTP002;
-		ISteamUnifiedMessages* SteamUnifiedMessages001;
-		ISteamController* SteamController003;
-		ISteamUGC* SteamUGC008;
-		ISteamAppList* SteamAppList001;
-		ISteamMusic* SteamMusic001;
-		ISteamMusicRemote* SteamMusicRemote001;
-		ISteamHTMLSurface* SteamHTMLSurface003;
-		ISteamInventory* SteamInventory001;
-		ISteamVideo* SteamVideo001;
+		ISteamClient* steamClient; // SteamClient017
+		ISteamUser* steamUser; // SteamUser019
+		ISteamFriends* steamFriends; // SteamFriends015
+		ISteamUtils* steamUtils; // SteamUtils008
+		ISteamMatchmaking* steamMatchMaking; // SteamMatchMaking009
+		ISteamMatchmakingServers* steamMatchMakingServers; // SteamMatchMakingServers002
+		ISteamUserStats* steamUserState; // SteamUserState011
+		ISteamApps* steamApps; // SteamApps008
+		ISteamNetworking* steamNetworking; // SteamNetworking005
+		ISteamRemoteStorage* steamRemoteStorage; // SteamRemoteStorage013
+		ISteamScreenshots* steamScreenshots; // SteamScreenshots002
+		ISteamHTTP* steamHTTP; // SteamHTTP002
+		ISteamUnifiedMessages* steamUnifiedMessages; // SteamUnifiedMessages001
+		ISteamController* steamController; // SteamController003
+		ISteamUGC* steamUGC; // SteamUGC008
+		ISteamAppList* steamAppList; // SteamAppList001
+		ISteamMusic* steamMusic; // SteamMusic001
+		ISteamMusicRemote* steamMusicRemote; // SteamMusicRemote001
+		ISteamHTMLSurface* steamHTMLSurface; // SteamHTMLSurface003
+		ISteamInventory* steamInventory; // SteamInventory001
+		ISteamVideo* steamVideo; // SteamVideo001
 	};
 
 	namespace Json

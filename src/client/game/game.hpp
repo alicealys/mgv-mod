@@ -63,6 +63,8 @@ namespace game
 		std::array<size_t, environment::mode_count> addresses_{};
 
 	};
+
+	steam_interfaces_t* get_steam_interfaces();
 }
 
 std::size_t operator ""_r(const std::size_t);
