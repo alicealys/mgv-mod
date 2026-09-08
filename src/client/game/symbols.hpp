@@ -39,6 +39,18 @@ namespace game
 			WEAK symbol<void(fox::RawMouseData*)> SetRawData{0x1400327F0};
 		}
 
+		namespace LuaAutoPtr_
+		{
+			WEAK symbol<void(LuaAutoPtr*, char, char, const char*)> LuaAutoPtr_{0x140074960};
+			WEAK symbol<void(LuaAutoPtr*)> LuaAutoPtr__destructor{0x140074D40};
+		}
+
+		namespace LuaScopedGlobalPolicy_
+		{
+			WEAK symbol<void(LuaScopedGlobalPolicy*, lua::lua_State*, int)> LuaScopedGlobalPolicy_{0x140074CD0};
+			WEAK symbol<void(LuaScopedGlobalPolicy*)> LuaScopedGlobalPolicy__destructor{0x140074E20};
+		}
+
 		namespace fs
 		{
 			namespace PathCodeImpl_
@@ -215,6 +227,45 @@ namespace game
 				}
 			}
 		}
+	}
+
+	namespace luaext
+	{
+		WEAK symbol<void* (lua::lua_State*, const char*, __int64, __int64, __int64)> lua_bind_start{0x141934970};
+		WEAK symbol<void* (void*, const char*, void*, __int64, __int64, __int64)> lua_bind_closure{0x141934720};
+		WEAK symbol<void* (void*, __int64, __int64, __int64)> lua_bind_end{0x1419347F0};
+	}
+
+	namespace lua
+	{
+		WEAK symbol<int(lua_State* s, const char* buffer, size_t size, const char* name)> luaL_loadbuffer{0x141936D90};
+
+		WEAK symbol<int(lua_State* s, const char*)> luaL_loadstring{0x141936FE0};
+		WEAK symbol<int(lua_State* s, int, int)> lua_call{0x14192F910};
+		WEAK symbol<int(lua_State* s, int, int, int)> lua_pcall{0x141930310};
+
+		WEAK symbol<void(lua_State* L, int, const char*)> lua_getfield{0x140CA8B90};
+		WEAK symbol<void(lua_State* L, int, const char*)> lua_setfield{0x140CA90C0};
+
+		WEAK symbol<int(lua_State* L, int)> lua_type{0x141930F50};
+		WEAK symbol<const char* (lua_State* L, int)> lua_typename{0x141930F80};
+		WEAK symbol<int(lua_State* L, int)> lua_next{0x141930250};
+		WEAK symbol<int(lua_State* L)> lua_gettop{0x14192FF30};
+		WEAK symbol<void(lua_State* L, int)> lua_settop{0x141930BC0};
+		WEAK symbol<void(lua_State* L, int)> lua_remove{0x141930870};
+
+		WEAK symbol<bool(lua_State* L, int)> lua_toboolean{0x141930D10};
+		WEAK symbol<int(lua_State* L, int)> lua_tointeger{0x141930D70};
+		WEAK symbol<double(lua_State* L, int)> lua_tonumber{0x141930E40};
+		WEAK symbol<const char* (lua_State* L, int idx, size_t* len)> lua_tolstring{0x141930DA0};
+
+		WEAK symbol<void(lua_State* L)> lua_pushnil{0x141930580};
+		WEAK symbol<void(lua_State* L, const char*)> lua_pushstring{0x1419305C0};
+		WEAK symbol<void(lua_State* L, double)> lua_pushnumber{0x1419305A0};
+		WEAK symbol<void(lua_State* L, int)> lua_pushinteger{0x1419304D0};
+		WEAK symbol<void(lua_State* L, int)> lua_pushboolean{0x1419303A0};
+
+#define game_lua_pop(L,n) game::lua::lua_settop(L, -(n)-1)
 	}
 
 	WEAK symbol<fox::RawKeyboardData> g_rawMouseData{0x1430B9C98};
