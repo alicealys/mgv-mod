@@ -10,6 +10,7 @@
 #include <utils/hook.hpp>
 #include <utils/flags.hpp>
 #include <utils/properties.hpp>
+#include <utils/string.hpp>
 
 namespace filesystem
 {
@@ -20,6 +21,8 @@ namespace filesystem
 			std::string path;
 			int resource_id;
 		};
+
+		std::filesystem::path local_path = "mgv-mod";
 
 		std::unordered_map<std::string, int>& get_resource_files()
 		{
@@ -103,6 +106,40 @@ namespace filesystem
 
 			set_result(utils::nt::load_resource(iter->second), "");
 			return true;
+		}
+
+		std::filesystem::path load_config_path()
+		{
+			const auto appdata_path = utils::properties::get_appdata_path();
+			const auto check_path = [](const std::filesystem::path& path)
+			{
+				const auto file = path / "fs_check";
+				const auto value = utils::string::va("%lli", GetTickCount64());
+
+				if (utils::io::write_file(file.generic_string(), value) && utils::io::read_file(file.generic_string()) == value)
+				{
+					utils::io::remove_file(file.generic_string());
+					return true;
+				}
+
+				return false;
+			};
+
+			if (check_path(appdata_path))
+			{
+				return appdata_path;
+			}
+			else
+			{
+				console::warn("[FS] Appdata path not available, falling back to local\n");
+			}
+
+			if (check_path(local_path))
+			{
+				return local_path;
+			}
+
+			throw std::runtime_error("no valid config path");
 		}
 	}
 
@@ -235,14 +272,26 @@ namespace filesystem
 		return utils::io::write_file(path, data, append);
 	}
 
+	std::filesystem::path& get_config_path()
+	{
+		static std::filesystem::path config_path;
+		return config_path;
+	}
+
 	class component final : public component_interface
 	{
 	public:
 		void pre_load() override
 		{
+			get_config_path() = load_config_path();
+
 			filesystem::register_path(L".");
-			filesystem::register_path(L"mgv-mod");
-			filesystem::register_path(utils::properties::get_appdata_path());
+			filesystem::register_path(local_path);
+
+			if (get_config_path() != local_path)
+			{
+				filesystem::register_path(get_config_path());
+			}
 		}
 	};
 }

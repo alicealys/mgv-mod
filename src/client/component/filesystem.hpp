@@ -28,4 +28,6 @@ namespace filesystem
 			return func(safe_path);
 		};
 	}
+
+	std::filesystem::path& get_config_path();
 }
