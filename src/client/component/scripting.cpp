@@ -777,10 +777,10 @@ namespace scripting
 
 		void start() override
 		{
-			utils::hook::inject(0x1401854CF_r + 3, lua_print<console::con_type_info>);
-			utils::hook::inject(0x1401854F2_r + 3, lua_print<console::con_type_warning>);
-			utils::hook::inject(0x140185515_r + 3, lua_print<console::con_type_warning>);
-			utils::hook::inject(0x140185538_r + 3, lua_print<console::con_type_error>);
+			utils::hook::jump(utils::hook::far_inject<char[32]>(0x1401854CF_r + 3), lua_print<console::con_type_info>, true);
+			utils::hook::jump(utils::hook::far_inject<char[32]>(0x1401854F2_r + 3), lua_print<console::con_type_warning>, true);
+			utils::hook::jump(utils::hook::far_inject<char[32]>(0x140185515_r + 3), lua_print<console::con_type_warning>, true);
+			utils::hook::jump(utils::hook::far_inject<char[32]>(0x140185538_r + 3), lua_print<console::con_type_error>, true);
 
 			tpp_game_core_init_hook.create(0x140A53210_r, tpp_game_core_init_stub);
 			lual_load_buffer_hook.create(game::lua::luaL_loadbuffer, lual_load_buffer_stub);
