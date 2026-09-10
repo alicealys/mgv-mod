@@ -188,9 +188,9 @@ namespace game_console
 
 			if (matches.size() > 24)
 			{
-				draw_hint_box(instance, 1, offset, 0.f, var_con_input_hint_box_color->current.get_color());
+				draw_hint_box(instance, 1, offset, 2.f, var_con_input_hint_box_color->current.get_color());
 				draw_hint_text(instance, 0, utils::string::va("%i matches (too many to show here)", matches.size()),
-					var_con_input_var_match_color->current.get_color(), offset);
+					var_con_input_var_match_color->current.get_color(), offset, 2.f);
 			}
 			else if (matches.size() == 1)
 			{

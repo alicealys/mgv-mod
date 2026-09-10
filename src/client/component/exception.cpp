@@ -121,18 +121,6 @@ namespace exception
 			return reinterpret_cast<size_t>(stub);
 		}
 
-		std::string get_timestamp()
-		{
-			tm ltime{};
-			char timestamp[MAX_PATH] = {0};
-			const auto time = _time64(nullptr);
-
-			_localtime64_s(&ltime, &time);
-			strftime(timestamp, sizeof(timestamp) - 1, "%Y-%m-%d-%H-%M-%S", &ltime);
-
-			return timestamp;
-		}
-
 		std::string generate_crash_info(const LPEXCEPTION_POINTERS exception_info)
 		{
 			std::string info{};
@@ -150,7 +138,7 @@ namespace exception
 			line("MGV-MOD Crash Dump");
 			line("");
 			line("Version: "s + VERSION);
-			line("Timestamp: "s + get_timestamp());
+			line("Timestamp: "s + utils::string::get_timestamp());
 			line(utils::string::va("Exception: 0x%08X", exception_info->ExceptionRecord->ExceptionCode));
 			line(utils::string::va("Address: 0x%llX", exception_info->ExceptionRecord->ExceptionAddress));
 			line(utils::string::va("Module: 0x%llX", exception_info->ExceptionRecord->ExceptionAddress));
@@ -166,7 +154,7 @@ namespace exception
 			SecureZeroMemory(process_params->CommandLine.Buffer, process_params->CommandLine.Length);
 			process_params->CommandLine.Length = 0;
 
-			const auto timestamp = get_timestamp();
+			const auto timestamp = utils::string::get_timestamp();
 			const auto crash_name = std::format("minidumps/mgv-mod-crash-{}.zip", timestamp);
 			strncpy_s(exception_data.crash_name, sizeof(exception_data.crash_name), crash_name.data(), _TRUNCATE);
 

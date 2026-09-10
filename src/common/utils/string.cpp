@@ -335,4 +335,16 @@ namespace utils::string
 		WideCharToMultiByte(CP_ACP, 0, text.data(), static_cast<int>(text.size()), str.data(), static_cast<int>(str.size()), 0, 0);
 		return str;
 	}
+
+	std::string get_timestamp(const std::string& fmt)
+	{
+		tm ltime{};
+		char timestamp[MAX_PATH] = {0};
+		const auto time = _time64(nullptr);
+
+		_localtime64_s(&ltime, &time);
+		strftime(timestamp, sizeof(timestamp) - 1, fmt.data(), &ltime);
+
+		return timestamp;
+	}
 }

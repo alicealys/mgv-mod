@@ -117,4 +117,6 @@ namespace utils::string
 	std::wstring utf8_to_utf16(const std::string& text, const std::size_t max_len = 0xFFFF);
 	std::string utf16_to_utf8(const std::wstring& text);
 	std::string utf16_to_ascii(const std::wstring& text);
+
+	std::string get_timestamp(const std::string& fmt = "%Y-%m-%d-%H-%M-%S");
 }

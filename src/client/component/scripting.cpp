@@ -728,6 +728,14 @@ namespace scripting
 				game::luaext::lua_bind_end(bind, 0, 0, 0);
 			}
 		}
+
+		void lua_bind_closure_stub(void* bind, const char* name, void* func, __int64 a4, __int64 a5, __int64 a6)
+		{
+			game::luaext::lua_bind_closure(bind, "Log", lua_print<console::con_type_info>, a4, a5, a6);
+			game::luaext::lua_bind_closure(bind, "Warning", lua_print<console::con_type_warning>, a4, a5, a6);
+			game::luaext::lua_bind_closure(bind, "Caution", lua_print<console::con_type_warning>, a4, a5, a6);
+			game::luaext::lua_bind_closure(bind, "Error", lua_print<console::con_type_error>, a4, a5, a6);
+		}
 	}
 
 	std::unique_ptr<lua_lock> acquire_lock()
@@ -777,10 +785,10 @@ namespace scripting
 
 		void start() override
 		{
-			utils::hook::jump(utils::hook::far_inject<char[32]>(0x1401854CF_r + 3), lua_print<console::con_type_info>, true);
-			utils::hook::jump(utils::hook::far_inject<char[32]>(0x1401854F2_r + 3), lua_print<console::con_type_warning>, true);
-			utils::hook::jump(utils::hook::far_inject<char[32]>(0x140185515_r + 3), lua_print<console::con_type_warning>, true);
-			utils::hook::jump(utils::hook::far_inject<char[32]>(0x140185538_r + 3), lua_print<console::con_type_error>, true);
+			utils::hook::far_call(0x1401854E0_r, lua_bind_closure_stub);
+			utils::hook::nop(0x140185503_r, 5);
+			utils::hook::nop(0x140185526_r, 5);
+			utils::hook::nop(0x140185549_r, 5);
 
 			tpp_game_core_init_hook.create(0x140A53210_r, tpp_game_core_init_stub);
 			lual_load_buffer_hook.create(game::lua::luaL_loadbuffer, lual_load_buffer_stub);

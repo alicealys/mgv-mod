@@ -227,6 +227,16 @@ namespace game
 				}
 			}
 		}
+	
+
+		namespace ncl
+		{
+			namespace NclDaemon_
+			{
+				WEAK symbol<NclDaemon*> s_instance{0x1430D5488};
+				WEAK symbol<SharedString* (NclDaemon*, StringId)> GetUrl{0x141C0D330};
+			}
+		}
 	}
 
 	namespace luaext
