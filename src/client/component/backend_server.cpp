@@ -83,10 +83,19 @@ namespace backend_server
 			if (var_net_server_logging->current.enabled())
 			{
 				const auto data = get_fox_buffer(buffer);
-				const auto json = nlohmann::json::parse(data);
-				const auto cmd = json["msgid"].get<std::string>();
 
-				console::info("[net] received response for command \"%s\"", cmd.data());
+				auto json = nlohmann::json::parse(data);
+				auto cmd = json["msgid"].get<std::string>();
+				auto result = json["result"].get<std::string>();
+
+				if (result == "NOERR")
+				{
+					console::info("[net] received response for command \"%s\": %s", cmd.data(), result.data());
+				}
+				else
+				{
+					console::error("[net] received response for command \"%s\": %s", cmd.data(), result.data());
+				}
 
 				const auto path = get_dump_path(cmd, false);
 				utils::io::write_file(path, json.dump(4));
@@ -97,12 +106,13 @@ namespace backend_server
 
 		void* http_codec_begin_encode_stub(void* this_, void* ctx, game::fox::Buffer* buffer, void* session_key)
 		{
-			const auto data = get_fox_buffer(buffer);
-			const auto json = nlohmann::json::parse(data);
-			const auto cmd = json["msgid"].get<std::string>();
-
 			if (var_net_server_logging->current.enabled())
 			{
+				const auto data = get_fox_buffer(buffer);
+
+				auto json = nlohmann::json::parse(data);
+				auto cmd = json["msgid"].get<std::string>();
+
 				console::info("[net] sending request for command \"%s\"", cmd.data());
 
 				const auto path = get_dump_path(cmd, true);

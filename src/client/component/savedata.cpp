@@ -43,14 +43,34 @@ namespace savedata
 				return true;
 			};
 
+			const auto add_building_info = [&](nlohmann::json& data_res, const std::uint32_t map_location)
+			{
+				nlohmann::json request;
+				request["msgid"] = "CMD_BUILDING_LOAD";
+				request["rqid"] = 0;
+				request["map_location"] = map_location;
+
+				auto data = backend_server::send_command("WEB", request, true);
+				if (!data.has_value())
+				{
+					console::error("[savedata] failed to load CMD_BUILDING_LOAD %i from server\n", map_location);
+					return false;
+				}
+
+				data_res = data.value();
+				return true;
+			};
+
 			add_data("avatar", "CMD_AVATAR_LOAD");
 			add_data("mission_progress", "CMD_MISSION_PROGRESS_LOAD");
-			add_data("building", "CMD_BUILDING_LOAD");
 			add_data("crew", "CMD_CREW_LOAD");
 			add_data("base_resource", "CMD_BASE_RESOURCE_LOAD");
 			add_data("deploy_team", "CMD_DEPLOY_LOAD_TEAM");
 			add_data("player_list", "CMD_GET_PLAYERLIST");
 			add_data("challenge_task_list", "CMD_CHALLENGE_TASK_GET_LIST");
+
+			add_building_info(save_data["building"][0], 0);
+			add_building_info(save_data["building"][1], 1);
 
 			const auto steam = game::get_steam_interfaces();
 			const auto timestamp = utils::string::get_timestamp();
