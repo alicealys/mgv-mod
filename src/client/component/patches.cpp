@@ -145,6 +145,9 @@ namespace patches
 			utils::hook::set<std::uint8_t>(0x14192416E_r, 0xC3);
 
 			patch_sensitivity();
+
+			// remove anti debugging
+			utils::hook::jump(0x1435FB310_r, 0x14192449C_r);
 		}
 
 		void game_initialized()
