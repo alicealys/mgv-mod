@@ -67,10 +67,9 @@ namespace savedata
 			add_data("base_resource", "CMD_BASE_RESOURCE_LOAD");
 			add_data("deploy_team", "CMD_DEPLOY_LOAD_TEAM");
 			add_data("player_list", "CMD_GET_PLAYERLIST");
-			add_data("challenge_task_list", "CMD_CHALLENGE_TASK_GET_LIST");
 
-			add_building_info(save_data["building"][0], 0);
-			add_building_info(save_data["building"][1], 1);
+			add_building_info(save_data["data"]["building"][0], 0);
+			add_building_info(save_data["data"]["building"][1], 1);
 
 			const auto steam = game::get_steam_interfaces();
 			const auto timestamp = utils::string::get_timestamp();
@@ -82,7 +81,8 @@ namespace savedata
 			save_data["steam_id"] = user_id.bits;
 
 			const auto data_path = filesystem::get_config_path().generic_string();
-			const auto save_path = std::format("{}/saves/save-{}.json", data_path, timestamp);
+			const auto save_name = std::format("save-{}", timestamp);
+			const auto save_path = std::format("{}/saves/{}.json", data_path, save_name);
 			const auto data = save_data.dump(4);
 
 			if (!utils::io::write_file(save_path, data))
@@ -91,8 +91,53 @@ namespace savedata
 			}
 			else
 			{
-				console::info("[savedata] save data dumped to \"%s\"\n", save_path.data());
+				console::info("[savedata] save data dumped to \"%s\", use \"restoresave %s\" to restore it\n", save_name.data());
 			}
+		}
+
+		void restore_save_data(const std::string& name)
+		{
+			if (!backend_server::is_using_custom_server())
+			{
+				console::error("[savedata] konami server does not support save restoration!\n");
+				return;
+			}
+
+			const auto is_logged_in = scripting::script_exec("return TppServerManager.IsLoginKonami()");
+			if (!is_logged_in.has_value() || !is_logged_in->get_bool())
+			{
+				console::error("[savedata] you must be logged in to restore your save data!\n");
+				return;
+			}
+
+			const auto data_path = filesystem::get_config_path().generic_string();
+			const auto save_path = std::format("{}/saves/{}.json", data_path, name);
+
+			std::string data;
+			if (!utils::io::read_file(save_path, &data))
+			{
+				console::error("[savedata] save file %s not found!\n", name.data());
+				return;
+			}
+
+			auto save_data = nlohmann::json::parse(data, nullptr, false);
+			if (save_data.is_discarded())
+			{
+				console::error("invalid save data\n");
+				return;
+			}
+
+			save_data["data"]["msgid"] = "CMD_RESTORE_SAVE";
+			save_data["data"]["rqid"] = 0;
+
+			auto res = backend_server::send_command("WEB", save_data["data"], true);
+			if (!res.has_value() || res->operator[]("result") != "NOERR")
+			{
+				console::error("[savedata] failed to restore savedata to server\n");
+				return;
+			}
+
+			console::info("[savedata] savedata restored, restart your game\n");
 		}
 	}
 
@@ -104,6 +149,21 @@ namespace savedata
 			command::add("dumpsave", []()
 			{
 				scheduler::once(dump_save_data, scheduler::async);
+			});
+
+			command::add("restoresave", [](const command::params& params)
+			{
+				if (params.size() < 2)
+				{
+					console::info("usage: restoresave <name>\n");
+					return;
+				}
+
+				const auto name = params.get(1);
+				scheduler::once([name]
+				{
+					restore_save_data(name);
+				}, scheduler::async);
 			});
 		}
 	};
