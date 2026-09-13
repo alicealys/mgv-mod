@@ -91,7 +91,7 @@ namespace savedata
 			}
 			else
 			{
-				console::info("[savedata] save data dumped to \"%s\", use \"restoresave %s\" to restore it\n", save_name.data());
+				console::info("[savedata] save data dumped to \"%s\", use \"restoresave %s\" to restore it\n", save_path.data(), save_name.data());
 			}
 		}
 
