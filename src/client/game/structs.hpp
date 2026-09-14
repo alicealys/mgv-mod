@@ -4306,4 +4306,38 @@ namespace game
 		{
 		};
 	}
+
+	namespace tpp
+	{
+		namespace ui
+		{
+			namespace hud
+			{
+				struct CommonDataManager
+				{
+					struct vtable
+					{
+
+					};
+
+					vtable* __vftable;
+				};
+			};
+
+			namespace menu
+			{
+				struct UiCommonDataManager
+				{
+					struct vtable
+					{
+
+					};
+
+					vtable* __vftable;
+					char __pad0[128];
+
+				};
+			}
+		}
+	}
 }

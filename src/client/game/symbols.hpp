@@ -53,6 +53,17 @@ namespace game
 
 		namespace fs
 		{
+			namespace FileLocationManager_
+			{
+				WEAK symbol<unsigned int(MountPoint*, unsigned int)> SetIoHandleCount{0x14004C2C0};
+			}
+
+			namespace MountPoint_
+			{
+				WEAK symbol<MountPoint* (const char*, const char*, __int64, int)> CreateWithPackFile{0x14004AF40};
+				WEAK symbol<void(MountPoint*)> Destroy{0x14004B330};
+			}
+
 			namespace PathCodeImpl_
 			{
 				WEAK symbol<__int64(const char*)> FromString{0x140042150};
@@ -227,7 +238,6 @@ namespace game
 				}
 			}
 		}
-	
 
 		namespace ncl
 		{
@@ -235,6 +245,43 @@ namespace game
 			{
 				WEAK symbol<NclDaemon*> s_instance{0x1430D5488};
 				WEAK symbol<SharedString* (NclDaemon*, StringId)> GetUrl{0x141C0D330};
+			}
+		}
+	}
+
+	namespace tpp
+	{
+		namespace ui
+		{
+			namespace hud
+			{
+				namespace CommonDataManager_
+				{
+					WEAK symbol<CommonDataManager*()> GetInstance{0x140948C30};
+				}
+			}
+
+			namespace menu
+			{
+				namespace UiCommonDataManager_
+				{
+					WEAK symbol<UiCommonDataManager*()> GetInstance{0x140943750};
+					WEAK symbol<int(UiCommonDataManager*)> GetPauseMenuType{0x1409437D0};
+				}
+			}
+
+			namespace utility
+			{
+				WEAK symbol<fox::StringId* (fox::StringId*, unsigned __int16, unsigned __int16, char)> GetMissionNameKey{0x1409F7FB0};
+				WEAK symbol<unsigned __int16()> GetCurrentLocationId{0x1409F6D30};
+				WEAK symbol<unsigned __int16()> GetCurrentMissionId{0x1409F6D50};
+				WEAK symbol<const char* (fox::StringId)> GetLangText{0x1409F7B70};
+				WEAK symbol<fox::StringId* (fox::StringId*, const char*)> GetStringId{0x1409F8C70};
+
+				namespace UiUtilityImpl_
+				{
+					WEAK symbol<void()> CallFoxQuit{0x140A11CC0};
+				}
 			}
 		}
 	}

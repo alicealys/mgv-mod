@@ -78,7 +78,6 @@ namespace patches
 			}
 		}
 
-
 		void unlock_fps()
 		{
 			utils::hook::jump(0x14008CA2A_r, 0x14008CBF8_r); // nowait frame mode
