@@ -834,6 +834,19 @@ namespace scripting
 
 				load_script(params.get(1));
 			});
+
+			command::add("toggleminimap", []
+			{
+				const auto value = *reinterpret_cast<unsigned int*>(0x14296F8FC_r);
+				if ((value & ~0xFC) == 1)
+				{
+					script_exec("SsdMinimap.Close()");
+				}
+				else
+				{
+					script_exec("SsdMinimap.Open()");
+				}
+			});
 		}
 	};
 }
