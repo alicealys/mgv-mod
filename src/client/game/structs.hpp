@@ -262,6 +262,12 @@ namespace game
 
 	static_assert(offsetof(LobbyChatMsg_t, chat_id) == 20);
 
+	struct GetAuthSessionTicketResponse_t
+	{
+		unsigned int m_hAuthTicket;
+		unsigned int m_eResult;
+	};
+
 	struct CGameID
 	{
 
@@ -1322,6 +1328,18 @@ namespace game
 		ISteamVideo* steamVideo; // SteamVideo001
 	};
 
+	struct steam_callback_t
+	{
+		struct vtable
+		{
+		};
+		vtable* __vftable;
+		int callback_flags;
+		int i_callback;
+		void* arg;
+		void* callback;
+	};
+
 	namespace Json
 	{
 		struct Value
@@ -1703,6 +1721,26 @@ namespace game
 				char name[129];
 			};
 #pragma pack(pop)
+
+			struct FirstPartyTicketImpl
+			{
+				struct vtable
+				{
+
+				};
+
+				vtable* __vftable;
+				int a1;
+				int a2;
+				int result;
+				int ticketSize;
+				char ticket[1024];
+				char a3;
+				char __pad1[3];
+				int hTicket;
+				steam_callback_t onGetAuthSessionTicketCallback;
+				__int64 unk1;
+			};
 		}
 
 		namespace gr

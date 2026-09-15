@@ -33,31 +33,12 @@ namespace backend_server
 		vars::var_ptr var_net_server_logging;
 		vars::var_ptr var_net_proxy_url;
 
-		std::string get_url_hash()
-		{
-			const auto url_hash = utils::cryptography::sha1::compute(ncl_url, true).substr(0, 8);
-			return url_hash;
-		}
-
 		std::uint64_t get_user_steamid()
 		{
 			const auto steam_user = game::get_steam_interfaces()->steamUser;
 			game::steam_id steam_id{};
 			steam_user->__vftable->GetSteamID(steam_user, &steam_id);
 			return steam_id.bits;
-		}
-
-		std::string get_base_path()
-		{
-			const auto steam_id = get_user_steamid();
-			const auto& config_path = filesystem::get_config_path();
-			return std::format("{}\\userdata\\{}", config_path.generic_string(), steam_id);
-		}
-
-		std::string get_auth_token_save_path()
-		{
-			const auto url_hash = get_url_hash();
-			return std::format("{}\\auth_tokens\\{}", get_base_path(), url_hash);
 		}
 
 		std::string get_dump_path(const std::string cmd_name, const bool request)
@@ -383,6 +364,19 @@ namespace backend_server
 		}
 
 		return var_net_ncl_url->reset.get_string();
+	}
+
+	std::string get_user_storage_path()
+	{
+		const auto steam_id = get_user_steamid();
+		const auto& config_path = filesystem::get_config_path();
+		return std::format("{}\\userdata\\{}", config_path.generic_string(), steam_id);
+	}
+
+	std::string get_url_hash()
+	{
+		const auto url_hash = utils::cryptography::sha1::compute(ncl_url, true).substr(0, 8);
+		return url_hash;
 	}
 
 	class component final : public component_interface

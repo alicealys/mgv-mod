@@ -107,6 +107,11 @@ namespace patches
 			SetEnvironmentVariableA("SteamAppId", utils::string::va("%lu", app_id));
 			SetEnvironmentVariableA("SteamGameId", utils::string::va("%llu", app_id & 0xFFFFFF));
 		}
+
+		char steam_user_logged_on_stub()
+		{
+			return 1;
+		}
 	}
 
 	class component final : public component_interface
@@ -147,11 +152,21 @@ namespace patches
 
 			// remove anti debugging
 			utils::hook::jump(0x1435FB310_r, 0x14192449C_r);
+
+			// disable BLoggedOn checks
+			utils::hook::set<std::uint8_t>(0x141D2F58E_r, 0xEB);
+			utils::hook::set<std::uint8_t>(0x1408C117A_r, 0xEB);
+			utils::hook::set<std::uint8_t>(0x14052B979_r, 0xEB);
+			utils::hook::nop(0x14052B732_r, 6);
+			utils::hook::set(0x1408E07D0_r, 0xC301B0);
 		}
 
 		void game_initialized()
 		{
+			const auto steam = game::get_steam_interfaces();
 
+			// this shouldnt be checked according to steam docs
+			utils::hook::set(&steam->steamUser->__vftable->BLoggedOn, steam_user_logged_on_stub);
 		}
 	};
 }
