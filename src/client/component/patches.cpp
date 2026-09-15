@@ -160,14 +160,6 @@ namespace patches
 			utils::hook::nop(0x14052B732_r, 6);
 			utils::hook::set(0x1408E07D0_r, 0xC301B0);
 		}
-
-		void game_initialized()
-		{
-			const auto steam = game::get_steam_interfaces();
-
-			// this shouldnt be checked according to steam docs
-			utils::hook::set(&steam->steamUser->__vftable->BLoggedOn, steam_user_logged_on_stub);
-		}
 	};
 }
 

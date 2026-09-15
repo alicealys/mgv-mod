@@ -73,19 +73,20 @@ namespace auth_ticket
 		utils::hook::detour get_auth_session_ticket_hook;
 		unsigned int get_auth_session_ticket_stub(game::ISteamUser* steam_user, char* data, int max_ticket, unsigned int* ticket_size)
 		{
-			console::info("[SteamUser] GetAuthSessionTicket\n");
-
-			if (steam_user->__vftable->BLoggedOn(steam_user) && !backend_server::is_using_custom_server())
+			static const auto auth_token = get_auth_token();
+			if (!backend_server::is_using_custom_server() || 
+				(!auth_token.has_value() && steam_user->__vftable->BLoggedOn(steam_user)))
 			{
+				console::info("[auth] using steam ticket\n");
 				return get_auth_session_ticket_hook.invoke<unsigned int>(steam_user, data, max_ticket, ticket_size);
 			}
 
 			game::steam_id steam_id{};
 			steam_user->__vftable->GetSteamID(steam_user, &steam_id);
 
-			static const auto auth_token = get_auth_token();
-			if (auth_token.has_value() && backend_server::is_using_custom_server())
+			if (auth_token.has_value())
 			{
+				console::info("[auth] using auth token ticket\n");
 				const auto ticket = reinterpret_cast<auth_ticket_custom_t*>(data);
 				ticket->account_id = steam_id.bits;
 				std::memcpy(ticket->auth_token, auth_token->data(), sizeof(auth_ticket_custom_t::auth_token));
@@ -93,6 +94,7 @@ namespace auth_ticket
 			}
 			else
 			{
+				console::info("[auth] using fake steam ticket\n");
 				std::memset(data, 0, max_ticket);
 				std::memcpy(data + 12, &steam_id.bits, sizeof(steam_id.bits));
 				*ticket_size = max_ticket;
