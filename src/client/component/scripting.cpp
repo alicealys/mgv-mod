@@ -262,15 +262,20 @@ namespace scripting
 		}
 
 		template <console::console_type Type>
-		void lua_print(game::lua::lua_State* s)
+		int lua_print(game::lua::lua_State* s)
 		{
 			if (var_lua_logging->current.get_int() < 2)
 			{
-				return;
+				return 0;
 			}
 
 			size_t len{};
-			const char* cstr = game::lua::lua_tolstring(s, -1, &len);
+			const auto cstr = game::lua::lua_tolstring(s, -1, &len);
+			if (cstr == nullptr)
+			{
+				return 0;
+			}
+
 			std::string str(cstr, len);
 
 			const char* type_name = "Log";
@@ -285,6 +290,7 @@ namespace scripting
 			}
 
 			console::print(Type, "[Fox.%s] %s\n", type_name, str.data());
+			return 0;
 		}
 
 		std::string get_table_value(game::lua::lua_State* state)
@@ -729,12 +735,23 @@ namespace scripting
 			}
 		}
 
-		void lua_bind_closure_stub(void* bind, const char* name, void* func, __int64 a4, __int64 a5, __int64 a6)
+		void register_log_funcs(void* bind)
 		{
-			game::luaext::lua_bind_closure(bind, "Log", lua_print<console::con_type_info>, a4, a5, a6);
-			game::luaext::lua_bind_closure(bind, "Warning", lua_print<console::con_type_warning>, a4, a5, a6);
-			game::luaext::lua_bind_closure(bind, "Caution", lua_print<console::con_type_warning>, a4, a5, a6);
-			game::luaext::lua_bind_closure(bind, "Error", lua_print<console::con_type_error>, a4, a5, a6);
+			game::luaext::lua_bind_closure(bind, "Log", lua_print<console::con_type_info>, 1, 0, 0);
+			game::luaext::lua_bind_closure(bind, "Warning", lua_print<console::con_type_warning>, 1, 0, 0);
+			game::luaext::lua_bind_closure(bind, "Caution", lua_print<console::con_type_warning>, 1, 0, 0);
+			game::luaext::lua_bind_closure(bind, "Error", lua_print<console::con_type_error>, 1, 0, 0);
+		}
+
+		void lua_bind_closure_stub(utils::hook::assembler& a)
+		{
+			a.push_all_registers();
+			a.pushad64();
+			a.mov(rcx, rbx);
+			a.call_aligned(register_log_funcs);
+			a.popad64();
+			a.pop_all_registers();
+			a.jmp(0x14018554E_r);
 		}
 	}
 
@@ -785,14 +802,10 @@ namespace scripting
 
 		void start() override
 		{
-			utils::hook::far_call(0x1401854E0_r, lua_bind_closure_stub);
-			utils::hook::nop(0x140185503_r, 5);
-			utils::hook::nop(0x140185526_r, 5);
-			utils::hook::nop(0x140185549_r, 5);
+			utils::hook::jump(0x1401854E0_r, utils::hook::assemble(lua_bind_closure_stub), true);
 
 			tpp_game_core_init_hook.create(0x140A53210_r, tpp_game_core_init_stub);
 			lual_load_buffer_hook.create(game::lua::luaL_loadbuffer, lual_load_buffer_stub);
-
 			lua_func_register_functions_hook.create(0x140185210_r, lua_func_register_functions_stub);
 
 			command::add("script_var", [](const command::params& params)
