@@ -3623,6 +3623,11 @@ namespace game
 				};
 			};
 
+			struct Buffer
+			{
+
+			};
+
 			namespace impl
 			{
 				struct SppSocketImpl_mgo

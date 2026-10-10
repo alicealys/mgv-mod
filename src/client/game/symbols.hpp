@@ -247,6 +247,14 @@ namespace game
 				WEAK symbol<SharedString* (NclDaemon*, StringId)> GetUrl{0x141C0D330};
 			}
 		}
+
+		namespace nio
+		{
+			namespace Buffer_
+			{
+				WEAK symbol<unsigned __int64(Buffer*, void*, unsigned int)> IoBinary{0x141973240};
+			}
+		}
 	}
 
 	namespace tpp
