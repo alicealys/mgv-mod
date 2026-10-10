@@ -155,7 +155,7 @@ namespace patches
 
 			// disable BLoggedOn checks
 			utils::hook::set<std::uint8_t>(0x141D2F58E_r, 0xEB);
-			utils::hook::set<std::uint8_t>(0x1408C117A_r, 0xEB);
+			utils::hook::set<std::uint8_t>(0x1408C116F_r, 0xEB);
 			utils::hook::set<std::uint8_t>(0x14052B979_r, 0xEB);
 			utils::hook::nop(0x14052B732_r, 6);
 			utils::hook::set(0x1408E07D0_r, 0xC301B0);
