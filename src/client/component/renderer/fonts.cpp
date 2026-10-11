@@ -104,6 +104,12 @@ namespace renderer
 				texture_glyph_data->horizontalShift += x_offset;
 				texture_glyph_data->verticalShift += y_offset;
 
+				if (glyph->character == '^')
+				{
+					texture_glyph_data->verticalShift = 10;
+					texture_glyph_data->height *= 2;
+				}
+
 				const auto half_pixel_width = 0.5f / static_cast<float>(render.pixel_width);
 				const auto half_pixel_height = 0.5f / static_cast<float>(render.pixel_height);
 				game::fox::gr::dg::FontSystem_::CalculateMetrics(&glyph_info->metrics, texture_glyph_data, 
@@ -150,11 +156,12 @@ namespace renderer
 
 		void init_fonts()
 		{
-			load_font("/Assets/ssd/ui/Font/KanjiFont.ffnt", 1.f, 0, 0, 0);
-			load_font("/Assets/ssd/ui/Font/font_def_jp.ffnt", 1.f, 0, 0, 0);
-			load_font("/Assets/ssd/ui/Font/font_def_hgl.ffnt", 1.f, 0, 0, 0);
-			load_font("/Assets/ssd/ui/Font/font_def_chn.ffnt", 1.f, 0, 0, 0);
-			load_font("/Assets/ssd/ui/Font/font_def_ltn.ffnt", 1.f, 0, 0, 0);
+			load_font("/Assets/ssd/ui/Font/KanjiFont.ffnt", 1.f, -1, 0, 0);
+			load_font("/Assets/ssd/ui/Font/font_def_jp.ffnt", 1.f, -1, 0, 0);
+			load_font("/Assets/ssd/ui/Font/font_def_hgl.ffnt", 1.f, -1, 0, 0);
+			load_font("/Assets/ssd/ui/Font/font_def_chn.ffnt", 1.f, -1, 0, 0);
+			load_font("/Assets/ssd/ui/Font/font_def_rus.ffnt", 1.f, -1, 0, 0);
+			load_font("/Assets/ssd/ui/Font/font_def_ltn.ffnt", 1.f, -1, 0, 0);
 			font_data.loaded = true;
 		}
 

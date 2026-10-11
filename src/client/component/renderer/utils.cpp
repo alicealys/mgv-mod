@@ -154,6 +154,27 @@ namespace renderer
 			color[1] = 0.5f;
 			color[2] = 0.5f;
 			return true;
+		case 'a': // squad member 1
+			color[0] = 1.f;
+			color[1] = 1.f;
+			color[2] = 0.89f;
+			return true;
+		case 'b': // squad member 2
+			color[0] = 0.76f;
+			color[1] = 0.77f;
+			color[2] = 1.f;
+			return true;
+		case 'c': // squad member 3
+			color[0] = 0.77f;
+			color[1] = 0.92f;
+			color[2] = 0.93f;
+			return true;
+		case 'd': // squad member 4
+			color[0] = 0.86f;
+			color[1] = 1.f;
+			color[2] = 0.59f;
+			return true;
+
 		}
 
 		return false;

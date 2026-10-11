@@ -10,6 +10,8 @@
 #include "game_console.hpp"
 #include "exception.hpp"
 
+#include "text_chat/input.hpp"
+
 #include <utils/hook.hpp>
 #include <utils/string.hpp>
 #include <utils/properties.hpp>
@@ -330,7 +332,13 @@ namespace binds
 
 			if (game_console::handle_key(key, is_down, is_game_console_bind(key)))
 			{
-				game_console::handle_char(character_ascii, is_down);
+				game_console::handle_char(character, is_down);
+				return true;
+			}
+
+			if (text_chat::input::handle_key(key, is_down, is_game_console_bind(key)))
+			{
+				text_chat::input::handle_char(character, is_down);
 				return true;
 			}
 
@@ -372,7 +380,7 @@ namespace binds
 			{
 				const auto down = static_cast<short>(raw_input->data.mouse.usButtonData) < 0;
 
-				if (!game_console::handle_mousewheel(down))
+				if (!game_console::handle_mousewheel(down) && !text_chat::input::handle_mousewheel(down))
 				{
 					const auto wheel_key = down ? mouse_wheel_down : mouse_wheel_up;
 					if (handle_bind(wheel_key, true, false, false, false))
@@ -383,6 +391,11 @@ namespace binds
 			}
 
 			if (game_console::handle_key(-1, false, false))
+			{
+				return true;
+			}
+
+			if (text_chat::input::handle_key(-1, false))
 			{
 				return true;
 			}

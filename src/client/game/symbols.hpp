@@ -39,6 +39,12 @@ namespace game
 			WEAK symbol<void(fox::RawMouseData*)> SetRawData{0x1400327F0};
 		}
 
+		namespace Mutex_
+		{
+			WEAK symbol<void(Mutex*, int*)> SpinLock{0x140036B30};
+			WEAK symbol<void(Mutex*, int*)> Unlock{0x140036B70};
+		}
+
 		namespace LuaAutoPtr_
 		{
 			WEAK symbol<void(LuaAutoPtr*, char, char, const char*)> LuaAutoPtr_{0x140074960};
@@ -67,6 +73,14 @@ namespace game
 			namespace PathCodeImpl_
 			{
 				WEAK symbol<__int64(const char*)> FromString{0x140042150};
+			}
+		}
+
+		namespace gm
+		{
+			namespace impl
+			{
+				WEAK symbol<GameObjectMessageSystemImpl*> g_messagesystem{0x143082550};
 			}
 		}
 
@@ -275,6 +289,7 @@ namespace game
 				{
 					WEAK symbol<UiCommonDataManager*()> GetInstance{0x140943750};
 					WEAK symbol<int(UiCommonDataManager*)> GetPauseMenuType{0x1409437D0};
+					WEAK symbol<fox::ui::SoundControl*(UiCommonDataManager*)> GetSoundControl{0x140943880};
 				}
 			}
 
@@ -285,6 +300,7 @@ namespace game
 				WEAK symbol<unsigned __int16()> GetCurrentMissionId{0x1409F6D50};
 				WEAK symbol<const char* (fox::StringId)> GetLangText{0x1409F7B70};
 				WEAK symbol<fox::StringId* (fox::StringId*, const char*)> GetStringId{0x1409F8C70};
+				WEAK symbol<bool(fox::ui::SoundControl*, unsigned int)> StartSound{0x1409FE520};
 
 				namespace UiUtilityImpl_
 				{

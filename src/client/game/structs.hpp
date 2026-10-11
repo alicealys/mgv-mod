@@ -3692,10 +3692,10 @@ namespace game
 				fox::nio::Object object;
 				fox::nt::Member_SessionInterface sessionInterface;
 				void* a1;
-				char index;
+				char __pad0[4];
 				fox::nio::impl::SppSocketImpl* sppSocket;
 				void* sPtr2;
-				std::uint8_t a5;
+				unsigned char index;
 				int flags;
 				fox::Array<fox::EntityHandle> entityHandles;
 				fox::Array<fox::nio::ObjectPtr<fox::nio::MpSocket>> mpSockets;
@@ -3704,6 +3704,7 @@ namespace game
 				void* sPtr3;
 			};
 
+			static_assert(offsetof(Member, index) == 64);
 			static_assert(offsetof(Member, sessionUserId) == 0x70);
 			static_assert(sizeof(Member) == 0x80);
 
