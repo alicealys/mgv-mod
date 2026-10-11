@@ -231,20 +231,21 @@ namespace backend_server
 		{
 			nlohmann::json message;
 
-			auto compress = false;
-
 			const auto use_crypto = ncl_daemon != nullptr && ncl_daemon->sessionKey.data != nullptr;
 
-			message["compress"] = compress;
 			message["session_crypto"] = use_crypto;
 			message["session_key"] = use_crypto ? ncl_daemon->sessionKey.data->buffer : "";
 
 			auto data_serialized = data.dump();
 			const auto original_size = data_serialized.size();
+			const auto compressed_data = utils::compression::zlib::compress(data_serialized);
+			const auto compress = compressed_data.size() < data_serialized.size();
+
+			message["compress"] = compress;
 
 			if (compress)
 			{
-				data_serialized = utils::compression::zlib::compress(data_serialized);
+				data_serialized = compressed_data;
 			}
 
 			if (use_crypto)

@@ -337,6 +337,8 @@ namespace game
 
 	WEAK symbol<steam_interfaces_t> g_steamInterfaces{0x142AD71F0};
 
+	WEAK symbol<fox::nt::impl::SessionImpl2*> s_pSession{0x142B18510};
+
 	namespace fox
 	{
 		WEAK symbol<int> g_vkKeyTable{0x1430B9890};

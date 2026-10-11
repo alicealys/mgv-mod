@@ -7,6 +7,7 @@
 #include "renderer/draw.hpp"
 #include "scheduler.hpp"
 #include "vars.hpp"
+#include "session.hpp"
 
 #include <utils/hook.hpp>
 #include <utils/memory.hpp>
@@ -92,45 +93,45 @@ namespace overlay
 
 		void generate_ping_text(ping_text_cont_t& text)
 		{
-			//static const auto steam_friends = (*game::SteamFriends)();
-			//const auto main_session = *game::s_pSession;
-			//if (main_session == nullptr)
-			//{
-			//	return;
-			//}
-			//
-			//const auto session_state = session::get_state(main_session);
-			//const auto rtt = session::get_rtt(main_session);
-			//
-			//const auto calc_color = [&](const int rtt)
-			//{
-			//	text.color = rtt < 100 ? color_good : (rtt < 200 ? color_ok : color_bad);
-			//};
-			//
-			//switch (session_state)
-			//{
-			//case 2:
-			//case 3:
-			//{
-			//	text.color = color_good;
-			//	strcpy_s(text.buffer, sizeof(text.buffer), "HOST");
-			//	break;
-			//}
-			//case 4:
-			//case 5:
-			//{
-			//	text.color = color_ok;
-			//	strcpy_s(text.buffer, sizeof(text.buffer), "CONNECTING");
-			//	break;
-			//}
-			//case 6:
-			//case 7:
-			//{
-			//	calc_color(rtt);
-			//	snprintf(text.buffer, sizeof(text.buffer), "%ims", rtt);
-			//	break;
-			//}
-			//}
+			static const auto steam_friends = game::get_steam_interfaces()->steamFriends;
+			const auto main_session = *game::s_pSession;
+			if (main_session == nullptr)
+			{
+				return;
+			}
+			
+			const auto session_state = session::get_state(main_session);
+			const auto rtt = session::get_rtt(main_session);
+			
+			const auto calc_color = [&](const int rtt)
+			{
+				text.color = rtt < 100 ? color_good : (rtt < 200 ? color_ok : color_bad);
+			};
+			
+			switch (session_state)
+			{
+			case 2:
+			case 3:
+			{
+				text.color = color_good;
+				strcpy_s(text.buffer, sizeof(text.buffer), "HOST");
+				break;
+			}
+			case 4:
+			case 5:
+			{
+				text.color = color_ok;
+				strcpy_s(text.buffer, sizeof(text.buffer), "CONNECTING");
+				break;
+			}
+			case 6:
+			case 7:
+			{
+				calc_color(rtt);
+				snprintf(text.buffer, sizeof(text.buffer), "%ims", rtt);
+				break;
+			}
+			}
 		}
 
 		void update_ping_text()
