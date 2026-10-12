@@ -389,7 +389,7 @@ namespace backend_server
 			var_net_stun_server = vars::register_string("net_stun_server", "mgssd-stun.cs.konami.net:3478", vars::var_flag_saved | vars::var_flag_latched, "stun server address");
 			var_net_proxy_url = vars::register_string("net_http_proxy_url", "", vars::var_flag_saved, "http proxy url (example: http://1.2.3.4:1234 empty = disabled)");
 
-			var_net_server_logging = vars::register_bool("net_server_logging", false, vars::var_flag_saved, "enable server logging");
+			var_net_server_logging = vars::register_bool("net_server_logging", true, vars::var_flag_saved, "enable server logging");
 		}
 
 		void start() override
