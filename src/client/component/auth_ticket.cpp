@@ -8,6 +8,7 @@
 #include "vars.hpp"
 #include "backend_server.hpp"
 #include "filesystem.hpp"
+#include "steam.hpp"
 
 #include <utils/string.hpp>
 #include <utils/hook.hpp>
@@ -75,7 +76,7 @@ namespace auth_ticket
 		{
 			static const auto auth_token = get_auth_token();
 			if (!backend_server::is_using_custom_server() || 
-				(!auth_token.has_value() && steam_user->__vftable->BLoggedOn(steam_user)))
+				(!steam::is_nosteam() && !auth_token.has_value() && steam_user->__vftable->BLoggedOn(steam_user)))
 			{
 				console::info("[auth] using steam ticket\n");
 				return get_auth_session_ticket_hook.invoke<unsigned int>(steam_user, data, max_ticket, ticket_size);

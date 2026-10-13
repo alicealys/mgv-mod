@@ -494,7 +494,7 @@ namespace game
 		EFriendRelationship(__fastcall* GetFriendRelationship)(ISteamFriends*, steam_id steamIDFriend);
 		EPersonaState(__fastcall* GetFriendPersonaState)(ISteamFriends*, steam_id steamIDFriend);
 		const char* (__fastcall* GetFriendPersonaName)(ISteamFriends*, steam_id steamIDFriend);
-		bool(__fastcall* GetFriendGamePlayed)(ISteamFriends*);
+		bool(__fastcall* GetFriendGamePlayed)(ISteamFriends*, steam_id steamIDFriend, FriendGameInfo_t* pFriendGameInfo);
 		const char* (__fastcall* GetFriendPersonaNameHistory)(ISteamFriends*, steam_id steamIDFriend, int iPersonaName);
 		int(__fastcall* GetFriendSteamLevel)(ISteamFriends*, steam_id steamIDFriend);
 		const char* (__fastcall* GetPlayerNickname)(ISteamFriends*, steam_id steamIDPlayer);
@@ -1310,9 +1310,9 @@ namespace game
 		ISteamFriends* steamFriends; // SteamFriends015
 		ISteamUtils* steamUtils; // SteamUtils008
 		ISteamMatchmaking* steamMatchMaking; // SteamMatchMaking009
-		ISteamMatchmakingServers* steamMatchMakingServers; // SteamMatchMakingServers002
-		ISteamUserStats* steamUserState; // SteamUserState011
+		ISteamUserStats* steamUserStats; // SteamUserStats011
 		ISteamApps* steamApps; // SteamApps008
+		ISteamMatchmakingServers* steamMatchMakingServers; // SteamMatchMakingServers002
 		ISteamNetworking* steamNetworking; // SteamNetworking005
 		ISteamRemoteStorage* steamRemoteStorage; // SteamRemoteStorage013
 		ISteamScreenshots* steamScreenshots; // SteamScreenshots002
