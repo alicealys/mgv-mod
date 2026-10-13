@@ -159,6 +159,11 @@ namespace patches
 			utils::hook::set<std::uint8_t>(0x14052B979_r, 0xEB);
 			utils::hook::nop(0x14052B732_r, 6);
 			utils::hook::set(0x1408E07D0_r, 0xC301B0);
+
+			// disable intro splashscreens
+			utils::hook::nop(0x14099B110_r, 2);
+			utils::hook::set<std::uint8_t>(0x14099B112_r + 6, 1);
+			utils::hook::set<std::uint8_t>(0x14099B119_r, 0x75);
 		}
 	};
 }
