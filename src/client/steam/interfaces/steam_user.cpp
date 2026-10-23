@@ -5,6 +5,7 @@
 #include "steam_user.hpp"
 
 #include "component/filesystem.hpp"
+#include "component/steam.hpp"
 
 namespace steam
 {
@@ -67,7 +68,7 @@ namespace steam
 	game::steam_id steam_user::get_steam_id()
 	{
 		game::steam_id out{};
-		out.bits = 76561197960265742;
+		out.bits = var_steam_emulator_id->current.get_int64();
 		return out;
 	}
 

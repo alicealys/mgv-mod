@@ -20,6 +20,7 @@ namespace vars
 		var_type_vec3 = 6,
 		var_type_vec4 = 7,
 		var_type_color = 8,
+		var_type_integer64 = 9,
 	};
 
 	enum var_flags_t
@@ -43,6 +44,12 @@ namespace vars
 		int max;
 	};
 
+	struct var_limits_int64_t
+	{
+		std::int64_t min;
+		std::int64_t max;
+	};
+
 	struct var_limits_float_t
 	{
 		float min;
@@ -52,6 +59,7 @@ namespace vars
 	union var_limits_t
 	{
 		var_limits_int_t integer;
+		var_limits_int64_t integer64;
 		var_limits_float_t float_;
 	};
 
@@ -93,7 +101,8 @@ namespace vars
 		vec2_t,
 		vec3_t,
 		vec4_t,
-		color_t
+		color_t,
+		std::int64_t
 	>;
 
 	class var_value
@@ -109,6 +118,7 @@ namespace vars
 
 		bool enabled() const;
 		std::int32_t get_int() const;
+		std::int64_t get_int64() const;
 		float get_float() const;
 		const std::string& get_string() const;
 		const char* get_c_string() const;
@@ -162,6 +172,9 @@ namespace vars
 	var_ptr register_bool(const std::string& name, bool value, const std::uint32_t flags, const std::string& description);
 
 	var_ptr register_int(const std::string& name, std::int32_t value, std::int32_t min, std::int32_t max,
+		const std::uint32_t flags, const std::string& description);
+
+	var_ptr register_int64(const std::string& name, std::int64_t value, std::int64_t min, std::int64_t max,
 		const std::uint32_t flags, const std::string& description);
 
 	var_ptr register_float(const std::string& name, float value, float min, float max,

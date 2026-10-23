@@ -70,6 +70,11 @@ namespace vars
 		return std::get<std::int32_t>(this->value_);
 	}
 
+	std::int64_t var_value::get_int64() const
+	{
+		return std::get<std::int64_t>(this->value_);
+	}
+
 	float var_value::get_float() const
 	{
 		return std::get<float>(this->value_);
@@ -126,6 +131,8 @@ namespace vars
 			return var_type_vec4;
 		case 8:
 			return var_type_color;
+		case 9:
+			return var_type_integer64;
 		}
 
 		return var_type_none;
@@ -149,6 +156,8 @@ namespace vars
 			return this->enabled() == other.enabled();
 		case var_type_integer:
 			return this->get_int() == other.get_int();
+		case var_type_integer64:
+			return this->get_int64() == other.get_int64();
 		case var_type_float:
 			return this->get_float() == other.get_float();
 		case var_type_string:
@@ -193,6 +202,8 @@ namespace vars
 			return var_value(std::atoi(string_value.data()) != 0);
 		case var_type_integer:
 			return var_value(std::atoi(string_value.data()));
+		case var_type_integer64:
+			return var_value(std::strtoll(string_value.data(), nullptr, 0));
 		case var_type_float:
 			return var_value(static_cast<float>(std::atof(string_value.data())));
 		case var_type_string:
@@ -218,6 +229,8 @@ namespace vars
 			return utils::string::va("%i", std::get<bool>(this->value_));
 		case var_type_integer:
 			return utils::string::va("%i", std::get<std::int32_t>(this->value_));
+		case var_type_integer64:
+			return utils::string::va("%lli", std::get<std::int64_t>(this->value_));
 		case var_type_float:
 			return utils::string::va("%g", std::get<float>(this->value_));
 		case var_type_string:
@@ -256,6 +269,8 @@ namespace vars
 			return "bool";
 		case var_type_integer:
 			return "int";
+		case var_type_integer64:
+			return "int64";
 		case var_type_float:
 			return "float";
 		case var_type_string:
@@ -296,6 +311,11 @@ namespace vars
 			{
 				const auto value_int = value.get_int();
 				return value_int >= var->limits.integer.min && value_int <= var->limits.integer.max;
+			}
+			case var_type_integer64:
+			{
+				const auto value_int = value.get_int64();
+				return value_int >= var->limits.integer64.min && value_int <= var->limits.integer64.max;
 			}
 			case var_type_float:
 			{
@@ -478,6 +498,31 @@ namespace vars
 				}
 			}
 		}
+		case var_type_integer64:
+		{
+			if (var->limits.integer64.min == std::numeric_limits<std::int64_t>::min())
+			{
+				if (var->limits.integer64.max == std::numeric_limits<std::int64_t>::max())
+				{
+					return utils::string::va("domain is any integer");
+				}
+				else
+				{
+					return utils::string::va("domain is any integer %lli or smaller", var->limits.integer64.max);
+				}
+			}
+			else
+			{
+				if (var->limits.integer64.max == std::numeric_limits<std::int64_t>::max())
+				{
+					return utils::string::va("domain is any integer %lli or bigger", var->limits.integer64.min);
+				}
+				else
+				{
+					return utils::string::va("domain is any integer %lli to %lli", var->limits.integer64.min, var->limits.integer64.max);
+				}
+			}
+		}
 		case var_type_string:
 			return "domain is any text";
 		case var_type_color:
@@ -544,6 +589,22 @@ namespace vars
 		}
 
 		return register_var(name, var_type_integer, value, limits, flags, description);
+	}
+
+	var_ptr register_int64(const std::string& name, std::int64_t value, std::int64_t min, std::int64_t max,
+		const std::uint32_t flags, const std::string& description)
+	{
+		var_limits_t limits{};
+		limits.integer64.min = min;
+		limits.integer64.max = max;
+
+		if (min == max)
+		{
+			limits.integer64.min = std::numeric_limits<std::int64_t>::min();
+			limits.integer64.max = std::numeric_limits<std::int64_t>::max();
+		}
+
+		return register_var(name, var_type_integer64, value, limits, flags, description);
 	}
 
 	var_ptr register_float(const std::string& name, float value, float min, float max,
