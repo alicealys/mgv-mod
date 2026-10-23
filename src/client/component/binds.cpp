@@ -330,13 +330,20 @@ namespace binds
 
 			keys[key] = raw_input->data.keyboard.Flags;
 
-			if (game_console::handle_key(key, is_down, is_game_console_bind(key)))
+			const auto is_console_bind = is_game_console_bind(key);
+
+			if (game_console::handle_key(key, is_down, is_console_bind))
 			{
 				game_console::handle_char(character, is_down);
 				return true;
 			}
 
-			if (text_chat::input::handle_key(key, is_down, is_game_console_bind(key)))
+			if (game::g_onScreenKeyboardSystem->active && !is_console_bind)
+			{
+				return false;
+			}
+
+			if (text_chat::input::handle_key(key, is_down, is_console_bind))
 			{
 				text_chat::input::handle_char(character, is_down);
 				return true;

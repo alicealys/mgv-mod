@@ -1712,6 +1712,33 @@ namespace game
 			};
 		}
 
+		struct OnScreenKeyboardSystem;
+		struct OnScreenKeyboardSystem
+		{
+			struct vtable
+			{
+				void(__fastcall* __meth_01)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_02)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_03)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_04)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_05)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_06)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_07)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_08)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_09)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_10)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_11)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_12)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_13)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_14)(OnScreenKeyboardSystem*);
+				void(__fastcall* __meth_15)(OnScreenKeyboardSystem*);
+			};
+
+			vtable* __vftable;
+			char __pad0[364];
+			char active;
+		};
+
 		namespace gk
 		{
 #pragma pack(push, 1)

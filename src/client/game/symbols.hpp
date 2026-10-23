@@ -355,6 +355,8 @@ namespace game
 
 	WEAK symbol<fox::nt::impl::SessionImpl2*> s_pSession{0x142B18510};
 
+	WEAK symbol<fox::OnScreenKeyboardSystem> g_onScreenKeyboardSystem{0x142969420};
+
 	namespace fox
 	{
 		WEAK symbol<int> g_vkKeyTable{0x1430B9890};
