@@ -14,22 +14,15 @@ namespace steam
 {
 	namespace
 	{
-		std::string get_file_path(const char* file)
-		{
-			const auto steam_id = steam_user::get_steam_id();
-			const auto& appdata = filesystem::get_config_path();
-			return std::format("{}\\userdata\\{}\\steam_storage\\{}", appdata.generic_string(), steam_id.bits, file);
-		}
-
 		int get_file_size(game::ISteamRemoteStorage*, const char* file)
 		{
-			const auto path = get_file_path(file);
+			const auto path = steam_remotestorage::get_file_path(file);
 			return static_cast<int>(utils::io::file_size(path));
 		}
 
 		bool file_exists(game::ISteamRemoteStorage*, const char* file)
 		{
-			const auto path = get_file_path(file);
+			const auto path = steam_remotestorage::get_file_path(file);
 			return utils::io::file_exists(path);
 		}
 
@@ -38,7 +31,7 @@ namespace steam
 			console::info("[SteamStorage] Reading file \"%s\"\n", file);
 
 			std::memset(buffer, 0, buffer_size);
-			const auto path = get_file_path(file);
+			const auto path = steam_remotestorage::get_file_path(file);
 
 			std::string data;
 			if (utils::io::read_file(path, &data) && data.size() <= buffer_size)
@@ -54,13 +47,20 @@ namespace steam
 		{
 			console::info("[SteamStorage] Writing file \"%s\"\n", file);
 
-			const auto path = get_file_path(file);
+			const auto path = steam_remotestorage::get_file_path(file);
 			const auto data = std::string{
 				reinterpret_cast<const char*>(buffer), 
 				reinterpret_cast<const char*>(buffer) + size};
 
 			return utils::io::write_file(path, data);
 		}
+	}
+
+	std::string steam_remotestorage::get_file_path(const char* file)
+	{
+		const auto steam_id = steam_user::get_steam_id();
+		const auto& appdata = filesystem::get_config_path();
+		return std::format("{}\\userdata\\{}\\steam_storage\\{}", appdata.generic_string(), steam_id.bits, file);
 	}
 
 	game::ISteamRemoteStorage* steam_remotestorage::create()

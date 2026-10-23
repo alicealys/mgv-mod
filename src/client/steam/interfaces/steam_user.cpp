@@ -3,6 +3,7 @@
 #include "base.hpp"
 
 #include "steam_user.hpp"
+#include "steam_remotestorage.hpp"
 
 #include "component/filesystem.hpp"
 #include "component/steam.hpp"
@@ -19,8 +20,7 @@ namespace steam
 
 		bool get_user_data_folder(game::ISteamUser*, char* buffer, int size)
 		{
-			const auto& path = filesystem::get_config_path();
-			const auto folder = (path / "userdata").generic_string();
+			const auto folder = steam_remotestorage::get_file_path("");
 			sprintf_s(buffer, size, "%s", folder.data());
 			return true;
 		}

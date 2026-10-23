@@ -29,13 +29,16 @@ namespace steam
 
 			var_steam_emulator_id = vars::register_int64("steam_emulator_id", 76561197960265728, 
 				0, 0, vars::var_flag_saved | vars::var_flag_latched, "steam emulator user id");
-
+		}
+		
+		void start() override
+		{
 			if (is_nosteam())
 			{
 				steam::disable_steam();
 			}
 		}
-		
+
 		void game_initialized() override
 		{
 			if (is_nosteam())
