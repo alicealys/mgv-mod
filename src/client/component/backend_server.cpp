@@ -136,15 +136,23 @@ namespace backend_server
 			return true;
 		}
 
+		void set_gate_url_stub(void* a1, const char* a2)
+		{
+			var_net_ncl_url->current = var_net_ncl_url->latched;
+
+			auto url = var_net_ncl_url->current.get_c_string();
+			if (url[0] == 0)
+			{
+				url = var_net_ncl_url->reset.get_c_string();
+			}
+			
+			console::info("[net] using ncl server url: \"%s\"\n", url);
+			utils::hook::invoke<void>(0x14006BE50_r, a1, url);
+		}
+
 		void apply_custom_server()
 		{
-			const auto& custom_server = var_net_ncl_url->current.get_string();
-			if (!custom_server.empty())
-			{
-				std::memcpy(ncl_url, custom_server.data(), custom_server.size());
-				console::info("[net] using ncl server url: \"%s\"\n", ncl_url);
-				utils::hook::far_inject(0x140895ED1_r + 3, ncl_url);
-			}
+			utils::hook::far_call(0x140895EDC_r, set_gate_url_stub);
 
 			std::uint16_t stun_port = 3478;
 			const auto& stun_address = var_net_stun_server->current.get_string();
@@ -388,7 +396,6 @@ namespace backend_server
 			var_net_ncl_url = vars::register_string("net_ncl_url", "https://mgssd-game.cs.konami.net/ssdstm/gate", vars::var_flag_saved | vars::var_flag_latched, "ncl server gate url");
 			var_net_stun_server = vars::register_string("net_stun_server", "mgssd-stun.cs.konami.net:3478", vars::var_flag_saved | vars::var_flag_latched, "stun server address");
 			var_net_proxy_url = vars::register_string("net_http_proxy_url", "", vars::var_flag_saved, "http proxy url (example: http://1.2.3.4:1234 empty = disabled)");
-
 			var_net_server_logging = vars::register_bool("net_server_logging", true, vars::var_flag_saved, "enable server logging");
 		}
 
