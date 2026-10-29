@@ -4356,4 +4356,31 @@ namespace game
 			}
 		}
 	}
+
+	namespace ssd
+	{
+		namespace ui
+		{
+			namespace menu
+			{
+				struct MatchingUnk
+				{
+					struct vtable
+					{
+
+					};
+
+					struct unk1_t
+					{
+						steam_id steam_id;
+						char name[0x81];
+						char __pad0[15];
+					};
+
+					vtable* __vftable;
+					unk1_t players[4];
+				};
+			}
+		}
+	}
 }

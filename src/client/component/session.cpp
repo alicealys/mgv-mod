@@ -69,7 +69,7 @@ namespace session
 				game::steam_id steam_id{};
 				steam_id.bits = member->sessionUserId->userId;
 
-				const auto name = steam_friends->__vftable->GetFriendPersonaName(steam_friends, steam_id);
+				const auto name = get_player_name(steam_id);
 				const auto ping = member->sppSocket != nullptr
 					? member->sppSocket->rtt_time
 					: -1;
@@ -156,6 +156,20 @@ namespace session
 		}
 
 		return main_session->sessionInterface.__vftable->IsHost(&main_session->sessionInterface);
+	}
+
+	const char* get_player_name(const game::steam_id steam_id)
+	{
+		for (auto i = 0; i < 4; i++)
+		{
+			if (game::ssd::ui::menu::g_matchingUnk->players[i].steam_id.bits == steam_id.bits)
+			{
+				return game::ssd::ui::menu::g_matchingUnk->players[i].name;
+			}
+		}
+
+		const auto steam_friends = game::get_steam_interfaces()->steamFriends;
+		return steam_friends->__vftable->GetFriendPersonaName(steam_friends, steam_id);
 	}
 
 	class component final : public component_interface

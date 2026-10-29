@@ -16,4 +16,6 @@ namespace session
 	int get_rtt(game::fox::nt::impl::SessionImpl2* session);
 	bool is_host(game::fox::nt::impl::SessionImpl2* session);
 	unsigned int get_state(game::fox::nt::impl::SessionImpl2* session);
+
+	const char* get_player_name(const game::steam_id steam_id);
 }

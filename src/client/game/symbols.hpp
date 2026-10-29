@@ -310,6 +310,17 @@ namespace game
 		}
 	}
 
+	namespace ssd
+	{
+		namespace ui
+		{
+			namespace menu
+			{
+				WEAK symbol<MatchingUnk> g_matchingUnk{0x14296C610};
+			}
+		}
+	}
+
 	namespace luaext
 	{
 		WEAK symbol<void* (lua::lua_State*, const char*, __int64, __int64, __int64)> lua_bind_start{0x141934970};

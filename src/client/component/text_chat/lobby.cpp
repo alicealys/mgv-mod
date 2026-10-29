@@ -22,8 +22,7 @@ namespace text_chat::lobby
 
 		std::wstring get_steam_player_name(game::steam_id user)
 		{
-			const auto steam_friends = game::get_steam_interfaces()->steamFriends;
-			const auto name = steam_friends->__vftable->GetFriendPersonaName(steam_friends, user);
+			const auto name = session::get_player_name(user);
 			const auto name_w = utils::string::utf8_to_utf16(name);
 			return name_w;
 		}
