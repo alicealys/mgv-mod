@@ -46,7 +46,6 @@ namespace session
 				return;
 			}
 
-			const auto steam_friends = game::get_steam_interfaces()->steamFriends;
 			const auto is_host = main_session->sessionInterface.__vftable->IsHost(&main_session->sessionInterface);
 			const auto state = main_session->__vftable->GetState(main_session);
 			const auto all_members = &main_session->allMembers;
