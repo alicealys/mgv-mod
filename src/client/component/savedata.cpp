@@ -69,7 +69,6 @@ namespace savedata
 			add_data("player_list", "CMD_GET_PLAYERLIST");
 
 			add_building_info(save_data["data"]["building"][0], 0);
-			add_building_info(save_data["data"]["building"][1], 1);
 
 			const auto steam = game::get_steam_interfaces();
 			const auto timestamp = utils::string::get_timestamp();

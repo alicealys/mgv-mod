@@ -287,6 +287,8 @@ namespace mods
 
     game::fox::fs::MountPoint* add_packfile(const std::string& path, const std::uint64_t type, const std::uint32_t flags)
     {
+        console::info("[mods] adding mount point: %s\n", path.data());
+
         const auto abs_path = std::filesystem::absolute(path);
         const auto path_str = abs_path.generic_string();
 
@@ -297,7 +299,7 @@ namespace mods
         }
         else
         {
-            console::error("failed to create pack file %s\n", path.data());
+            console::error("[fs] failed to create pack file %s\n", path.data());
         }
 
         return handle;
