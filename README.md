@@ -17,3 +17,9 @@ Configuration files are stored in `%localappdata%\mgv-mod`
 ## Launch parameters
 
 - `-noconsole`: disable external console
+
+## Compile from source
+
+- Clone the Git repo. Do NOT download it as ZIP, that won't work.
+- Install [premake5](https://premake.github.io/download) on your PATH
+- Run `generate.bat` and build via solution file in `build\mgv-mod.sln` (Visual Studio 2022).
