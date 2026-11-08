@@ -1704,12 +1704,105 @@ namespace game
 			void* unk6;
 		};
 
+		namespace fio
+		{
+			namespace impl
+			{
+				struct MountPoint
+				{
+					KernelString name;
+					KernelString str2;
+					KernelString str3;
+					char __pad1[24];
+				};
+			}
+		}
+
 		namespace fs
 		{
-			struct MountPoint
+			struct Path
+			{
+				void* a1;
+				unsigned __int64 string;
+			};
+
+			struct MountPointIoHandle
 			{
 
 			};
+
+			struct ArchiveIoHandleInterface;
+
+			struct ArchiveIoHandleInterface
+			{
+				struct FileInfo
+				{
+					char __pad0[64];
+				};
+
+				struct vtable
+				{
+					bool(__fastcall* Search)(fox::fs::ArchiveIoHandleInterface*, unsigned __int64, FileInfo*);
+					void(__fastcall* meth_01)(fox::fs::ArchiveIoHandleInterface*);
+					int* (__fastcall* ValidateContents)(fox::fs::ArchiveIoHandleInterface*, int*);
+					void(__fastcall* __destructor)(fox::fs::ArchiveIoHandleInterface*);
+					__int64(__fastcall* OpenMainStream)(fox::fs::ArchiveIoHandleInterface*, __int64 a2, unsigned int a3);
+					fox::fs::MountPointIoHandle* (__fastcall* CreateHandle)(fox::fs::ArchiveIoHandleInterface*, fox::fs::ArchiveIoHandleInterface*);
+				};
+
+				vtable* __vftable;
+				char __pad0[40];
+				fox::fs::Path path;
+				char __pad1[4];
+			};
+
+			struct SecureQarFile;
+			struct SecureQarFile
+			{
+				struct vtable
+				{
+					bool(__fastcall* Search)(fox::fs::SecureQarFile*, unsigned __int64, fox::fs::ArchiveIoHandleInterface::FileInfo*);
+					void(__fastcall* meth_01)(fox::fs::SecureQarFile*);
+					int* (__fastcall* ValidateContents)(fox::fs::SecureQarFile*, int*);
+					void(__fastcall* __destructor)(fox::fs::SecureQarFile*);
+					__int64(__fastcall* OpenMainStream)(fox::fs::SecureQarFile*, __int64 a2, unsigned int a3);
+					fox::fs::MountPointIoHandle* (__fastcall* CreateHandle)(fox::fs::SecureQarFile*, fox::fs::ArchiveIoHandleInterface*);
+				};
+
+				vtable* __vftable;
+				char __pad0[40];
+				fox::fs::Path path;
+			};
+
+			struct MountPoint
+			{
+				fox::fio::impl::MountPoint* fioMountPoint;
+				int hasIo;
+				int flags;
+				fox::fs::SecureQarFile* qarFile;
+				unsigned __int64 type;
+			};
+			
+			namespace impl
+			{
+				struct MountCommand
+				{
+					struct vtable
+					{
+
+					};
+
+					vtable* __vftable;
+					char __pad0[8];
+					unsigned __int64 pathCode;
+					char __pad1[88];
+					fox::fs::MountPoint* mountPoint;
+					char __pad2[24];
+					fox::KernelString name;
+					fox::fs::Path path;
+					int flags;
+				};
+			}
 		}
 
 		struct OnScreenKeyboardSystem;
