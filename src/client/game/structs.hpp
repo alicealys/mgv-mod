@@ -1772,6 +1772,7 @@ namespace game
 				vtable* __vftable;
 				char __pad0[40];
 				fox::fs::Path path;
+				char __pad1[4];
 			};
 
 			struct MountPoint

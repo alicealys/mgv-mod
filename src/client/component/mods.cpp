@@ -155,7 +155,7 @@ namespace mods
             current_mod = {};
         }
 
-        void autload_mods(const std::string& path, bool pre_load)
+        void autoload_mods(const std::string& path, bool pre_load)
         {
             if (!utils::io::directory_exists(path))
             {
@@ -234,7 +234,7 @@ namespace mods
         {
             console::info("[FS module] Init\n");
 
-            autload_mods("mods/autoload", false);
+            autoload_mods("mods/autoload", false);
 
             const auto& mod_path = var_fs_mod_path->current.get_string();
             if (!mod_path.empty())
@@ -286,8 +286,6 @@ namespace mods
         void search_mount_point_stub(utils::hook::assembler& a)
         {
             const auto match = a.new_label();
-            
-            a.mov(rax, qword_ptr(rsp, 0x90));
 
             a.test(rsi, rsi);
             a.jz(match);
@@ -519,7 +517,7 @@ namespace mods
 
         void post_load() override
         {
-            autload_mods("mods/autoload", true);
+            autoload_mods("mods/autoload", true);
 
             const auto& fs_mod = var_fs_mod_path->current.get_string();
             if (!fs_mod.empty())
