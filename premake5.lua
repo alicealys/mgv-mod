@@ -259,7 +259,9 @@ workspace "mgv-mod"
 		filter {}
 
 		filter "configurations:Release"
-			optimize "Full"
+			optimize "Size"
+			buildoptions {"/GL"}
+			linkoptions { "/IGNORE:4702", "/LTCG" }
 			defines {"NDEBUG"}
 			fatalwarnings {"All"}
 		filter {}
